@@ -1,0 +1,5 @@
+FosterHomeID,FosterName,Address,HouseSize,Contactinfomation,Backyard,nearDogPark,HouseMembers,AvailabilityAtHome,ChildrenFriendly,AnimalFriendly,MaximumCapacity,allowedAtProperty,allergies,IsMobile,EnergyLevel,pastFosters,pastExperience,documents
+20,אור חזיזה,חנקין 7,קטן,054-4441573,TRUE,FALSE,1,ערב,TRUE,TRUE,1,TRUE,FALSE,FALSE,גבוהה,TRUE,TRUE,null
+30,יניב שמואלי,יצחק רבין 12,גדול,052-5895423,TRUE,TRUE,4,כל היום,TRUE,TRUE,3,TRUE,FALSE,TRUE,גבוהה,TRUE,TRUE,null
+40,ליאת הר-לב,קרני תבל 12,קטן,050-3012012,FALSE,TRUE,2,ערב ובוקר,FALSE,TRUE,1,TRUE,TRUE,FALSE,נמוכה,TRUE,TRUE,null
+50,חנן הכהן,איציק שמיר 20,בינוני,054-6896894,FALSE,FALSE,1,ערב,FALSE,TRUE,2,TRUE,FALSE,TRUE,בינונית,TRUE,TRUE,null
