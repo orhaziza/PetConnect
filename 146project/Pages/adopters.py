@@ -6,9 +6,7 @@ from datetime import datetime
 
 st.set_page_config(page_title='Adopters', layout='wide')
 
-if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-    st.error("לא ניתן לגשת לעמוד ללא התחברות")
-    st.stop()
+
 
 # Load adopter data
 adopter_file_path = "Data/adopter.csv"
