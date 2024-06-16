@@ -1,102 +1,113 @@
+# Pages/Adopters.py
 import streamlit as st
 import pandas as pd
 import os
-from datetime import datetime
 
+def show_adopters_page():
+    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+        st.error("Cannot access the page without logging in.")
+        st.stop()
 
-st.set_page_config(page_title='Adopters', layout='wide')
+    st.title("Manage Adopters")
 
+    # Load adopters data
+    adopters_file_path = "Data/Adopters.csv"
+    if not os.path.exists(adopters_file_path):
+        st.error("The adopters data file does not exist.")
+        return
 
+    adopters_df = pd.read_csv(adopters_file_path, encoding='Windows-1255')
 
-# Load adopter data
-adopter_file_path = "Data/adopter.csv"
-if not os.path.exists(adopter_file_path):
-    st.error("The adopter file does not exist.")
-    st.stop()
+    # Hebrew column translations for adopters
+    hebrew_columns_adopters = {
+        'AdopterID': 'מזהה מאמץ',
+        'Name': 'שם',
+        'ContactInformation': 'פרטי קשר',
+        'Address': 'כתובת',
+        'Age': 'גיל',
+        'Gender': 'מין',
+        'AdoptionDate': 'תאריך אימוץ',
+        'PreferredBreed': 'זן מועדף',
+        'HasChildren': 'יש ילדים',
+        'HasOtherPets': 'יש חיות מחמד אחרות',
+        'HomeType': 'סוג בית',
+        'Yard': 'חצר',
+        'AdoptedDogs': 'כלבים מאומצים',
+    }
 
-adopter_df = pd.read_csv(adopter_file_path, encoding='Windows-1255')
+    # Translate English column names to Hebrew
+    hebrew_column_names = [hebrew_columns_adopters.get(col, col) for col in adopters_df.columns]
+    adopters_df_hebrew = adopters_df.rename(columns=dict(zip(adopters_df.columns, hebrew_column_names)))
 
-# Define Hebrew column names for adopters
-hebrew_columns_adopters = {
-    'AdopterID': 'מזהה אומץ',
-    'AdopterName': 'שם אומץ',
-    'Address': 'כתובת',
-    'contactinformation': 'פרטי קשר',
-    'preferences': 'העדפות',
-    'LifeStyleInformation': 'מידע על אופני חיים',
-    'AdoptionDate': 'תאריך אימוץ',
-    'Documents': 'מסמכים',
-}
+    # Define the menu options
+    with st.sidebar:
+        selected = st.selectbox("Select an option", ["All Adopters", "Find an Adopter", "Add an Adopter", "Edit Adopter"])
 
-# Define the menu options
-with st.sidebar:
-    selected = option_menu("אומצים", ["כל הטבלה", "מצא אומץ", "הוסף אומץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+    # Display based on menu selection
+    if selected == "All Adopters":
+        st.dataframe(adopters_df_hebrew)
+        if st.button("Save Changes"):
+            # Rename columns back to English for saving
+            adopters_df.rename(columns={v: k for k, v in hebrew_columns_adopters.items()}, inplace=True)
+            adopters_df.to_csv(adopters_file_path, index=False, encoding='Windows-1255')
+            st.success("Changes saved successfully!")
 
-# Translate column names
-adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
+    elif selected == "Find an Adopter":
+        st.subheader('Find an Adopter')
+        # Add search logic
+        name = st.text_input('Name')
+        preferred_breed = st.selectbox('Preferred Breed', options=[''] + list(adopters_df['PreferredBreed'].unique()))
+        has_children = st.selectbox('Has Children', options=['', 'Yes', 'No'])
+        has_other_pets = st.selectbox('Has Other Pets', options=['', 'Yes', 'No'])
 
-# Display different pages based on selected option
-if selected == "כל הטבלה":
-    st.dataframe(adopter_df_hebrew)
+        # Apply search filters
+        filtered_df = adopters_df_hebrew[
+            (adopters_df['Name'].str.contains(name, na=False, case=False)) &
+            (adopters_df['PreferredBreed'].isin([preferred_breed]) if preferred_breed else True) &
+            (adopters_df['HasChildren'].isin([has_children]) if has_children else True) &
+            (adopters_df['HasOtherPets'].isin([has_other_pets]) if has_other_pets else True)
+        ]
+        st.write(filtered_df)
 
-elif selected == "מצא אומץ":
-    st.subheader('מצא אומץ')
+    elif selected == "Add an Adopter":
+        st.subheader('Add a New Adopter')
+        with st.form(key='adopter_form'):
+            adopter_id = st.text_input('Adopter ID')
+            name = st.text_input('Name')
+            contact_info = st.text_input('Contact Information')
+            address = st.text_area('Address')
+            age = st.number_input('Age', min_value=0, max_value=120, step=1)
+            gender = st.selectbox('Gender', ['Male', 'Female'])
+            adoption_date = st.date_input('Adoption Date')
+            preferred_breed = st.text_input('Preferred Breed')
+            has_children = st.selectbox('Has Children', ['Yes', 'No'])
+            has_other_pets = st.selectbox('Has Other Pets', ['Yes', 'No'])
+            home_type = st.selectbox('Home Type', ['Apartment', 'House', 'Other'])
+            yard = st.selectbox('Yard', ['Yes', 'No'])
+            adopted_dogs = st.text_area('Adopted Dogs')
 
-    # Create search filters for adopters
-    col1, col2 = st.columns(2)
+            submit_button = st.form_submit_button(label='Save Adopter')
 
-    with col1:
-        adopter_name = st.text_input('שם אומץ')
-    with col2:
-        adoption_date = st.date_input('תאריך אימוץ')
+        if submit_button:
+            new_adopter = {
+                'AdopterID': adopter_id,
+                'Name': name,
+                'ContactInformation': contact_info,
+                'Address': address,
+                'Age': age,
+                'Gender': gender,
+                'AdoptionDate': adoption_date.strftime('%Y-%m-%d'),
+                'PreferredBreed': preferred_breed,
+                'HasChildren': has_children,
+                'HasOtherPets': has_other_pets,
+                'HomeType': home_type,
+                'Yard': yard,
+                'AdoptedDogs': adopted_dogs,
+            }
+            adopters_df = adopters_df.append(new_adopter, ignore_index=True)
+            adopters_df.to_csv(adopters_file_path, index=False, encoding='Windows-1255')
+            st.success('The adopter has been added successfully!')
 
-    # Apply search filters
-    filtered_adopters = adopter_df_hebrew[
-        (adopter_df_hebrew['שם אומץ'].str.contains(adopter_name, na=False, case=False)) &
-        (adopter_df_hebrew['תאריך אימוץ'] == adoption_date.strftime('%Y-%m-%d'))
-    ]
-
-    st.dataframe(filtered_adopters)
-
-elif selected == "הוסף אומץ":
-    st.subheader('הוסף אומץ')
-
-    # Add adoption form or input fields here
-    adopter_id = st.text_input('מזהה אומץ')
-    adopter_name = st.text_input('שם אומץ')
-    address = st.text_area('כתובת')
-    contact_info = st.text_input('פרטי קשר')
-    preferences = st.text_area('העדפות')
-    lifestyle_info = st.text_area('מידע על אופני חיים')
-    adoption_date = st.date_input('תאריך אימוץ', datetime.today())
-    documents = st.text_area('מסמכים')
-
-    if st.button('שמור אומץ'):
-        # Save adopter data to CSV or database
-        new_adopter = {
-            'מזהה אומץ': adopter_id,
-            'שם אומץ': adopter_name,
-            'כתובת': address,
-            'פרטי קשר': contact_info,
-            'העדפות': preferences,
-            'מידע על אופני חיים': lifestyle_info,
-            'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
-            'מסמכים': documents
-        }
-        adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
-        adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='Windows-1255')
-        st.success('אומץ חדש נשמר בהצלחה!')
-
-elif selected == "ערוך מסמך":
-    st.subheader('ערוך מסמך')
-
-    # Edit document functionality
-    # Implement as per your requirements
-
-# Sidebar logout button
-if st.sidebar.button("Log Out"):
-    st.session_state['logged_in'] = False
-    st.experimental_rerun()
-
-
-
+    elif selected == "Edit Adopter":
+        st.subheader('Edit Adopter')
+        # Add logic to edit adopter information
