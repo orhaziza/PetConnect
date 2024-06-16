@@ -1,6 +1,6 @@
+# Home.py
 import streamlit as st
-
- # Ensure these modules exist and are accessible
+from Pages import Dogs, FosterHome, Adopters  # Ensure these modules exist and are accessible
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
@@ -65,16 +65,15 @@ def show_home_page():
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
-# Check if the user is logged in
 if st.session_state['logged_in']:
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.session_state['current_page'] = 'Home'
         st.experimental_rerun()  # Refresh the page to update the content
     else:
-        # Navigate based on current page
         if 'current_page' not in st.session_state:
-            show_login_page()
+            st.session_state['current_page'] = 'Home'
+
         if st.session_state['current_page'] == 'Home':
             show_home_page()
         elif st.session_state['current_page'] == 'Dogs':
