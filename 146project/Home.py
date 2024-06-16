@@ -1,6 +1,5 @@
 import streamlit as st
-import pandas as pd
-from Pages import Dogs, FosterHome, Adopters  # Correct import here
+from Pages import Dogs, FosterHome, Adopters  # Ensure these modules exist and are accessible
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
@@ -10,10 +9,7 @@ users = {"admin": "admin123", "user": "user123", "yuval": "yuval123"}
 
 # Define the login function
 def login(username, password):
-    if username in users and users[username] == password:
-        return True
-    else:
-        return False
+    return username in users and users[username] == password
 
 # Function to show the login form and handle the login process
 def show_login_page():
@@ -64,15 +60,11 @@ def show_home_page():
             st.session_state['current_page'] = 'Adopters'
             st.experimental_rerun()  # Navigate to Adopters page
 
-# Check if the user is logged in
+# Main routing logic
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
-# Check if the current page is set
-if 'current_page' not in st.session_state:
-    st.session_state['current_page'] = 'Home'
-
-# Main routing logic
+# Check if the user is logged in
 if st.session_state['logged_in']:
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
@@ -80,6 +72,9 @@ if st.session_state['logged_in']:
         st.experimental_rerun()  # Refresh the page to update the content
     else:
         # Navigate based on current page
+        if 'current_page' not in st.session_state:
+            st.session_state['current_page'] = 'Home'
+
         if st.session_state['current_page'] == 'Home':
             show_home_page()
         elif st.session_state['current_page'] == 'Dogs':
