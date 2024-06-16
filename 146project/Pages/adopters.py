@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-from streamlit_option_menu import option_menu
+
 
 st.set_page_config(page_title='Adopters', layout='wide')
 
