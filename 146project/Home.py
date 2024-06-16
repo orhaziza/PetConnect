@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
 # User credentials (in a real app, use a secure method for handling credentials)
-users = {"admin": "admin123", "user": "user123"}
+users = {"admin": "admin123", "user": "user123", "yuval": "yuval123"}
 
 # Define the login function
 def login(username, password):
