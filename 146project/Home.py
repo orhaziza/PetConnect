@@ -1,5 +1,5 @@
 import streamlit as st
-from Pages import Dogs
+
  # Ensure these modules exist and are accessible
 
 # Set up the page configuration
