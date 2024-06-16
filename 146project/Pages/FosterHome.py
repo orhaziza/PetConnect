@@ -4,9 +4,6 @@ import os
 from datetime import datetime
 
 
-if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-    st.error("לא ניתן לגשת לעמוד ללא התחברות")
-    st.stop()
 st.set_page_config(page_title='Foster Homes', layout='wide')
 
 # Load foster home data
