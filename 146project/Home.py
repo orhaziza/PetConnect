@@ -4,7 +4,7 @@ from Pages import Dogs, FosterHome, Adopters  # Ensure these modules exist and a
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
-st.session_state['logged_in'] = True
+
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123", "yuval": "yuval123"}
 
