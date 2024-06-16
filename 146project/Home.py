@@ -74,8 +74,7 @@ if st.session_state['logged_in']:
     else:
         # Navigate based on current page
         if 'current_page' not in st.session_state:
-            st.session_state['current_page'] = 'Home'
-
+            show_login_page()
         if st.session_state['current_page'] == 'Home':
             show_home_page()
         elif st.session_state['current_page'] == 'Dogs':
