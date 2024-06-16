@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from Pages import Dogs, FosterHome, adopters
+from Pages import Dogs, FosterHome, Adopters  # Correct import here
+
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
@@ -28,6 +29,7 @@ def show_login_page():
         if login(username, password):
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
+            st.session_state['current_page'] = 'Home'  # Initialize to Home page after login
             st.experimental_rerun()  # Refresh the page to update the content
         else:
             st.error("Invalid username or password")
@@ -46,33 +48,45 @@ def show_home_page():
         st.write("View and manage information about dogs.")
         if st.button("Go to Dogs"):
             st.session_state['current_page'] = 'Dogs'
-            st.experimental_rerun()  # Placeholder for navigating to dogs page
+            st.experimental_rerun()  # Navigate to Dogs page
 
     with col2:
         st.subheader("Manage Foster Homes")
         st.write("Manage foster home details and availability.")
         if st.button("Go to Foster Homes"):
-            st.experimental_rerun()  # Placeholder for navigating to foster homes page
+            st.session_state['current_page'] = 'FosterHomes'
+            st.experimental_rerun()  # Navigate to Foster Homes page
 
     with col3:
         st.subheader("Manage Adopters")
         st.write("Track and manage adopter information and preferences.")
         if st.button("Go to Adopters"):
-            st.experimental_rerun()  # Placeholder for navigating to adopters page
+            st.session_state['current_page'] = 'Adopters'
+            st.experimental_rerun()  # Navigate to Adopters page
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
+# Check if the current page is set
+if 'current_page' not in st.session_state:
+    st.session_state['current_page'] = 'Home'
+
 # Main routing logic
 if st.session_state['logged_in']:
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
+        st.session_state['current_page'] = 'Home'
         st.experimental_rerun()  # Refresh the page to update the content
     else:
+        # Navigate based on current page
         if st.session_state['current_page'] == 'Home':
             show_home_page()
         elif st.session_state['current_page'] == 'Dogs':
             Dogs.show_dogs_page()
+        elif st.session_state['current_page'] == 'FosterHomes':
+            FosterHome.show_foster_homes_page()
+        elif st.session_state['current_page'] == 'Adopters':
+            Adopters.show_adopters_page()
 else:
     show_login_page()
