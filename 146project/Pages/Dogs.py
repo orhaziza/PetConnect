@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 
-if 'logged_in' not in st.session_state or not st.session_state['logged_in'] and st.session_state['current_page'] == 'Dogs':
+if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.error("לא ניתן לגשת לעמוד ללא התחברות")
     st.stop()
 
