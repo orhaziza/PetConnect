@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+from Pages import Dogs, FosterHome, adopters
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
@@ -45,6 +45,7 @@ def show_home_page():
         st.subheader("Manage Dogs")
         st.write("View and manage information about dogs.")
         if st.button("Go to Dogs"):
+            st.session_state['current_page'] = 'Dogs'
             st.experimental_rerun()  # Placeholder for navigating to dogs page
 
     with col2:
@@ -69,6 +70,9 @@ if st.session_state['logged_in']:
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
-        show_home_page()
+        if st.session_state['current_page'] == 'Home':
+            show_home_page()
+        elif st.session_state['current_page'] == 'Dogs':
+            Dogs.show_dogs_page()
 else:
     show_login_page()
