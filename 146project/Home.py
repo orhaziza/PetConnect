@@ -1,5 +1,5 @@
 import streamlit as st
-from Pages import Dogs, FosterHome, Adopters  # Ensure these modules exist and are accessible
+ # Ensure these modules exist and are accessible
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
