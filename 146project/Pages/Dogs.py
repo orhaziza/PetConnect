@@ -61,7 +61,6 @@ def main():
 
     # Display based on menu selection
     if selected == "All Dogs":
-        st.dataframe(dog_df_hebrew)
         if st.button("Save Changes"):
             # Rename columns back to English for saving
             dog_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
