@@ -3,13 +3,8 @@ import streamlit as st
 import pandas as pd
 import os
 
-def show_dogs_page():
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("Cannot access the page without logging in.")
-        st.stop()
-
+def main():
     st.title("Manage Dogs")
-
     # Path to the CSV files
     dogs_file_path = "Data/Dogs.csv"
     images_folder = "DogsPhotos"
