@@ -5,53 +5,40 @@ from Pages import Dogs
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400&display=swap');
 
-import streamlit as st
 
-# Inject custom CSS with the Baloo font
+ 
 st.markdown("""
 <style>
-    /* Importing the Baloo font from Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400&display=swap');
-
-    /* Apply Baloo font family */
-    html, body, [class*="css"] {
-        font-family: 'Baloo 2', cursive; /* Applying Baloo font */
-        background-color: #f8f9fa; /* Light grey background */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
     }
-    
-    /* Styling titles and input fields with Baloo */
-    .css-2trqyj, .css-1d391kg {
-        color: #0c6efd; /* Bright blue for main titles */
+    h1, .stTitle {
+        color: #0c6efd;
     }
-    
-    .css-1e5imcs {
-        color: #6c757d; /* Dark grey for subtitles */
+    h2, .stSubheader {
+        color: #6c757d;
     }
-    
     .stTextInput input {
-        border-radius: 10px; /* Rounded corners for text input */
-        border: 1px solid #ced4da; /* Grey border for text inputs */
+        border-radius: 10px;
+        border: 1px solid #ced4da;
     }
-    
-    .stButton > button {
-        border-radius: 20px; /* Rounded corners for buttons */
-        border: none; /* No borders */
-        background-color: #0d6efd; /* Bright blue background */
-        color: white; /* White text */
+    .stButton>button {
+        border-radius: 20px;
+        border: none;
+        background-color: #0d6efd;
+        color: white;
     }
-
-    .stButton > button:hover {
-        background-color: #0a58ca; /* Slightly darker blue on hover */
+    .stButton>button:hover {
+        background-color: #0a58ca;
     }
-
-    .st-cx {
-        padding: 10px 0; /* Padding for columns */
-        margin: 0 10px; /* Margin around columns */
+    .stColumns {
+        padding: 10px 0;
+        margin: 0 10px;
     }
 </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)e)
 
 
 # User credentials (in a real app, use a secure method for handling credentials)
