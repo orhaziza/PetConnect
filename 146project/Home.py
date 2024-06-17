@@ -3,7 +3,37 @@ import pandas as pd
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
-
+st.markdown("""
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+    }
+    h1, .stTitle {
+        color: #0c6efd;
+    }
+    h2, .stSubheader {
+        color: #6c757d;
+    }
+    .stTextInput input {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+    .stButton>button {
+        border-radius: 20px;
+        border: none;
+        background-color: #0d6efd;
+        color: white;
+    }
+    .stButton>button:hover {
+        background-color: #0a58ca;
+    }
+    .stColumns {
+        padding: 10px 0;
+        margin: 0 10px;
+    }
+</style>
+""", unsafe_allow_html=True
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123", "yuval": "yuval123"}
 
