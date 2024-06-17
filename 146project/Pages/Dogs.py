@@ -44,16 +44,6 @@ def main():
     # Translate English column names to Hebrew
     hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
     dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
-    # Display the editable table
-    edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
-    
-    # Button to save changes
-    if st.button("Save Changes"):
-        # Rename columns back to English for saving
-        edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
-        # Save the edited dataframe to the CSV file
-        edited_df.to_csv(dogs_file_path, index=False, encoding='Windows-1255')
-        st.success("Changes saved successfully!")
 
     # Define the menu options
     with st.sidebar:
@@ -61,6 +51,7 @@ def main():
 
     # Display based on menu selection
     if selected == "All Dogs":
+        edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
         if st.button("Save Changes"):
             # Rename columns back to English for saving
             dog_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
