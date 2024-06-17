@@ -3,6 +3,7 @@ import pandas as pd
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
+# Now inject CSS
 st.markdown("""
 <style>
     body {
@@ -33,7 +34,8 @@ st.markdown("""
         margin: 0 10px;
     }
 </style>
-""", unsafe_allow_html=True
+""", unsafe_allow_html=True)
+
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123", "yuval": "yuval123"}
 
