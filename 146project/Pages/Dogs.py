@@ -9,12 +9,14 @@ def main():
     # Path to the CSV files
     dogs_file_path = "Data/Dogs.csv"
     images_folder = "DogsPhotos"
-
+    
     # Load data
     if not os.path.exists(dogs_file_path):
         st.error("The dogs data file does not exist.")
         return
-
+    if st.button("Back to Home"):
+        st.session_state['page'] = 'home'
+        st.experimental_rerun()
     dog_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
 
     # Hebrew column translations
@@ -42,9 +44,6 @@ def main():
     # Translate English column names to Hebrew
     hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
     dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
-    if st.button("Back to Home"):
-        st.session_state['page'] = 'home'
-        st.experimental_rerun()
     # Define the menu options
     with st.sidebar:
         selected = st.selectbox("Select an option", ["All Dogs", "Find a Dog", "Add a Dog", "Edit Image"])
