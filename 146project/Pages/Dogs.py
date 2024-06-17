@@ -9,7 +9,7 @@ def main():
         st.experimental_rerun()
     st.title("Manage Dogs")
     # Path to the CSV files
-    dogs_file_path = "Data/Dogs.csv"
+    dogs_file_path = "146project/Data/Dogs.csv"
     images_folder = "DogsPhotos"
     
     # Load data
