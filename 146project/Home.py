@@ -3,35 +3,46 @@ import pandas as pd
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
-# Now inject CSS
 st.markdown("""
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f8f9fa;
+    /* Apply basic styling */
+    html, body, [class*="css"] {
+        font-family: 'Arial', sans-serif; /* Ensuring Arial is applied universally */
+        background-color: #f8f9fa; /* Light grey background color */
     }
-    h1, .stTitle {
-        color: #0c6efd;
+
+    /* Targeting the main title and subtitles correctly */
+    .css-2trqyj, .css-1d391kg {
+        color: #0c6efd; /* Bright blue for main titles */
     }
-    h2, .stSubheader {
-        color: #6c757d;
+    
+    .css-1e5imcs {
+        color: #6c757d; /* Dark grey for subtitles */
     }
+    
+    /* Styling text input fields */
     .stTextInput input {
-        border-radius: 10px;
-        border: 1px solid #ced4da;
+        border-radius: 10px; /* Rounded corners for text input */
+        border: 1px solid #ced4da; /* Grey border for text inputs */
     }
-    .stButton>button {
-        border-radius: 20px;
-        border: none;
-        background-color: #0d6efd;
-        color: white;
+    
+    /* Customizing buttons */
+    .stButton > button {
+        border-radius: 20px; /* Rounded corners for buttons */
+        border: none; /* No borders */
+        background-color: #0d6efd; /* Bright blue background */
+        color: white; /* White text */
     }
-    .stButton>button:hover {
-        background-color: #0a58ca;
+
+    /* Button hover effect */
+    .stButton > button:hover {
+        background-color: #0a58ca; /* Slightly darker blue on hover */
     }
-    .stColumns {
-        padding: 10px 0;
-        margin: 0 10px;
+
+    /* Adjusting columns padding and margin */
+    .st-cx {
+        padding: 10px 0; /* Padding for columns */
+        margin: 0 10px; /* Margin around columns */
     }
 </style>
 """, unsafe_allow_html=True)
