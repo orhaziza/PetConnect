@@ -4,6 +4,9 @@ import pandas as pd
 import os
 
 def main():
+    if st.button("Back to Home"):
+        st.session_state['page'] = 'home'
+        st.experimental_rerun()
     st.title("Manage Dogs")
     # Path to the CSV files
     dogs_file_path = "Data/Dogs.csv"
