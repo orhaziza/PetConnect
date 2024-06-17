@@ -6,6 +6,10 @@ from Pages import Dogs
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
+st.write(st.config.get_option("theme.primaryColor"))
+st.write(st.config.get_option("theme.backgroundColor"))
+
+
 st.markdown("""
 <style>
     body {
