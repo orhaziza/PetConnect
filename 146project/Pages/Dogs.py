@@ -52,7 +52,7 @@ def main():
         # Rename columns back to English for saving
         edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
         # Save the edited dataframe to the CSV file
-        edited_df.to_csv(file_path, index=False, encoding='Windows-1255')
+        edited_df.to_csv(dogs_file_path, index=False, encoding='Windows-1255')
         st.success("Changes saved successfully!")
 
     # Define the menu options
