@@ -138,6 +138,3 @@ def main():
                     st.success(f'Image for {selected_dog_name_for_image} added successfully!')
         else:
             st.write('All dogs in the database have images')
-      if st.button("Back to Home"):
-        st.session_state['page'] = 'home'
-        st.experimental_rerun()
