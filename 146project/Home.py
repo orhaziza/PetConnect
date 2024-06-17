@@ -5,13 +5,16 @@ import pandas as pd
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 st.markdown("""
 <style>
-    /* Apply basic styling */
+    /* Importing the Roboto font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    /* Apply Roboto font family */
     html, body, [class*="css"] {
-        font-family: 'Arial', sans-serif; /* Ensuring Arial is applied universally */
+        font-family: 'Roboto', sans-serif; /* Roboto is applied universally */
         background-color: #f8f9fa; /* Light grey background color */
     }
 
-    /* Targeting the main title and subtitles correctly */
+    /* Titles and subtitles with specific weight */
     .css-2trqyj, .css-1d391kg {
         color: #0c6efd; /* Bright blue for main titles */
     }
