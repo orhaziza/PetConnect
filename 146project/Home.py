@@ -1,51 +1,38 @@
 import streamlit as st
 import pandas as pd
+from Pages import Dogs
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
+# Now inject CSS
 st.markdown("""
 <style>
-    /* Importing the Roboto font from Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-    /* Apply Roboto font family */
-    html, body, [class*="css"] {
-        font-family: 'Roboto', sans-serif; /* Roboto is applied universally */
-        background-color: #f8f9fa; /* Light grey background color */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
     }
-
-    /* Titles and subtitles with specific weight */
-    .css-2trqyj, .css-1d391kg {
-        color: #0c6efd; /* Bright blue for main titles */
+    h1, .stTitle {
+        color: #0c6efd;
     }
-    
-    .css-1e5imcs {
-        color: #6c757d; /* Dark grey for subtitles */
+    h2, .stSubheader {
+        color: #6c757d;
     }
-    
-    /* Styling text input fields */
     .stTextInput input {
-        border-radius: 10px; /* Rounded corners for text input */
-        border: 1px solid #ced4da; /* Grey border for text inputs */
+        border-radius: 10px;
+        border: 1px solid #ced4da;
     }
-    
-    /* Customizing buttons */
-    .stButton > button {
-        border-radius: 20px; /* Rounded corners for buttons */
-        border: none; /* No borders */
-        background-color: #0d6efd; /* Bright blue background */
-        color: white; /* White text */
+    .stButton>button {
+        border-radius: 20px;
+        border: none;
+        background-color: #0d6efd;
+        color: white;
     }
-
-    /* Button hover effect */
-    .stButton > button:hover {
-        background-color: #0a58ca; /* Slightly darker blue on hover */
+    .stButton>button:hover {
+        background-color: #0a58ca;
     }
-
-    /* Adjusting columns padding and margin */
-    .st-cx {
-        padding: 10px 0; /* Padding for columns */
-        margin: 0 10px; /* Margin around columns */
+    .stColumns {
+        padding: 10px 0;
+        margin: 0 10px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -91,30 +78,38 @@ def show_home_page():
         st.subheader("Manage Dogs")
         st.write("View and manage information about dogs.")
         if st.button("Go to Dogs"):
-            st.experimental_rerun()  # Placeholder for navigating to dogs page
+            st.session_state['page'] = 'dogs'
+            st.experimental_rerun()
 
     with col2:
         st.subheader("Manage Foster Homes")
         st.write("Manage foster home details and availability.")
         if st.button("Go to Foster Homes"):
-            st.experimental_rerun()  # Placeholder for navigating to foster homes page
+            st.session_state['page'] = 'foster_homes'
+            st.experimental_rerun()
 
     with col3:
         st.subheader("Manage Adopters")
         st.write("Track and manage adopter information and preferences.")
         if st.button("Go to Adopters"):
-            st.experimental_rerun()  # Placeholder for navigating to adopters page
+            st.session_state['page'] = 'adopters'
+            st.experimental_rerun()
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
-# Main routing logic
+if 'page' not in st.session_state:
+    st.session_state['page'] = 'home'  # Default page is home
+
 if st.session_state['logged_in']:
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
-        st.experimental_rerun()  # Refresh the page to update the content
+        st.experimental_rerun()
     else:
-        show_home_page()
+        if st.session_state['page'] == 'dogs':
+            Dogs.main()
+        else:
+            show_home_page()
 else:
     show_login_page()
