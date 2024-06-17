@@ -4,7 +4,9 @@ import pandas as pd
 import os
 
 def main():
-    
+    if st.button("Back to Home"):
+        st.session_state['page'] = 'home'
+        st.experimental_rerun()
     st.title("Manage Dogs")
     # Path to the CSV files
     dogs_file_path = "Data/Dogs.csv"
@@ -14,9 +16,7 @@ def main():
     if not os.path.exists(dogs_file_path):
         st.error("The dogs data file does not exist.")
         return
-    if st.button("Back to Home"):
-        st.session_state['page'] = 'home'
-        st.experimental_rerun()
+    
     dog_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
 
     # Hebrew column translations
