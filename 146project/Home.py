@@ -6,8 +6,6 @@ from Pages import Dogs
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
-
- 
 st.markdown("""
 <style>
     body {
@@ -38,7 +36,7 @@ st.markdown("""
         margin: 0 10px;
     }
 </style>
-""", unsafe_allow_html=True)e)
+""", unsafe_allow_html=True)
 
 
 # User credentials (in a real app, use a secure method for handling credentials)
