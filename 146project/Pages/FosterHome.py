@@ -2,11 +2,13 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-from streamlit_option_menu import option_menu
 
+# Check if user is logged in
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.error("לא ניתן לגשת לעמוד ללא התחברות")
     st.stop()
+
+# Configure the page
 st.set_page_config(page_title='Foster Homes', layout='wide')
 
 # Load foster home data
@@ -42,7 +44,7 @@ hebrew_columns_foster_homes = {
 
 # Define the menu options
 with st.sidebar:
-    selected = option_menu("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+    selected = st.radio("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"])
 
 # Translate column names
 foster_home_df_hebrew = foster_home_df.rename(columns=dict(zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
@@ -100,35 +102,42 @@ elif selected == "הוסף בית אומנה":
     if st.button('שמור בית אומנה'):
         # Save foster home data to CSV or database
         new_foster_home = {
-            'מזהה בית אומנה': foster_home_id,
-            'שם בית אומנה': foster_name,
-            'כתובת': address,
-            'גודל הבית': house_size,
-            'פרטי קשר': contact_info,
-            'חצר': backyard,
-            'קרוב לגן כלבים': near_dog_park,
-            'חברי בית': house_members,
-            'זמינות בבית': availability_at_home,
-            'ידידותי לילדים': children_friendly,
-            'ידידותי לכלבים': animal_friendly,
-            'קיבולת מקסימלית': max_capacity,
-            'מותר בנכס': allowed_at_property,
-            'אלרגיות': allergies,
-            'נייד': is_mobile,
-            'רמת אנרגיה': energy_level,
-            'אומנויות קודמות': past_fosters,
-            'ניסיון קודם': past_experience,
-            'מסמכים': documents
+            'FosterHomeID': foster_home_id,
+            'FosterName': foster_name,
+            'Address': address,
+            'HouseSize': house_size,
+            'Contactinfomation': contact_info,
+            'Backyard': backyard,
+            'nearDogPark': near_dog_park,
+            'HouseMembers': house_members,
+            'AvailabilityAtHome': availability_at_home,
+            'ChildrenFriendly': children_friendly,
+            'AnimalFriendly': animal_friendly,
+            'MaximumCapacity': max_capacity,
+            'allowedAtProperty': allowed_at_property,
+            'allergies': allergies,
+            'IsMobile': is_mobile,
+            'EnergyLevel': energy_level,
+            'pastFosters': past_fosters,
+            'pastExperience': past_experience,
+            'documents': documents
         }
         foster_home_df = foster_home_df.append(new_foster_home, ignore_index=True)
         foster_home_df.to_csv(foster_home_file_path, index=False, encoding='Windows-1255')
         st.success('הבית אומנה נשמר בהצלחה!')
 
+elif selected == "ערוך מסמך":
+    st.subheader('ערוך מסמך')
+
+    # Add document editing functionality here
+    document_id = st.text_input('מזהה מסמך')
+    document_content = st.text_area('תוכן המסמך')
+
+    if st.button('שמור מסמך'):
+        # Save the document changes (implement saving logic here)
+        st.success('המסמך נשמר בהצלחה!')
 
 # Sidebar logout button
 if st.sidebar.button("Log Out"):
     st.session_state['logged_in'] = False
     st.experimental_rerun()
-
-
-
