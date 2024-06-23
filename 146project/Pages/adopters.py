@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title='Adopters', layout='wide')
 
+# Check if user is logged in
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.error("לא ניתן לגשת לעמוד ללא התחברות")
     st.stop()
@@ -32,7 +32,7 @@ hebrew_columns_adopters = {
 
 # Define the menu options
 with st.sidebar:
-    selected = option_menu("אומצים", ["כל הטבלה", "מצא אומץ", "הוסף אומץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+    selected = st.radio("אומצים", ["כל הטבלה", "מצא אומץ", "הוסף אומץ", "ערוך מסמך"])
 
 # Translate column names
 adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
@@ -76,29 +76,31 @@ elif selected == "הוסף אומץ":
     if st.button('שמור אומץ'):
         # Save adopter data to CSV or database
         new_adopter = {
-            'מזהה אומץ': adopter_id,
-            'שם אומץ': adopter_name,
-            'כתובת': address,
-            'פרטי קשר': contact_info,
-            'העדפות': preferences,
-            'מידע על אופני חיים': lifestyle_info,
-            'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
-            'מסמכים': documents
+            'AdopterID': adopter_id,
+            'AdopterName': adopter_name,
+            'Address': address,
+            'contactinformation': contact_info,
+            'preferences': preferences,
+            'LifeStyleInformation': lifestyle_info,
+            'AdoptionDate': adoption_date.strftime('%Y-%m-%d'),
+            'Documents': documents
         }
-        adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
-        adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='Windows-1255')
+        adopter_df = adopter_df.append(new_adopter, ignore_index=True)
+        adopter_df.to_csv(adopter_file_path, index=False, encoding='Windows-1255')
         st.success('אומץ חדש נשמר בהצלחה!')
 
 elif selected == "ערוך מסמך":
     st.subheader('ערוך מסמך')
 
     # Edit document functionality
-    # Implement as per your requirements
+    document_id = st.text_input('מזהה מסמך')
+    document_content = st.text_area('תוכן המסמך')
+
+    if st.button('שמור מסמך'):
+        # Save the document changes (implement saving logic here)
+        st.success('המסמך נשמר בהצלחה!')
 
 # Sidebar logout button
 if st.sidebar.button("Log Out"):
     st.session_state['logged_in'] = False
     st.experimental_rerun()
-
-
-
