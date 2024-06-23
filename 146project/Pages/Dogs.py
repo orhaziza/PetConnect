@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-from streamlit_option_menu import option_menu
+#from streamlit_option_menu import option_menu
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.error("לא ניתן לגשת לעמוד ללא התחברות")
     st.stop()
@@ -80,9 +80,9 @@ foster_home_df_hebrew = foster_home_df.rename(columns=dict(zip(foster_home_df.co
 
 
 # Define the menu options
-with st.sidebar:
-    selected = option_menu("כלבים", ["כל הטבלה", "מצא כלב","הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],
-                           icons=["file", "search", "file", "upload", 'search'], menu_icon="menu", default_index=0)
+#with st.sidebar:
+ #   selected = option_menu("כלבים", ["כל הטבלה", "מצא כלב","הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],
+  #                         icons=["file", "search", "file", "upload", 'search'], menu_icon="menu", default_index=0)
 images_folder = "DogsPhotos"
 # Translate English column names to Hebrew
 hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
