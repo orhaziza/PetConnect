@@ -2,36 +2,34 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-from streamlit_option_menu import option_menu
+
+# Check if user is logged in
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.error("לא ניתן לגשת לעמוד ללא התחברות")
     st.stop()
 
-
+# Configure the page
 st.set_page_config(page_title='Dogs', layout='wide')
 
-#Creating Dataframe from csv
+# Paths to data files
 dogs_file_path = "Data/Dogs.csv"
+foster_home_file_path = "Data/FosterHome.csv"
+
+# Load the dogs data
+if not os.path.exists(dogs_file_path):
+    st.error("The dogs file does not exist.")
+    st.stop()
+
 dog_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
 
-foster_home_file_path = "Data/FosterHome.csv"
-if not os.path.exists(foster_home_file_path):
-    st.error("The foster home file does not exist.")
-    st.stop()
-
-foster_home_df = pd.read_csv(foster_home_file_path, encoding='Windows-1255')
-
 # Load the foster home data
-foster_home_file_path = "Data/FosterHome.csv"
 if not os.path.exists(foster_home_file_path):
     st.error("The foster home file does not exist.")
     st.stop()
 
 foster_home_df = pd.read_csv(foster_home_file_path, encoding='Windows-1255')
 
-
-#Defining Hebrew names
-# Define Hebrew column names
+# Define Hebrew column names for dogs and foster homes
 hebrew_columns_dogs = {
     'DogID': 'מזהה כלב',
     'name': 'שם',
@@ -51,7 +49,6 @@ hebrew_columns_dogs = {
     'adopterID': 'מזהה מאמץ',
     'pottyTrained': 'מחונך לצרכים',
     'animalFirendly': 'ידידותי לכלבים',
-    # Add more column name translations as needed
 }
 
 hebrew_columns_foster_homes = {
@@ -78,42 +75,35 @@ hebrew_columns_foster_homes = {
 
 foster_home_df_hebrew = foster_home_df.rename(columns=dict(zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
 
-
-# Define the menu options
+# Sidebar menu options
 with st.sidebar:
-    selected = option_menu("כלבים", ["כל הטבלה", "מצא כלב","הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],
-                           icons=["file", "search", "file", "upload", 'search'], menu_icon="menu", default_index=0)
+    selected = st.radio("כלבים", ["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"], index=0)
+
 images_folder = "DogsPhotos"
+
 # Translate English column names to Hebrew
 hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
 
 # Display DataFrame with Hebrew column names
-file_path = "Data/Dogs.csv"
-
-# Check if the file exists
-if not os.path.exists(file_path):
-    st.error("The file does not exist.")
+if not os.path.exists(dogs_file_path):
+    st.error("The dogs file does not exist.")
     st.stop()
 
-    # Read CSV file
-dog_df = pd.read_csv(file_path, encoding='Windows-1255')
+dog_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
 hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
 dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
 
 # Display the editable table
-
-# Button to save changes
-
-
 if selected == "כל הטבלה":
     edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
     if st.button("Save Changes"):
         # Rename columns back to English for saving
         edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
         # Save the edited dataframe to the CSV file
-        edited_df.to_csv(file_path, index=False, encoding='Windows-1255')
+        edited_df.to_csv(dogs_file_path, index=False, encoding='Windows-1255')
         st.success("Changes saved successfully!")
 
+# Search for a dog
 if selected == "מצא כלב":
     st.subheader('מצא כלב')
 
@@ -139,6 +129,7 @@ if selected == "מצא כלב":
 
     st.write(filtered_df)
 
+# Add a new dog
 if selected == "הוסף כלב":
     st.subheader('הוסף כלב חדש')
 
@@ -186,9 +177,10 @@ if selected == "הוסף כלב":
             'pottyTrained': pottyTrained,
         }
         dog_df = dog_df.append(new_dog, ignore_index=True)
-        dog_df.to_csv(file_path, index=False, encoding='Windows-1255')
+        dog_df.to_csv(dogs_file_path, index=False, encoding='Windows-1255')
         st.success('הכלב הוסף בהצלחה!')
 
+# Edit dog image
 if selected == "ערוך תמונה":
     st.header('הוספת תמונה לכלבים ללא תמונה')
 
@@ -215,9 +207,8 @@ if selected == "ערוך תמונה":
     else:
         st.write('לכל הכלבים במסד הנתונים קיימת תמונה')
 
-
-elif selected == "מצא בית אומנה":
-    # Search functionality for foster homes
+# Search for a foster home
+if selected == "מצא בית אומנה":
     st.subheader('מצא בית אומנה')
 
     # Create search filters for foster homes
@@ -239,7 +230,6 @@ elif selected == "מצא בית אומנה":
         allergies = st.text_input('אלרגיות')
 
     # Apply search filters for foster homes
-    # Apply search filters for foster homes
     filtered_foster_homes = foster_home_df_hebrew[
         (foster_home_df_hebrew['שם בית אומנה'].str.contains(foster_name, na=False, case=False)) &
         (foster_home_df_hebrew['ידידותי לילדים'] == children_friendly) &
@@ -251,7 +241,7 @@ elif selected == "מצא בית אומנה":
         (foster_home_df_hebrew['זמינות בבית'] == availability_at_home) &
         (foster_home_df_hebrew['קיבולת מקסימלית'] >= maximum_capacity) &
         (foster_home_df_hebrew['אלרגיות'].str.contains(allergies, na=False, case=False))
-        ]
+    ]
 
     st.dataframe(filtered_foster_homes)
 
@@ -259,6 +249,3 @@ elif selected == "מצא בית אומנה":
 if st.sidebar.button("Log Out"):
     st.session_state['logged_in'] = False
     st.experimental_rerun()
-
-
-
