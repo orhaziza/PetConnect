@@ -1,7 +1,6 @@
-
 import streamlit as st
 import pandas as pd
-from Pages import Dogs
+
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
