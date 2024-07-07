@@ -8,7 +8,7 @@ st.set_page_config(page_title='PetConnect Management System', layout='wide')
 users = {"admin": "admin123", "user": "user123"}
 
 ##st.logo("Data/Logo.png")
-add_logo("Data/Logo.png", height=300)
+add_logo("Data/Logo.png", height=50)
 
 # Define the login function
 def login(username, password):
