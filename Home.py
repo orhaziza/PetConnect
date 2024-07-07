@@ -23,8 +23,9 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():
+    st.markdown("<h1 style='text-align: right; color: red;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
     st.title("PetConnectברוך הבא ל")
-    st.subheader(".הזן שם משתמש וסיסמא")
+    st.subheader("הזן שם משתמש וסיסמא")
 
     # User input for login
     username = st.text_input("שם משתמש")
