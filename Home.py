@@ -5,7 +5,7 @@ from streamlit_extras.app_logo import add_logo
 
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 
-add_logo("Data/Logo.png")
+add_logo("Data/Logo.png", height=120)
 
 users = {"admin": "admin123", "user": "user123"}
 
