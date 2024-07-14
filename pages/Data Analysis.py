@@ -17,7 +17,6 @@ def plot_Applications(application_df):
     fig.patch.set_facecolor('none')
     ax.patch.set_facecolor('none')
     ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=140)
-    ax.set_title('Distribution of Requests by Platform')
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
     
@@ -53,6 +52,7 @@ def show_data_analysis_page():
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
+            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
             plot_Applications(application_df)
 
 show_data_analysis_page()
