@@ -77,5 +77,7 @@ def show_data_analysis_page():
 
     with st.container():
         st.write("placeholder")
+        st.write('התפלגות הכלבים בעמותה:')
+        plot_Dogs(dogs_df)
 
 show_data_analysis_page()
