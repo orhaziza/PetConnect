@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+import matplotlib.pyplot as plt
 
 def show_data_analysis_page():
     st.set_page_config(page_title='Data Analysis', layout='wide')
