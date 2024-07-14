@@ -20,14 +20,14 @@ def show_data_analysis_page():
 
     df = pd.read_csv(application_file_path, encoding='Windows-1255')
     platform_counts = df['SourcePlatform'].value_counts()
-    plt.figure(figsize=(8, 8))
-    plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
+    # plt.figure(figsize=(8, 8))
+    # plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
+    fig, ax = plt.subplots()
+    ax.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
+    ax.set_title('Distribution of Requests by Platform')
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     
-    col1, col2, col3, col4 = st.columns(4)
-
-    # Button 1 in the first column
-    with col1:
-            plt.show()
-
+    # Display the pie chart in Streamlit
+    st.pyplot(fig)
 
 show_data_analysis_page()
