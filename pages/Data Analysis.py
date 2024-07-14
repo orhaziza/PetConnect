@@ -5,9 +5,7 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title='PetConnect Management System', layout='wide')
-
-st.title(f"Data Analysis Page")
+st.set_page_config(page_title='Data Analysis Page', layout='wide')
 st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
 
 def plot_Applications(application_df):
