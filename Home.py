@@ -3,6 +3,7 @@ import pandas as pd
 
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
+st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
 
 # con1 = st.container()
 # with con1:
@@ -23,7 +24,6 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():
-    st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
     # st.title("PetConnect Management System")
     # st.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
 
