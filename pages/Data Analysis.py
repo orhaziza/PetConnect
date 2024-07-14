@@ -17,5 +17,5 @@ def show_data_analysis_page():
         st.error("No file")
         st.stop()
     df = pd.read_csv(application_file_path, encoding='Windows-1255')
-    df
+    DataFrame.plot.pie(y="SourcePlatform")
 show_data_analysis_page()
