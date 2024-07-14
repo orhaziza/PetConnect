@@ -8,8 +8,8 @@ st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הב
 con1 = st.container()
 with con1:
     col1, col2= st.columns([5, 1])
- with col2:
-    st.image("Data/Logo.png", width=120)
+    with col2:
+        st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123"}
