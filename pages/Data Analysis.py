@@ -23,13 +23,22 @@ def plot_Applications(application_df):
 def plot_Dogs(dogs_df):
     lst = ['Age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
+
+    if df[column].dtype == 'bool':
+    # Convert boolean to string
+    distribution = df[column].astype(str).value_counts()
     
-    distribution = dogs_df[characteristic].value_counts()
-    labels = [label[::-1] for label in distribution.index.tolist()]
-    values = distribution.tolist()
+    elif pd.api.types.is_numeric_dtype(df[column]):
+        # Create bins for numerical columns
+        bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
+        distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
+    else:
+        distribution = dogs_df[characteristic].value_counts()
+        labels = [label[::-1] for label in distribution.index.tolist()]
+        values = distribution.tolist()
 
     fig, ax = plt.subplots()
-    ax.bar(labels, values)
+    ax.bar(distribution.index.astype(str), distribution.values)
     ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
     ax.set_xlabel(characteristic.capitalize())
     ax.set_ylabel('Count')
