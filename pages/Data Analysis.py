@@ -21,7 +21,7 @@ def plot_Applications(application_df):
     st.pyplot(fig)
 
 def plot_Dogs(dogs_df):
-    lst = ['age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
+    lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
     if dogs_df[characteristic].dtype == 'bool':
       # Convert boolean to string
