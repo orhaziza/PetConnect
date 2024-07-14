@@ -24,16 +24,17 @@ def plot_Applications(application_df):
 def plot_Dogs(dogs_df):
     lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
+    
     if dogs_df[characteristic].dtype == 'bool':
       # Convert boolean to string
         distribution = dogs_df[characteristic].astype(str).value_counts()
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
+        
     elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
         hist_values, hist_bins = np.histogram(dogs_df[characteristic], bins='auto')
         hist_data = pd.DataFrame({'bin_edges': hist_bins[:-1], 'count': hist_values})
-        
-        # Display the bar chart using st.bar_chart
+        hist_data = hist_data.sort_values(by='bin_edges')
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(hist_data.set_index('bin_edges'))
     else:
