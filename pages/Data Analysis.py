@@ -97,7 +97,6 @@ def show_data_analysis_page():
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
             plot_Fosters(Foster_Home_df)
         with col2:
-            st.write('התפלגות הכלבים בעמותה:')
-            plot_Dogs(dogs_df)
-
+            st.write('kjlkjljl')
+        
 show_data_analysis_page()
