@@ -27,12 +27,12 @@ def plot_Dogs(dogs_df):
   if df[column].dtype == 'bool':
     # Convert boolean to string
     distribution = df[column].astype(str).value_counts()
-elif pd.api.types.is_numeric_dtype(df[column]):
-    # Create bins for numerical columns
-    bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
-    distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
-else:
-    distribution = df[column].value_counts()
+    elif pd.api.types.is_numeric_dtype(df[column]):
+        # Create bins for numerical columns
+        bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
+        distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
+    else:
+        distribution = df[column].value_counts()
 
 # Display the bar chart using st.bar_chart
 st.subheader(f'Distribution of Dogs by {column.capitalize()}')
