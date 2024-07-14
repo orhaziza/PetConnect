@@ -28,10 +28,10 @@ def plot_Dogs(dogs_df):
         # Convert boolean to string
         distribution = dogs_df[characteristic].astype(str).value_counts()
     
-    elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
-        # Create bins for numerical columns
-        bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
-        distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
+    # elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
+    #     # Create bins for numerical columns
+    #     bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
+    #     distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
     else:
         distribution = dogs_df[characteristic].value_counts()
         labels = [label[::-1] for label in distribution.index.tolist()]
