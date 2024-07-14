@@ -17,6 +17,5 @@ def show_data_analysis_page():
         st.error("No file")
         st.stop()
     df = pd.read_csv(application_file_path, encoding='Windows-1255')
-    st.dataframe(df.style.highlight_max(axis=0))
-    
+    df
 show_data_analysis_page()
