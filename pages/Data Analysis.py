@@ -26,15 +26,23 @@ def plot_Dogs(dogs_df):
     characteristic = st.selectbox('בחר מאפיין', lst)
     if dogs_df[characteristic].dtype == 'bool':
       # Convert boolean to string
-      distribution = dogs_df[characteristic].astype(str).value_counts()
+        distribution = dogs_df[characteristic].astype(str).value_counts()
+        st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
+        st.bar_chart(distribution)
     elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
-        distribution = pd.Series(np.histogram(dogs_df[characteristic]), index=dogs_df[characteristic].index)
+        fig, ax = plt.subplots()
+        ax.hist(dogs_df[characteristic], bins='auto', edgecolor='black')
+        ax.set_xlabel(characteristic.capitalize())
+        ax.set_ylabel('Count')
+        ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
+        st.pyplot(fig)
     else:
         distribution = dogs_df[characteristic].value_counts()
+        st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
+        st.bar_chart(distribution)
 
     # Display the bar chart using st.bar_chart
-    st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
-    st.bar_chart(distribution)
+
 
     
 def show_data_analysis_page():
