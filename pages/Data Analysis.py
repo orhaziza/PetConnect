@@ -29,7 +29,7 @@ def plot_Dogs(dogs_df):
     values = distribution.tolist()
 
     fig, ax = plt.subplots()
-    ax.bar(distribution.index, distribution.values)
+    ax.bar(labels, values)
     ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
     ax.set_xlabel(characteristic.capitalize())
     ax.set_ylabel('Count')
