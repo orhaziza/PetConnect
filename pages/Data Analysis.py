@@ -21,8 +21,7 @@ def plot_Applications(application_df):
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
 
-def plot_Fosters(Foster_Home_df)
-
+def plot_Fosters(Foster_Home_df):
     lst = ['HouseSize','Backyard','nearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','allowedAtProperty','allergies','IsMobile','EnergyLevel','pastFosters','pastExperience']
     characteristic = st.selectbox('בחר מאפיין', lst)
     
