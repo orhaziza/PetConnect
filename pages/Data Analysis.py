@@ -21,6 +21,23 @@ def plot_Applications(application_df):
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
 
+def plot_Fosters(Foster_Home_df):
+    lst = Foster_Home_df.columns.tolist()
+    # lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
+    characteristic = st.selectbox('בחר מאפיין', lst)
+    
+    if Foster_Home_df[characteristic].dtype == 'bool':
+      # Convert boolean to string
+        distribution = Foster_Home_df[characteristic].astype(str).value_counts()
+        st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
+        st.bar_chart(distribution)
+        
+    else:
+        distribution = Foster_Home_df[characteristic].value_counts()
+        st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
+        st.bar_chart(distribution)
+
+
 def plot_Dogs(dogs_df):
     lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
@@ -36,7 +53,7 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
-    
+
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
@@ -79,7 +96,7 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
-            plot_Applications(application_df)
+            plot_Fosters(Foster_Home_df)
         with col2:
             st.write('התפלגות הכלבים בעמותה:')
             plot_Dogs(dogs_df)
