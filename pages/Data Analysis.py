@@ -11,11 +11,10 @@ st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בוי
 
 def plot_Applications(application_df):
     platform_counts = application_df['SourcePlatform'].value_counts()
-    platform_counts
-    # plt.figure(figsize=(8, 8))
-    # plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
+    labels = [label[::-1] for label in platform_counts.index.tolist()]
+    values = platform_counts.tolist()
     fig, ax = plt.subplots()
-    ax.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
+    ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=140)
     ax.set_title('Distribution of Requests by Platform')
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
