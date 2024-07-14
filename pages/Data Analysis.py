@@ -31,12 +31,13 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
         
-    elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
-        hist_values, hist_bins = np.histogram(dogs_df[characteristic], bins='auto')
-        hist_data = pd.DataFrame({'bin_edges': hist_bins[:-1], 'count': hist_values})
-        hist_data = hist_data.sort_values(by='bin_edges')
-        st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
-        st.bar_chart(hist_data.set_index('bin_edges'))
+    # elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
+    #     hist_values, hist_bins = np.histogram(dogs_df[characteristic], bins='auto')
+    #     hist_data = pd.DataFrame({'bin_edges': hist_bins[:-1], 'count': hist_values})
+    #     hist_data = hist_data.sort_values(by='bin_edges')
+    #     st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
+    #     st.bar_chart(hist_data.set_index('bin_edges'))
+    
     else:
         distribution = dogs_df[characteristic].value_counts()
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
