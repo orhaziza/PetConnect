@@ -19,6 +19,20 @@ def plot_Applications(application_df):
     ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=140)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
+
+def plot_Dogs(dogs_df):
+    lst = ['Age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
+    characteristic = st.selectbox('בחר מאפיין', lst)
+    distribution = df[characteristic].value_counts()
+
+    fig, ax = plt.subplots()
+    ax.bar(distribution.index, distribution.values)
+    ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
+    ax.set_xlabel(characteristic.capitalize())
+    ax.set_ylabel('Count')
+    
+    # Display the bar chart in Streamlit
+    st.pyplot(fig)
     
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
@@ -54,5 +68,8 @@ def show_data_analysis_page():
         with col1:
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
             plot_Applications(application_df)
+        with col2:
+            st.write('התפלגות הכלבים בעמותה:')
+            plot_Dogs(dogs_df)
 
 show_data_analysis_page()
