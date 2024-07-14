@@ -78,7 +78,7 @@ def show_data_analysis_page():
     if not os.path.exists(FosterHome_file_path):
         st.error("Foster Home file does not exist.")
         st.stop()
-    Foster_Home_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
+    Foster_Home_df = pd.read_csv(FosterHome.csv, encoding='Windows-1255')
     
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
@@ -93,8 +93,7 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בתי אומנה:')
-            Foster_Home_df
-            # plot_Fosters(Foster_Home_df)
+            plot_Fosters(Foster_Home_df)
         with col2:
             st.write('kjlkjljl')
         
