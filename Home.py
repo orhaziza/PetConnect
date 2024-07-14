@@ -15,7 +15,6 @@ users = {"admin": "admin123", "user": "user123"}
 
 # Define the login function
 def login(username, password):
-    st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
     
     if username in users and users[username] == password:
         return True
@@ -24,7 +23,8 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():
-    st.title("PetConnect Management System")
+    st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    # st.title("PetConnect Management System")
     # st.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
 
     st.subheader("Please log in to access the system.")
