@@ -76,8 +76,12 @@ def show_data_analysis_page():
             plot_Dogs(dogs_df)
 
     with st.container():
-        st.write("placeholder")
-        st.write('התפלגות הכלבים בעמותה:')
-        plot_Dogs(dogs_df)
+        col1 , col2 = st.columns([1,1], gap="small")
+        with col1:
+            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
+            plot_Applications(application_df)
+        with col2:
+            st.write('התפלגות הכלבים בעמותה:')
+            plot_Dogs(dogs_df)
 
 show_data_analysis_page()
