@@ -24,15 +24,12 @@ def plot_Applications(application_df):
 def plot_Fosters(Foster_Home_df):
     lst = ['HouseSize','Backyard','nearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','allowedAtProperty','allergies','IsMobile','EnergyLevel','pastFosters','pastExperience']
     characteristic = st.selectbox('בחר מאפיין', lst)
-    Foster_Home_df[characteristic].dtype
     if Foster_Home_df[characteristic].dtype == 'bool':
         distribution = Foster_Home_df[characteristic].astype(str).value_counts()
-        distribution
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
     else:
         distribution = Foster_Home_df[characteristic].value_counts()
-        distribution
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
