@@ -14,6 +14,8 @@ def plot_Applications(application_df):
     labels = [label[::-1] for label in platform_counts.index.tolist()]
     values = platform_counts.tolist()
     fig, ax = plt.subplots()
+    fig.patch.set_facecolor('none')
+    ax.patch.set_facecolor('none')
     ax.pie(values, labels=labels, autopct='%1.1f%%', startangle=140)
     ax.set_title('Distribution of Requests by Platform')
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
