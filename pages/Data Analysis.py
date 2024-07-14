@@ -17,12 +17,17 @@ def show_data_analysis_page():
     if not os.path.exists(application_file_path):
         st.error("No file")
         st.stop()
-        
+
     df = pd.read_csv(application_file_path, encoding='Windows-1255')
     platform_counts = df['SourcePlatform'].value_counts()
     plt.figure(figsize=(8, 8))
     plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
-    plt.show()
+    
+    col1, col2, col3, col4 = st.columns(4)
+
+    # Button 1 in the first column
+    with col1:
+            plt.show()
 
 
 show_data_analysis_page()
