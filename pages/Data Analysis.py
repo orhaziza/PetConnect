@@ -24,13 +24,14 @@ def plot_Applications(application_df):
 def plot_Fosters(Foster_Home_df):
     lst = ['HouseSize','Backyard','nearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','allowedAtProperty','allergies','IsMobile','EnergyLevel','pastFosters','pastExperience']
     characteristic = st.selectbox('בחר מאפיין', lst)
-    Foster_Home_df[characteristic]
     if Foster_Home_df[characteristic].dtype == 'bool':
         distribution = Foster_Home_df[characteristic].astype(str).value_counts()
+        distribution
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
     else:
         distribution = Foster_Home_df[characteristic].value_counts()
+        distribution
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
@@ -90,7 +91,7 @@ def show_data_analysis_page():
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
-            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
+            st.write('התפלגות בתי אומנה:')
             plot_Fosters(Foster_Home_df)
         with col2:
             st.write('kjlkjljl')
