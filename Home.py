@@ -69,8 +69,8 @@ def add_logo():
     
 # Function to show the home page
 def show_home_page():
-    st.sidebar.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
-    # add_logo()
+    # st.sidebar.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
+    add_logo()
     st.title(f"Welcome, {st.session_state['username']}!")
     st.header("PetConnect Management System")
     st.write("This is your personalized home screen.")
