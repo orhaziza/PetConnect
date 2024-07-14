@@ -18,8 +18,7 @@ def plot_Applications(application_df):
     fig.patch.set_facecolor('none')
     ax.patch.set_facecolor('none')
     
-    
-    ax.pie(values, labels, colors=[blue, red, green], autopct='%1.1f%%', startangle=140, radius=1.5)
+    ax.pie(values, labels, colors=[C0, C1, C2], autopct='%1.1f%%', startangle=140, radius=1.5)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
 
