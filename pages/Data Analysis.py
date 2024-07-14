@@ -11,6 +11,7 @@ st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בוי
 
 def plot_Applications(application_df):
     platform_counts = application_df['SourcePlatform'].value_counts()
+    platform_counts = platform_counts[::-1]
     platform_counts
     # plt.figure(figsize=(8, 8))
     # plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
