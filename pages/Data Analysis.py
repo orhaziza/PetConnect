@@ -5,6 +5,9 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 
+st.title(f"Data Analysis Page")
+st.markdown("<h1 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h1>", unsafe_allow_html=True)
+
 def plot_Applications(application_df):
     platform_counts = application_df['SourcePlatform'].value_counts()
     # plt.figure(figsize=(8, 8))
