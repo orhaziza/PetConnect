@@ -5,11 +5,11 @@ import pandas as pd
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
 
-# con1 = st.container()
-# with con1:
-#   col1, col2= st.columns([5, 1])
-#  with col2:
-#     st.image("Data/Logo.png", width=120)
+con1 = st.container()
+with con1:
+    col1, col2= st.columns([5, 1])
+ with col2:
+    st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123"}
