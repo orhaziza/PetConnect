@@ -17,7 +17,6 @@ def show_data_analysis_page():
         st.error("No file")
         st.stop()
     df = pd.read_csv(aplications_file_path)
-    df
-
+    st.dataframe(df)
 
 show_data_analysis_page()
