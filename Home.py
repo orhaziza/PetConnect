@@ -24,7 +24,8 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():
-    st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    
     # st.title("PetConnect Management System")
     # st.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
 
