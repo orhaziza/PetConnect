@@ -22,7 +22,7 @@ def plot_Applications(application_df):
     st.pyplot(fig)
 
 def plot_Fosters(Foster_Home_df):
-    lst = ['HouseSize','Backyard','nearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','allowedAtProperty','allergies','IsMobile','EnergyLevel','pastFosters','pastExperience']
+    lst = ['HouseSize','Backyard','NearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','AllowedAtProperty','Allergies','IsMobile','EnergyLevel','PastFosters','PastExperience']
     characteristic = st.selectbox('בחר מאפיין', lst)
     if Foster_Home_df[characteristic].dtype == 'bool':
         distribution = Foster_Home_df[characteristic].astype(str).value_counts()
@@ -34,7 +34,7 @@ def plot_Fosters(Foster_Home_df):
         st.bar_chart(distribution)
 
 def plot_Dogs(dogs_df):
-    lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
+    lst = ['Age','Breed','Weight','Size','Gender','RescueDate','Rabies_Done','Hexagonal_1','Hexagonal_2','Hexagonal_3','Hexagonal_Done','Spayed','De-worm','ChildrenFriendly','AnimalFriendly','HealthStatus','EnergyLevel','PhotographStatus','AdoptionStatus','AdopterID','PottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
     
     if dogs_df[characteristic].dtype == 'bool':
@@ -92,6 +92,6 @@ def show_data_analysis_page():
             st.write('התפלגות בתי אומנה:')
             plot_Fosters(Foster_Home_df)
         with col2:
-            st.write('kjlkjljl')
+            st.write('')
         
 show_data_analysis_page()
