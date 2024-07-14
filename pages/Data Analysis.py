@@ -11,11 +11,12 @@ def show_data_analysis_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-    # Load adopter data
+    # Load data
     application_file_path = "Data/AdoptionApplication.csv"
     if not os.path.exists(application_file_path):
         st.error("No file")
         st.stop()
     df = pd.read_csv(application_file_path)
+    st.dataframe(df.style.highlight_max(axis=0))
     
 show_data_analysis_page()
