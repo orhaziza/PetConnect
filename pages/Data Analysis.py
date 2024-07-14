@@ -23,6 +23,8 @@ def plot_Applications(application_df):
 
 def plot_Fosters(Foster_Home_df):
     lst = Foster_Home_df.columns.tolist()
+    lst.remove('FosterHomeID','FosterName','Address','Contactinfomation', 'documents')
+
     # lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
     
