@@ -3,14 +3,14 @@ import pandas as pd
     
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
-add_logo()
-st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
 
 con1 = st.container()
 with con1:
     col1, col2= st.columns([5, 1])
     with col2:
         st.image("Data/Logo.png", width=120)
+
+st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123"}
