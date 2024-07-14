@@ -5,7 +5,7 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 
-application_df, adopter_df, dogs_df, Foster_Home_df
+# application_df, adopter_df, dogs_df, Foster_Home_df
 
 def load_df():
     application_file_path = "Data/AdoptionApplication.csv"
