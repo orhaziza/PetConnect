@@ -27,6 +27,8 @@ def plot_Dogs(dogs_df):
     if dogs_df[characteristic].dtype == 'bool':
         # Convert boolean to string
         distribution = dogs_df[characteristic].astype(str).value_counts()
+        labels = distribution.index.astype(str)
+        values = distribution.values
     
     # elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
     #     # Create bins for numerical columns
@@ -38,7 +40,7 @@ def plot_Dogs(dogs_df):
         values = distribution.tolist()
 
     fig, ax = plt.subplots()
-    ax.bar(distribution.index.astype(str), distribution.values)
+    ax.bar(labels, values)
     ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
     ax.set_xlabel(characteristic.capitalize())
     ax.set_ylabel('Count')
