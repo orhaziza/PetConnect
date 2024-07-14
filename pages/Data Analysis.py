@@ -13,7 +13,7 @@ def show_data_analysis_page():
 
     # Load adopter data
     application_file_path = "Data/AdoptionApplication.csv"
-    if not os.path.exists(aplications_file_path):
+    if not os.path.exists(application_file_path):
         st.error("No file")
         st.stop()
     df = pd.read_csv(application_file_path)
