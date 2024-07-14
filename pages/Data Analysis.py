@@ -36,7 +36,7 @@ def plot_Dogs(dogs_df):
         distribution = dogs_df[characteristic].value_counts()
 
     # Display the bar chart using st.bar_chart
-    st.subheader(f'Distribution of Dogs by {column.capitalize()}')
+    st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
     st.bar_chart(distribution)
 
     
