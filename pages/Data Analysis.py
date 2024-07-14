@@ -23,7 +23,10 @@ def plot_Applications(application_df):
 def plot_Dogs(dogs_df):
     lst = ['Age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
+    
     distribution = dogs_df[characteristic].value_counts()
+    labels = [label[::-1] for label in distribution.index.tolist()]
+    values = distribution.tolist()
 
     fig, ax = plt.subplots()
     ax.bar(distribution.index, distribution.values)
