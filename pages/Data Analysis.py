@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 
 def plot_Applications(application_df):
-    platform_counts = df['SourcePlatform'].value_counts()
+    platform_counts = application_df['SourcePlatform'].value_counts()
     # plt.figure(figsize=(8, 8))
     # plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
     fig, ax = plt.subplots()
