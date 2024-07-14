@@ -24,18 +24,15 @@ def plot_Applications(application_df):
 def plot_Fosters(Foster_Home_df):
     lst = ['HouseSize','Backyard','nearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','allowedAtProperty','allergies','IsMobile','EnergyLevel','pastFosters','pastExperience']
     characteristic = st.selectbox('בחר מאפיין', lst)
-    
+    Foster_Home_df[characteristic]
     if Foster_Home_df[characteristic].dtype == 'bool':
-      # Convert boolean to string
         distribution = Foster_Home_df[characteristic].astype(str).value_counts()
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
-        
     else:
         distribution = Foster_Home_df[characteristic].value_counts()
         st.subheader(f'Distribution of foster homes by {characteristic.capitalize()}')
         st.bar_chart(distribution)
-
 
 def plot_Dogs(dogs_df):
     lst = ['age', 'breed', 'size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
@@ -46,7 +43,6 @@ def plot_Dogs(dogs_df):
         distribution = dogs_df[characteristic].astype(str).value_counts()
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
-        
     else:
         distribution = dogs_df[characteristic].value_counts()
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
