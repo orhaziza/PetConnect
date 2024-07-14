@@ -24,11 +24,11 @@ def plot_Dogs(dogs_df):
     lst = ['Age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
 
-    if df[column].dtype == 'bool':
+    if dogs_df[characteristic].dtype == 'bool':
     # Convert boolean to string
-    distribution = df[column].astype(str).value_counts()
+    distribution = dogs_df[characteristic].astype(str).value_counts()
     
-    elif pd.api.types.is_numeric_dtype(df[column]):
+    elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
         # Create bins for numerical columns
         bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
         distribution = pd.cut(df[column], bins=bins).value_counts().sort_index()
