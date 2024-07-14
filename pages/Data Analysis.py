@@ -22,8 +22,6 @@ def show_data_analysis_page():
     platform_counts = df['SourcePlatform'].value_counts()
     plt.figure(figsize=(8, 8))
     plt.pie(platform_counts, labels=platform_counts.index, autopct='%1.1f%%', startangle=140)
-    plt.title('Distribution of Requests by Platform')
-    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.show()
 
 
