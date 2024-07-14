@@ -93,7 +93,8 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בתי אומנה:')
-            plot_Fosters(Foster_Home_df)
+            Foster_Home_df
+            # plot_Fosters(Foster_Home_df)
         with col2:
             st.write('kjlkjljl')
         
