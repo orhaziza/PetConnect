@@ -1,40 +1,16 @@
 import streamlit as st
 import pandas as pd
-
-def add_logo():
-    st.sidebar.markdown(
-        """
-        <style>
-            .logo-container {
-                display: flex;
-                justify-content: flex-start; /* Aligns the logo to the top left */
-                align-items: center;
-                height: 100px; /* Adjust height as needed */
-            }
-            .logo-container img {
-                width: 80px; /* Adjust width as needed */
-                cursor: pointer; /* Pointer cursor on hover */
-            }
-        </style>
-        <div class="logo-container">
-            <a href="/">
-                <img src="Data/Logo.png" alt="Logo">
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
     
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 add_logo()
 st.markdown("<h1 style='text-align: right; color: blue;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
 
-# con1 = st.container()
-# with con1:
-#     col1, col2= st.columns([5, 1])
-#     with col2:
-#         st.image("Data/Logo.png", width=120)
+con1 = st.container()
+with con1:
+    col1, col2= st.columns([5, 1])
+    with col2:
+        st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 users = {"admin": "admin123", "user": "user123"}
@@ -67,9 +43,31 @@ def show_login_page():
         else:
             st.error("Invalid username or password")
 
+def add_logo():
+    st.sidebar.markdown(
+        """
+        <style>
+            .logo-container {
+                display: flex;
+                justify-content: flex-start; /* Aligns the logo to the top left */
+                align-items: center;
+                height: 100px; /* Adjust height as needed */
+            }
+            .logo-container img {
+                width: 80px; /* Adjust width as needed */
+                cursor: pointer; /* Pointer cursor on hover */
+            }
+        </style>
+        <div class="logo-container">
+            <a href="/">
+                <img src="Data/Logo.png" alt="Logo">
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
 # Function to show the home page
-
-
 def show_home_page():
     st.sidebar.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
     #add_logo()
