@@ -30,12 +30,10 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
     elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
-        fig, ax = plt.subplots()
-        ax.hist(dogs_df[characteristic], bins='auto', edgecolor='black')
-        ax.set_xlabel(characteristic.capitalize())
-        ax.set_ylabel('Count')
-        ax.set_title(f'Distribution of Dogs by {characteristic.capitalize()}')
-        st.pyplot(fig)
+        bins = pd.cut(dogs_df[characteristic], bins=10, precision=0, include_lowest=True)
+        distribution = bins.value_counts().sort_index()
+        st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
+        st.bar_chart(distribution)
     else:
         distribution = dogs_df[characteristic].value_counts()
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
