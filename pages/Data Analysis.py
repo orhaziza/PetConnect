@@ -23,7 +23,7 @@ def plot_Applications(application_df):
 def plot_Dogs(dogs_df):
     lst = ['Age', 'breed size', 'gender', 'vaccine_1', 'vaccine_2', 'isSpay', 'childrenFirendly', 'animalFirendly', 'healthStatus', 'energylevel', 'photographStatus', 'adoptionStatus', 'pottyTrained']
     characteristic = st.selectbox('בחר מאפיין', lst)
-
+    dogs_df[characteristic].dtype
     if dogs_df[characteristic].dtype == 'bool':
       # Convert boolean to string
       distribution = dogs_df[characteristic].astype(str).value_counts()
