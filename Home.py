@@ -1,6 +1,30 @@
 import streamlit as st
 import pandas as pd
 
+def add_logo():
+    st.sidebar.markdown(
+        """
+        <style>
+            .logo-container {
+                display: flex;
+                justify-content: flex-start; /* Aligns the logo to the top left */
+                align-items: center;
+                height: 100px; /* Adjust height as needed */
+            }
+            .logo-container img {
+                width: 80px; /* Adjust width as needed */
+                cursor: pointer; /* Pointer cursor on hover */
+            }
+        </style>
+        <div class="logo-container">
+            <a href="/">
+                <img src="Data/Logo.png" alt="Logo">
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
 # Set up the page configuration
 st.set_page_config(page_title='PetConnect Management System', layout='wide')
 add_logo()
@@ -45,29 +69,7 @@ def show_login_page():
 
 # Function to show the home page
 
-def add_logo():
-    st.sidebar.markdown(
-        """
-        <style>
-            .logo-container {
-                display: flex;
-                justify-content: flex-start; /* Aligns the logo to the top left */
-                align-items: center;
-                height: 100px; /* Adjust height as needed */
-            }
-            .logo-container img {
-                width: 80px; /* Adjust width as needed */
-                cursor: pointer; /* Pointer cursor on hover */
-            }
-        </style>
-        <div class="logo-container">
-            <a href="/">
-                <img src="Data/Logo.png" alt="Logo">
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+
 def show_home_page():
     st.sidebar.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
     #add_logo()
