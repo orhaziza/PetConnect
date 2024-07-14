@@ -27,10 +27,7 @@ def plot_Dogs(dogs_df):
       # Convert boolean to string
       distribution = dogs_df[characteristic].astype(str).value_counts()
     elif pd.api.types.is_numeric_dtype(dogs_df[characteristic]):
-        st.write("lkncslnln")
-        # Create bins for numerical columns
-        bins = st.slider('Select number of bins for numerical data', min_value=2, max_value=20, value=5)
-        distribution = pd.cut(dogs_df[characteristic], bins=bins).value_counts().sort_index()
+        distribution = pd.Series(np.histogram(dogs_df[characteristic]), index=dogs_df[characteristic].index)
     else:
         distribution = dogs_df[characteristic].value_counts()
 
