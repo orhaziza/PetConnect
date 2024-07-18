@@ -157,11 +157,11 @@ def score_adopter(dog, applicant):
     #if dog["HealthStatus"] == 'חייב יחס' and applicant['Needs Attention']:
         #score +=10
     
-    if dog['Children_Friendly'] and applicant['Children_Friendly']:
-        score += 15
+    #if dog['Children_Friendly'] and applicant['Children_Friendly']:
+        #score += 15
             
-    if dog['Spayed'] == "TRUE" and applicant['Spayed']:
-        score += 5
+    #if dog['Spayed'] == "TRUE" and applicant['Spayed']:
+        #score += 5
 
     return score
     
