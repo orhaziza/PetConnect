@@ -98,26 +98,33 @@ def show_dogs_page():
     # Defining Hebrew names
     # Define Hebrew column names
     hebrew_columns_dogs = {
-        'DogID': 'מזהה כלב',
-        'name': 'שם',
-        'age': 'גיל',
-        'breed': 'זן',
-        'size': 'גודל',
-        'gender': 'מין',
-        'rescueDate': 'תאריך חילוץ',
-        'vaccine_1': 'חיסון כלבת',
-        'vaccine_2': 'חיסון משושה',
-        'isSpay': 'מעוקר',
-        'childrenFirendly': 'ידידותי לילדים',
-        'healthStatus': 'מצב הכלב',
-        'energylevel': 'רמת האנרגיה',
-        'photographStatus': 'סטטוס הצילום',
-        'adoptionStatus': 'סטטוס אימוץ',
-        'adopterID': 'מזהה מאמץ',
-        'pottyTrained': 'מחונך לצרכים',
-        'animalFirendly': 'ידידותי לכלבים',
-        # Add more column name translations as needed
-    }
+    'DogID': 'מזהה כלב',
+    'Name': 'שם',
+    'DateOfBirth': 'תאריך לידה',
+    'Age': 'גיל',
+    'Breed': 'זן',
+    'Weight': 'משקל',
+    'Size': 'גודל',
+    'Gender': 'מין',
+    'RescueDate': 'תאריך חילוץ',
+    'Rabies_Done': 'חיסון כלבת',
+    'Hexagonal_1': 'חיסון משושה 1',
+    'Hexagonal_2': 'חיסון משושה 2',
+    'Hexagonal_3': 'חיסון משושה 3',
+    'Hexagonal_Done': 'חיסון משושה',
+    'Spayed': 'מעוקר',
+    'De-worm': 'טיפול נגד תולעים',
+    'Children_Friendly': 'ידידותי לילדים',
+    'AnimalFriendly': 'ידידותי לכלבים',
+    'HealthStatus': 'מצב הכלב',
+    'EnergyLevel': 'רמת האנרגיה',
+    'PhotographStatus': 'סטטוס הצילום',
+    'AdoptionStatus': 'סטטוס אימוץ',
+    'AdopterID': 'מזהה מאמץ',
+    'PottyTrained': 'מחונך לצרכים',
+    'AdoptionName': 'שם המאומץ'
+    # Add more column name translations as needed
+}
 
     hebrew_columns_foster_homes = {
         'FosterHomeID': 'מזהה בית אומנה',
