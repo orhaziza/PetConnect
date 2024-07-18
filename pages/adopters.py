@@ -20,7 +20,7 @@ def show_adopters_page():
     adopter_df = pd.read_csv(adopter_file_path, encoding='Windows-1255')
 
 # Define Hebrew column names for adopters
-hebrew_columns_adopters = {
+    hebrew_columns_adopters = {
     'dog_chipID': 'שבב כלב',
     'AdopterID': 'מזהה אומץ',
     'AdopterName': 'שם אומץ',
