@@ -148,7 +148,7 @@ def score_adopter(dog, applicant):
         score +=20
     
 
-    if dog['Animal_Friendly'] and applicant['Animal_Friendly']:
+    if dog['AnimalFriendly'] and applicant['Animal Friendly']:
         score += 15
 
     if dog["Health_status"] == "טוב" and applicant['Healthy']:
