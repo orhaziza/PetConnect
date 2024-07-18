@@ -86,5 +86,84 @@ def show_application_page():
 
     if selected == "כל הטבלה":
         st.dataframe(applic_df_hebrew)
+    if selected == "טבלה עם ציון":
+        
+    dog = {
+    'DogID': 1,
+    'Name': 'Buddy',
+    'DateOfBirth': '2020-01-01',
+    'Age': 3,
+    'Breed': 'Labrador',
+    'Weight': 30,
+    'Size': 'L',
+    'Gender': 'זכר',
+    'RescueDate': '2021-01-01',
+    'Rabies_Done': True,
+    'Hexagonal_1': True,
+    'Hexagonal_2': True,
+    'Hexagonal_3': False,
+    'Hexagonal_Done': True,
+    'Spayed': True,
+    'De-worm': True,
+    'Children_Friendly': True,
+    'AnimalFriendly': True,
+    'HealthStatus': 'טוב',
+    'EnergyLevel': 2,
+    'PhotographStatus': 'Yes',
+    'AdoptionStatus': 'Available',
+    'AdopterID': None,
+    'PottyTrained': True,
+    'AdoptionName': 'Buddy'
+}
+
+        
+    scores = []
+    for j, adopter in applications_df.iterrows():
+        score = score_adopter(dog, adopter)
+        scores.append({'DogID': dog['DogID'], 'AdopterID': adopter['AdopterID'], 'Score': score})
+
+    scores_df = pd.DataFrame(scores)
+    st.dataframe(scores_df)
+
+
+        
+        
+
+
+
+
+def score_adopter(dog, applicant):
+    score = 0
+    
+    if dog['Size'] == 'L' and applicant['Large']:
+        score += 10
+    if dog['Size'] == 'S' and aplicant['Medium']:
+        score += 10
+    if dog['Size'] == 'Small' and applicant['Small']:
+        score += 10
+    
+    if dog['EnergyLevel'] <=1 and applicant["calm"] == 1:
+        score += 20
+    if dog['EnergyLevel'] >1 and applicant["active"]
+    
+
+    if dog['Animal_Friendly'] and applicant['Animal_Friendly']:
+        score += 15
+
+    if dog["Health_status"] == "טוב" and applicant['Healthy']:
+        score +=10
+
+    if dog["Health_status"] == "חייב יחס" and applicant['Needs Attention']:
+        score +=10
+    
+    if dog['Children_Friendly'] and applicant['Children_Friendly']:
+        score += 15
+            
+    if dog['Spayed'] == "TRUE" and applicant['Spayed']:
+        score += 5
+
+    return score
+    
+
 
 show_application_page()
