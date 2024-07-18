@@ -142,9 +142,9 @@ def score_adopter(dog, applicant):
     if dog['Size'] == 'Small' and applicant['Small']:
         score += 10
     
-    if dog['EnergyLevel'] <=1 and applicant["calm"] == 1:
+    if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
         score += 20
-    if dog['EnergyLevel'] >1 and applicant["active"]:
+    if dog['EnergyLevel'] >1 and applicant["Active"]:
         score +=20
     
 
