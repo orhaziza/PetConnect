@@ -12,24 +12,41 @@ def show_adopters_page():
         st.stop()
 
     # Load adopter data
-    adopter_file_path = "Data/adopter.csv"
+    adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
         st.error("The adopter file does not exist.")
         st.stop()
 
     adopter_df = pd.read_csv(adopter_file_path, encoding='Windows-1255')
 
-    # Define Hebrew column names for adopters
-    hebrew_columns_adopters = {
-        'AdopterID': 'מזהה אומץ',
-        'AdopterName': 'שם אומץ',
-        'Address': 'כתובת',
-        'contactinformation': 'פרטי קשר',
-        'preferences': 'העדפות',
-        'LifeStyleInformation': 'מידע על אופני חיים',
-        'AdoptionDate': 'תאריך אימוץ',
-        'Documents': 'מסמכים',
-    }
+# Define Hebrew column names for adopters
+hebrew_columns_adopters = {
+    'dog_chipID': 'שבב כלב',
+    'AdopterID': 'מזהה אומץ',
+    'AdopterName': 'שם אומץ',
+    'Second_adopterID': 'מזהה אומץ שני',
+    'Second_adopterName': 'שם אומץ שני',
+    'Floor': 'קומה',
+    'Apartment': 'דירה',
+    'Address_street_number': 'מספר רחוב',
+    'Address_street': 'רחוב',
+    'Address_city': 'עיר',
+    'adopter_phone_num': 'מספר טלפון של אומץ',
+    'Second_adopter_phone_num': 'מספר טלפון של אומץ שני',
+    'Adopter_mail': 'דואר אלקטרוני של אומץ',
+    'Second_adopter_mail': 'דואר אלקטרוני של אומץ שני',
+    'preferences': 'העדפות',
+    'LifeStyleInformation': 'מידע על אופני חיים',
+    'AdoptionDate': 'תאריך אימוץ',
+    'Documents': 'מסמכים',
+    'ownership_form': 'טופס בעלות',
+    'ownership_transfer': 'העברת בעלות',
+    'Payment_type': 'סוג תשלום',
+    'Recieipt_Num': 'מספר קבלה',
+    'Security_payment': 'תשלום ביטחון'
+    # Add more column name translations as needed
+}
+
 
 
     # Use st.columns to create four equally sized columns
