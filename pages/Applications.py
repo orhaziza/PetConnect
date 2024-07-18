@@ -88,7 +88,7 @@ def show_application_page():
         st.dataframe(applic_df_hebrew)
     if selected == "טבלה עם ציון":
         
-    dog = {
+        dog = {
     'DogID': 1,
     'Name': 'Buddy',
     'DateOfBirth': '2020-01-01',
@@ -114,16 +114,16 @@ def show_application_page():
     'AdopterID': None,
     'PottyTrained': True,
     'AdoptionName': 'Buddy'
-}
+        }
 
         
-    scores = []
-    for j, adopter in applications_df.iterrows():
-        score = score_adopter(dog, adopter)
-        scores.append({'DogID': dog['DogID'], 'AdopterID': adopter['AdopterID'], 'Score': score})
+        scores = []
+        for j, adopter in applications_df.iterrows():
+            score = score_adopter(dog, adopter)
+            scores.append({'DogID': dog['DogID'], 'AdopterID': adopter['AdopterID'], 'Score': score})
 
-    scores_df = pd.DataFrame(scores)
-    st.dataframe(scores_df)
+        scores_df = pd.DataFrame(scores)
+        st.dataframe(scores_df)
 
 
         
