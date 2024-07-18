@@ -118,9 +118,9 @@ def show_application_page():
 
         
         scores = []
-        for j, adopter in applications_df.iterrows():
-            score = score_adopter(dog, adopter)
-            scores.append({'DogID': dog['DogID'], 'AdopterID': adopter['AdopterID'], 'Score': score})
+        for j, applicant in applications_df.iterrows():
+            score = score_adopter(dog, applicant)
+            scores.append({'DogID': dog['DogID'], 'AdopterID': applicant['AdopterID'], 'Score': score})
 
         scores_df = pd.DataFrame(scores)
         st.dataframe(scores_df)
@@ -144,7 +144,8 @@ def score_adopter(dog, applicant):
     
     if dog['EnergyLevel'] <=1 and applicant["calm"] == 1:
         score += 20
-    if dog['EnergyLevel'] >1 and applicant["active"]
+    if dog['EnergyLevel'] >1 and applicant["active"]:
+        score +=20
     
 
     if dog['Animal_Friendly'] and applicant['Animal_Friendly']:
