@@ -45,7 +45,7 @@ hebrew_columns_adopters = {
     'Recieipt_Num': 'מספר קבלה',
     'Security_payment': 'תשלום ביטחון'
     # Add more column name translations as needed
-}
+    }
 
 
 
