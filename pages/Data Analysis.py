@@ -59,7 +59,7 @@ def show_data_analysis_page():
         st.stop()
     application_df = pd.read_csv(application_file_path, encoding='Windows-1255')
     
-    adopter_file_path = "Data/adopter.csv"
+    adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
         st.error("The adopter file does not exist.")
         st.stop()
