@@ -119,8 +119,8 @@ def show_application_page():
             # st.experimental_rerun()
 
         # Display selected dog information
-        st.subheader('Selected Dog Information')
-        st.write(selected_dog)
+        # st.subheader('Selected Dog Information')
+        # st.write(selected_dog)
 
 
 
