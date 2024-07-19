@@ -97,9 +97,9 @@ def show_application_page():
 
 # Filter DataFrame based on selected adoption status
         if status == "Not Adopted (0)":
-            filtered_df = dogs_df[dog_df['AdoptionStatus'] == 0]
+            filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
         elif status == "Adopted (1)":
-            filtered_df = dogs_df[dog_df['AdoptionStatus'] == 1]
+            filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
         else:
             filtered_df = dogs_df
 
