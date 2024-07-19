@@ -111,7 +111,7 @@ def show_application_page():
             cols[1].text(dog['Name'])
             cols[2].text(dog['Breed'])
             cols[3].text(dog['Age'])
-            if cols[4].button('Select', key=f"select_{dog['DogID']}"):
+            if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
                 st.session_state['selected_dog_id'] = dog['DogID']
                 st.experimental_rerun()  # Rerun the app to navigate to the profile page
 
