@@ -91,13 +91,13 @@ def show_application_page():
         dogs_df = pd.read_csv('Data/Dogs.csv')
         status = st.selectbox(
         "Select Adoption Status",
-        ["All", "Not Adopted (0)", "Adopted (1)"]
+        ["כל הטבלה", "לא מאומצים", "מאומצים"]
     )
 
 # Filter DataFrame based on selected adoption status
-        if status == "Not Adopted (0)":
+        if status == "לא מאומצים":
             filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
-        elif status == "Adopted (1)":
+        elif status == "מאומצים":
             filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
         else:
             filtered_df = dogs_df
