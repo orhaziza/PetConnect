@@ -20,7 +20,7 @@ def show_dogs_page():
 
     # Creating Dataframe from csv
     dogs_file_path = "Data/Dogs.csv"
-    dog_df = pd.read_csv(dogs_file_path, encoding='iso-8859-1')
+    dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
     #
     # selected2 = option_menu(
     #     menu_title="",  # Required
@@ -85,7 +85,7 @@ def show_dogs_page():
         st.error("The foster home file does not exist.")
         st.stop()
 
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='iso-8859-1')
+    foster_home_df = pd.read_csv(foster_home_file_path, encoding='utf-8')
 
     # Load the foster home data
     foster_home_file_path = "Data/FosterHome.csv"
@@ -93,7 +93,7 @@ def show_dogs_page():
         st.error("The foster home file does not exist.")
         st.stop()
 
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='iso-8859-1')
+    foster_home_df = pd.read_csv(foster_home_file_path, encoding='utf-8')
 
     # Defining Hebrew names
     # Define Hebrew column names
@@ -201,7 +201,7 @@ def show_dogs_page():
         st.stop()
 
         # Read CSV file
-    dog_df = pd.read_csv(file_path, encoding='iso-8859-1')
+    dog_df = pd.read_csv(file_path, encoding='utf-8')
     hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
     dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
 
@@ -215,7 +215,7 @@ def show_dogs_page():
             # Rename columns back to English for saving
             edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
             # Save the edited dataframe to the CSV file
-            edited_df.to_csv(file_path, index=False, encoding='iso-8859-1')
+            edited_df.to_csv(file_path, index=False, encoding='utf-8')
             st.success("Changes saved successfully!")
 
     if selected == "מצא כלב":
