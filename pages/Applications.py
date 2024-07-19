@@ -62,7 +62,7 @@ def show_application_page():
         }
     )
 
-    applications_file_path = "Data/AdoptionApplication.csv"
+    applications_file_path = 'Data/AdoptionApplication.csv'
     if not os.path.exists(applications_file_path):
         st.error("The applications file does not exist.")
         st.stop()
