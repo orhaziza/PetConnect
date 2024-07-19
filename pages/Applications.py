@@ -125,7 +125,7 @@ def show_application_page():
             # Navigate to the DogProfile page
             st.session_state['selected_dog_id'] = selected_dog_id
             st.session_state['scores_df'] = scores_df
-            st.switch_page("pages/adopters.py")
+            st.switch_page("pages/DogsProfile.py")
 
             
             # st.experimental_rerun()
