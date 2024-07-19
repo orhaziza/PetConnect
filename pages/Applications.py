@@ -122,6 +122,8 @@ def show_application_page():
         if st.button('View Dog Profile'):
             # Navigate to the DogProfile page
             st.session_state['selected_dog_id'] = selected_dog_id
+            st.session_state['scores_df'] = scores_df
+            
             # st.experimental_rerun()
 
         # Display selected dog information
