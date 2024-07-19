@@ -91,21 +91,39 @@ def show_dog_profile_page():
     #     st.dataframe(scores_df)
   # Display the scores DataFrame with buttons to view applicant profiles
     # Display the scores DataFrame with buttons to view applicant profiles
+
+    # Display the scores DataFrame with buttons to view applicant profiles in a table
     if not scores_df.empty:
         st.subheader('Adopter Scores for This Dog')
 
+        st.markdown('<table class="applicant-table">', unsafe_allow_html=True)
+        st.markdown("""
+        <thead>
+            <tr>
+                <th>Application ID</th>
+                <th>Applicant Name</th>
+                <th>Score</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        """, unsafe_allow_html=True)
+
         for index, row in scores_df.iterrows():
-            st.markdown('<div class="applicant-profile-container">', unsafe_allow_html=True)
-            st.markdown('<div class="applicant-profile-header">', unsafe_allow_html=True)
-            st.markdown(f'<div class="applicant-profile-name">**Applicant Name:** {row["Applicant Name"]}</div>', unsafe_allow_html=True)
-            st.markdown(f'<div>**Score:** {row["Score"]}</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-            st.markdown(f'<button class="view-profile-button" onClick="window.location.href=\'#\'">View Profile of {row["Applicant Name"]}</button>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+            <tr>
+                <td>{row['Application ID']}</td>
+                <td>{row['Applicant Name']}</td>
+                <td>{row['Score']}</td>
+                <td><button class="view-profile-button" onClick="window.location.href='#'">View Profile of {row['Applicant Name']}</button></td>
+            </tr>
+            """, unsafe_allow_html=True)
 
             if st.button(f"View Profile of {row['Applicant Name']}", key=index):
                 st.session_state['selected_applicant_id'] = row['Application ID']
-                # st.experimental_rerun()  # Navigate to the applicant profile page
+                st.experimental_rerun()  # Navigate to the applicant profile page
+
+        st.markdown('</tbody></table>', unsafe_allow_html=True)
 
 
 
