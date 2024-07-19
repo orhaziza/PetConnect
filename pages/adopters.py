@@ -17,7 +17,7 @@ def show_adopters_page():
         st.error("The adopter file does not exist.")
         st.stop()
 
-    adopter_df = pd.read_csv(adopter_file_path, encoding='Windows-1255')
+    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
 
 # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
@@ -156,7 +156,7 @@ def show_adopters_page():
                 'מסמכים': documents
             }
             adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
-            adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='Windows-1255')
+            adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
             st.success('אומץ חדש נשמר בהצלחה!')
 
     elif selected == "ערוך מסמך":
