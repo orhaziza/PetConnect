@@ -126,10 +126,10 @@ def show_application_page():
       
 
         st.header('Select a Dog')
-        selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
+        # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
 
         # Get selected dog details
-        selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
+        # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
 
 
 
