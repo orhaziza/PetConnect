@@ -72,6 +72,7 @@ def show_application_page():
     # Define Hebrew column names for adopters
     hebrew_columns_applications = {
         'ApplictionID': 'מזהה בקשה',
+        'ApplicantName': שם מבקש,
         'dogID': 'מזהה כלב',
         'AdopterID': 'מזהה מאמץ',
         'applicationDate': 'תאריך בקשה',
@@ -108,7 +109,7 @@ def show_application_page():
         scores = []
         for j, applicant in applications_df.iterrows():
              score = score_adopter(selected_dog, applicant)
-             scores.append({'Application ID': applicant['ApplicationID'], 'Applicant Name': applicant['Name'], 'Score': score})
+             scores.append({'Application ID': applicant['ApplicationID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
 
             # Create a DataFrame with the scores
         scores_df = pd.DataFrame(scores)
