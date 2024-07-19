@@ -19,7 +19,7 @@ def show_foster_homes_page():
         st.error("The foster home file does not exist.")
         st.stop()
 
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='Windows-1255')
+    foster_home_df = pd.read_csv(foster_home_file_path, encoding='utf-8')
 
 
     # Define Hebrew column names for foster homes
@@ -174,7 +174,7 @@ def show_foster_homes_page():
                 'מסמכים': documents
             }
             foster_home_df = foster_home_df.append(new_foster_home, ignore_index=True)
-            foster_home_df.to_csv(foster_home_file_path, index=False, encoding='Windows-1255')
+            foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
 
     # Sidebar logout button
