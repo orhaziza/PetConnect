@@ -88,6 +88,7 @@ def show_application_page():
     if selected == "כל הטבלה":
         st.dataframe(applic_df_hebrew)
     if selected == "טבלה עם ציון":
+        dogs_df = pd.read_csv('Data/Dogs.csv')
         st.sidebar.title("Filter by Adoption Status")
         status = st.sidebar.radio(
         "Select Adoption Status",
@@ -103,7 +104,6 @@ def show_application_page():
             filtered_df = dog_df
 
         
-        dogs_df = pd.read_csv('Data/Dogs.csv')
         st.title('Dog-Adopter Matching System')
         # Display the dog table and let the manager select a dog
         st.dataframe(filtered_df)
