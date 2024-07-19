@@ -106,6 +106,9 @@ def show_application_page():
         st.title('Dog-Adopter Matching System')
         # Display the dog table and let the manager select a dog
         st.dataframe(filtered_df)
+        for i, dog in filtered_df.iterrows():
+            if st.button(f"Select {dog['Name']}"):
+                st.session_state['selected_dog_id'] = dog['DogID']
 
         st.header('Select a Dog')
         selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
