@@ -57,25 +57,25 @@ def show_data_analysis_page():
     if not os.path.exists(application_file_path):
         st.error("applications file does not exist.")
         st.stop()
-    application_df = pd.read_csv(application_file_path, encoding='Windows-1255')
+    application_df = pd.read_csv(application_file_path, encoding='utf-8')
     
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
         st.error("The adopter file does not exist.")
         st.stop()
-    adopter_df = pd.read_csv(adopter_file_path, encoding='Windows-1255')
+    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
 
     dogs_file_path = "Data/Dogs.csv"
     if not os.path.exists(dogs_file_path):
         st.error("Dogs file does not exist.")
         st.stop()
-    dogs_df = pd.read_csv(dogs_file_path, encoding='Windows-1255')
+    dogs_df = pd.read_csv(dogs_file_path, encoding='utf-8')
 
     FosterHome_file_path = "Data/FosterHome.csv"
     if not os.path.exists(FosterHome_file_path):
         st.error("Foster Home file does not exist.")
         st.stop()
-    Foster_Home_df = pd.read_csv(FosterHome_file_path, encoding='Windows-1255')
+    Foster_Home_df = pd.read_csv(FosterHome_file_path, encoding='utf-8')
     
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
