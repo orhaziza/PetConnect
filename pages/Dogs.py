@@ -20,7 +20,7 @@ def show_dogs_page():
 
     # Creating Dataframe from csv
     dogs_file_path = "Data/Dogs.csv"
-    dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
+    dog_df = pd.read_csv(dogs_file_path, encoding='latin1')
     #
     # selected2 = option_menu(
     #     menu_title="",  # Required
