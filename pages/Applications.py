@@ -111,10 +111,10 @@ def show_application_page():
              scores.append({'AdopterID': applicant['AdopterID'], 'AdopterName': applicant['AdopterName'], 'Score': score})
 
             # Create a DataFrame with the scores
-         scores_df = pd.DataFrame(scores)
+        scores_df = pd.DataFrame(scores)
 
             # Display the scores DataFrame
-         st.dataframe(scores_df)
+        st.dataframe(scores_df)
    
 
 
