@@ -113,8 +113,13 @@ def show_application_page():
             cols[3].text(dog['Age'])
             if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
                 st.session_state['selected_dog_id'] = dog['DogID']
-                st.experimental_rerun()  # Rerun the app to navigate to the profile page
-
+                scores = []
+                for j, applicant in applications_df.iterrows():
+                    score = score_adopter(selected_dog, applicant)
+                    scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+                scores_df = pd.DataFrame(scores)
+                st.session_state['scores_df'] = scores_df
+                st.switch_page("pages/DogsProfile.py")
         # Display the dog table and let the manager select a dog
         # st.dataframe(filtered_df)
       
@@ -125,19 +130,13 @@ def show_application_page():
         # Get selected dog details
         selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
 
-        scores = []
-        for j, applicant in applications_df.iterrows():
-             score = score_adopter(selected_dog, applicant)
-             scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
-     
-        scores_df = pd.DataFrame(scores)
+
 
 
         if st.button('View Dog Profile'):
             # Navigate to the DogProfile page
             st.session_state['selected_dog_id'] = selected_dog_id
-            st.session_state['scores_df'] = scores_df
-            st.switch_page("pages/DogsProfile.py")
+
 
             
             # st.experimental_rerun()
