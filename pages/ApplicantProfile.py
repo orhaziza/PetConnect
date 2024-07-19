@@ -63,7 +63,7 @@ def show_applicant_profile_page():
         f"**Large Dog Preference:** {selected_applicant['Large']}",
         f"**Small Dog Preference:** {selected_applicant['Small']}",
         f"**Medium Dog Preference:** {selected_applicant['Meduim']}",
-        f"**Healthy:** {selected_applicant['Healthy']}",
+        f"**Healthy:** {selected_applicant['Healthy ']}",
         f"**Need Attention:** {selected_applicant['Need Attention']}",
         f"**Active:** {selected_applicant['Active']}",
         f"**Calm:** {selected_applicant['Calm']}",
