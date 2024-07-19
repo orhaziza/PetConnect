@@ -72,7 +72,7 @@ def show_application_page():
     # Define Hebrew column names for adopters
     hebrew_columns_applications = {
         'ApplictionID': 'מזהה בקשה',
-        'ApplicantName': שם מבקש,
+        'ApplicantName': 'שם מבקש',
         'dogID': 'מזהה כלב',
         'AdopterID': 'מזהה מאמץ',
         'applicationDate': 'תאריך בקשה',
