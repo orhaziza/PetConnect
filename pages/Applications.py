@@ -67,7 +67,7 @@ def show_application_page():
         st.error("The applications file does not exist.")
         st.stop()
 
-    applications_df = pd.read_csv(applications_file_path, encoding='Windows-1255')
+    applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
 
     # Define Hebrew column names for adopters
     hebrew_columns_applications = {
