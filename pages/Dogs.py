@@ -201,7 +201,7 @@ def show_dogs_page():
         st.stop()
 
         # Read CSV file
-    dog_df = pd.read_csv(file_path, encoding='Windows-1255')
+    dog_df = pd.read_csv(file_path, encoding='iso-8859-1')
     hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
     dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
 
