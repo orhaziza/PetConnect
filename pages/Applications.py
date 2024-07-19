@@ -105,7 +105,7 @@ def show_application_page():
         
         st.title('Dog-Adopter Matching System')
         st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
-         for i, dog in filtered_df.iterrows():
+        for i, dog in filtered_df.iterrows():
             cols = st.columns([1, 2, 2, 2, 1])
             cols[0].text(dog['DogID'])
             cols[1].text(dog['Name'])
