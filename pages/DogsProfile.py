@@ -90,12 +90,19 @@ def show_dog_profile_page():
     #     st.subheader('Adopter Scores for This Dog')
     #     st.dataframe(scores_df)
   # Display the scores DataFrame with buttons to view applicant profiles
+    # Display the scores DataFrame with buttons to view applicant profiles
     if not scores_df.empty:
         st.subheader('Adopter Scores for This Dog')
 
-        # Add a button in each row to navigate to the applicant profile page
         for index, row in scores_df.iterrows():
-            st.markdown(f"**Application ID:** {row['Application ID']} - **Applicant Name:** {row['Applicant Name']} - **Score:** {row['Score']}")
+            st.markdown('<div class="applicant-profile-container">', unsafe_allow_html=True)
+            st.markdown('<div class="applicant-profile-header">', unsafe_allow_html=True)
+            st.markdown(f'<div class="applicant-profile-name">**Applicant Name:** {row["Applicant Name"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div>**Score:** {row["Score"]}</div>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f'<button class="view-profile-button" onClick="window.location.href=\'#\'">View Profile of {row["Applicant Name"]}</button>', unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+
             if st.button(f"View Profile of {row['Applicant Name']}", key=index):
                 st.session_state['selected_applicant_id'] = row['Application ID']
                 # st.experimental_rerun()  # Navigate to the applicant profile page
