@@ -72,7 +72,7 @@ def show_applicant_profile_page():
         f"**Spayed:** {selected_applicant['Spayed']}",
         f"**Neutered:** {selected_applicant['Neutered']}",
         f"**Children Friendly:** {selected_applicant['Children_Friendly ']}",
-        f"**Phone:** {selected_applicant['Phone']}",
+        f"**Phone:** {selected_applicant['Phone ']}",
     ]
 
     for item in profile_items:
