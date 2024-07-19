@@ -112,7 +112,8 @@ def show_application_page():
             cols[2].text(dog['Breed'])
             cols[3].text(dog['Age'])
             if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
-                st.session_state['selected_dog_id'] = dog['DogID']
+                st.session_state['selected_dog_id'] =dog['DogID']
+                selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
                 scores = []
                 for j, applicant in applications_df.iterrows():
                     score = score_adopter(selected_dog, applicant)
