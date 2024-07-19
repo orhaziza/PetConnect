@@ -121,6 +121,8 @@ def show_dog_profile_page():
 
             if st.button(f"View Profile of {row['Applicant Name']}", key=index):
                 st.session_state['selected_applicant_id'] = row['Application ID']
+                st.switch_page("pages/DogsProfile.py")
+
                 st.experimental_rerun()  # Navigate to the applicant profile page
 
         st.markdown('</tbody></table>', unsafe_allow_html=True)
