@@ -87,34 +87,8 @@ def show_application_page():
     if selected == "כל הטבלה":
         st.dataframe(applic_df_hebrew)
     if selected == "טבלה עם ציון":
-        
-        dog = {
-    'DogID': 1,
-    'Name': 'Buddy',
-    'DateOfBirth': '2020-01-01',
-    'Age': 3,
-    'Breed': 'Labrador',
-    'Weight': 30,
-    'Size': 'L',
-    'Gender': 'זכר',
-    'RescueDate': '2021-01-01',
-    'Rabies_Done': True,
-    'Hexagonal_1': True,
-    'Hexagonal_2': True,
-    'Hexagonal_3': False,
-    'Hexagonal_Done': True,
-    'Spayed': True,
-    'De-worm': True,
-    'Children_Friendly': True,
-    'AnimalFriendly': True,
-    'HealthStatus': 'טוב',
-    'EnergyLevel': 2,
-    'PhotographStatus': 'Yes',
-    'AdoptionStatus': 'Available',
-    'AdopterID': None,
-    'PottyTrained': True,
-    'AdoptionName': 'Buddy'
-        }
+        dogs_df = pd.read_csv('Data/Dogs.csv')
+        st.title('Dog-Adopter Matching System')
 
         
         scores = []
