@@ -115,8 +115,8 @@ def show_application_page():
             st.subheader('Adopter Scores for Selected Dog')
             scores = []
             for j, applicant in applications_df.iterrows():
-            score = score_adopter(selected_dog, applicant)
-            scores.append({'AdopterID': applicant['AdopterID'], 'AdopterName': applicant['AdopterName'], 'Score': score})
+                score = score_adopter(selected_dog, applicant)
+                scores.append({'AdopterID': applicant['AdopterID'], 'AdopterName': applicant['AdopterName'], 'Score': score})
     
             # Create a DataFrame with the scores
             scores_df = pd.DataFrame(scores)
