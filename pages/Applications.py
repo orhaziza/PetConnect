@@ -111,7 +111,12 @@ def show_application_page():
         selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
 
         # Get selected dog details
-        selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
+        # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
+
+        if st.button('View Dog Profile'):
+            # Navigate to the DogProfile page
+            st.session_state['selected_dog_id'] = selected_dog_id
+            # st.experimental_rerun()
 
         # Display selected dog information
         st.subheader('Selected Dog Information')
