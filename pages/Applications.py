@@ -89,42 +89,34 @@ def show_application_page():
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         st.title('Dog-Adopter Matching System')
+        # Display the dog table and let the manager select a dog
+        st.title('Dog-Adopter Matching System')
 
         st.header('Select a Dog')
-        gb = GridOptionsBuilder.from_dataframe(dogs_df)
-        gb.configure_selection('single', use_checkbox=True, pre_selected_rows=[0])
-        grid_options = gb.build()
+        selected_dog_id = st.selectbox('Choose a Dog ID', dogs_df['DogID'])
 
-        grid_response = AgGrid(
-        dogs_df,
-        gridOptions=grid_options,
-        height=400,
-        width='100%',
-        update_mode='selection_changed',
-        allow_unsafe_jscode=True, #Set it to True to allow jsfunction to be injected
-        )
-        selected_rows = grid_response['selected_rows']
-        if selected_rows:
-            selected_dog = selected_rows[0]
+        # Get selected dog details
+        selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
 
-            # Display selected dog information
-            st.subheader('Selected Dog Information')
-            st.write(selected_dog)
+        # Display selected dog information
+        st.subheader('Selected Dog Information')
+        st.write(selected_dog)
 
-            # Calculate and display scores for each adopter for the selected dog
-            st.subheader('Adopter Scores for Selected Dog')
-            scores = []
-            for j, applicant in applications_df.iterrows():
-                score = score_adopter(selected_dog, applicant)
-                scores.append({'AdopterID': applicant['AdopterID'], 'AdopterName': applicant['AdopterName'], 'Score': score})
-    
+
+
+        # Calculate and display scores for each adopter for the selected dog
+        st.subheader('Adopter Scores for Selected Dog')
+        scores = []
+        for j, applicant in applications_df.iterrows():
+             score = score_adopter(selected_dog, applicant)
+             scores.append({'AdopterID': applicant['AdopterID'], 'AdopterName': applicant['AdopterName'], 'Score': score})
+
             # Create a DataFrame with the scores
-            scores_df = pd.DataFrame(scores)
+         scores_df = pd.DataFrame(scores)
 
             # Display the scores DataFrame
-            st.dataframe(scores_df)
-    else:
-        st.info("Please select a dog by clicking on a row in the table.")
+         st.dataframe(scores_df)
+   
 
 
         
