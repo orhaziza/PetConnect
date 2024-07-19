@@ -135,7 +135,7 @@ def score_adopter(dog, applicant):
     
     if dog['Size'] == 'L' and applicant['Large']:
         score += 10
-    if dog['Size'] == 'S' and applicant['Medium']:
+    if dog['Size'] == 'S' and applicant['Meduim']:
         score += 10
     if dog['Size'] == 'Small' and applicant['Small']:
         score += 10
