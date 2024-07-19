@@ -113,6 +113,12 @@ def show_application_page():
         # Get selected dog details
         selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
 
+        scores = []
+        for j, applicant in applications_df.iterrows():
+             score = score_adopter(selected_dog, applicant)
+             scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+
+
         if st.button('View Dog Profile'):
             # Navigate to the DogProfile page
             st.session_state['selected_dog_id'] = selected_dog_id
@@ -126,10 +132,6 @@ def show_application_page():
 
         # Calculate and display scores for each adopter for the selected dog
         st.subheader('Adopter Scores for Selected Dog')
-        scores = []
-        for j, applicant in applications_df.iterrows():
-             score = score_adopter(selected_dog, applicant)
-             scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
 
             # Create a DataFrame with the scores
         scores_df = pd.DataFrame(scores)
