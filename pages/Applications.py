@@ -117,6 +117,8 @@ def show_application_page():
         for j, applicant in applications_df.iterrows():
              score = score_adopter(selected_dog, applicant)
              scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+     
+        scores_df = pd.DataFrame(scores)
 
 
         if st.button('View Dog Profile'):
@@ -141,7 +143,7 @@ def show_application_page():
         scores_df = pd.DataFrame(scores)
 
             # Display the scores DataFrame
-        st.dataframe(scores_df)
+        #st.dataframe(scores_df)
    
 
 
