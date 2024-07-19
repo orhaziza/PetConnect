@@ -85,7 +85,7 @@ def show_dogs_page():
         st.error("The foster home file does not exist.")
         st.stop()
 
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='Windows-1255')
+    foster_home_df = pd.read_csv(foster_home_file_path, encoding='iso-8859-1')
 
     # Load the foster home data
     foster_home_file_path = "Data/FosterHome.csv"
@@ -93,7 +93,7 @@ def show_dogs_page():
         st.error("The foster home file does not exist.")
         st.stop()
 
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='Windows-1255')
+    foster_home_df = pd.read_csv(foster_home_file_path, encoding='iso-8859-1')
 
     # Defining Hebrew names
     # Define Hebrew column names
@@ -215,7 +215,7 @@ def show_dogs_page():
             # Rename columns back to English for saving
             edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
             # Save the edited dataframe to the CSV file
-            edited_df.to_csv(file_path, index=False, encoding='Windows-1255')
+            edited_df.to_csv(file_path, index=False, encoding='iso-8859-1')
             st.success("Changes saved successfully!")
 
     if selected == "מצא כלב":
