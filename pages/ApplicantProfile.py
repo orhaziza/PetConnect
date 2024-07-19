@@ -71,7 +71,7 @@ def show_applicant_profile_page():
         f"**Gender:** {selected_applicant['Gender']}",
         f"**Spayed:** {selected_applicant['Spayed']}",
         f"**Neutered:** {selected_applicant['Neutered']}",
-        f"**Children Friendly:** {selected_applicant['Children_Friendly']}",
+        f"**Children Friendly:** {selected_applicant['Children_Friendly ']}",
         f"**Phone:** {selected_applicant['Phone']}",
     ]
 
