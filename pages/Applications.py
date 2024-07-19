@@ -125,7 +125,7 @@ def show_application_page():
         # st.dataframe(filtered_df)
       
 
-        st.header('Select a Dog')
+        # st.header('Select a Dog')
         # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
 
         # Get selected dog details
@@ -134,13 +134,13 @@ def show_application_page():
 
 
 
-        if st.button('View Dog Profile'):
-            # Navigate to the DogProfile page
-            st.session_state['selected_dog_id'] = selected_dog_id
+        # if st.button('View Dog Profile'):
+        #     # Navigate to the DogProfile page
+        #     st.session_state['selected_dog_id'] = selected_dog_id
 
 
             
-            # st.experimental_rerun()
+        #     # st.experimental_rerun()
 
         # Display selected dog information
         # st.subheader('Selected Dog Information')
@@ -148,14 +148,14 @@ def show_application_page():
 
 
 
-        # Calculate and display scores for each adopter for the selected dog
-        st.subheader('Adopter Scores for Selected Dog')
+        # # Calculate and display scores for each adopter for the selected dog
+        # st.subheader('Adopter Scores for Selected Dog')
 
-            # Create a DataFrame with the scores
-        scores_df = pd.DataFrame(scores)
+        #     # Create a DataFrame with the scores
+        # scores_df = pd.DataFrame(scores)
 
-            # Display the scores DataFrame
-        #st.dataframe(scores_df)
+        #     # Display the scores DataFrame
+        # #st.dataframe(scores_df)
    
 
 
