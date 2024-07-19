@@ -89,11 +89,10 @@ def show_application_page():
         st.dataframe(applic_df_hebrew)
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
-        st.sidebar.title("Filter by Adoption Status")
-        status = st.sidebar.radio(
+        status = st.selectbox(
         "Select Adoption Status",
-        ("All", "Not Adopted (0)", "Adopted (1)")
-        )
+        ["All", "Not Adopted (0)", "Adopted (1)"]
+    )
 
 # Filter DataFrame based on selected adoption status
         if status == "Not Adopted (0)":
