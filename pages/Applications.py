@@ -90,7 +90,6 @@ def show_application_page():
         dogs_df = pd.read_csv('Data/Dogs.csv')
         st.title('Dog-Adopter Matching System')
         # Display the dog table and let the manager select a dog
-        st.title('Dog-Adopter Matching System')
 
         st.header('Select a Dog')
         selected_dog_id = st.selectbox('Choose a Dog ID', dogs_df['DogID'])
