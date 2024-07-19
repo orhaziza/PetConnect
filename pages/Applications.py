@@ -104,11 +104,20 @@ def show_application_page():
 
         
         st.title('Dog-Adopter Matching System')
-        # Display the dog table and let the manager select a dog
-        st.dataframe(filtered_df)
-        for i, dog in filtered_df.iterrows():
-            if st.button(f"Select {dog['Name']}"):
+        st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
+         for i, dog in filtered_df.iterrows():
+            cols = st.columns([1, 2, 2, 2, 1])
+            cols[0].text(dog['DogID'])
+            cols[1].text(dog['Name'])
+            cols[2].text(dog['Breed'])
+            cols[3].text(dog['Age'])
+            if cols[4].button('Select', key=f"select_{dog['DogID']}"):
                 st.session_state['selected_dog_id'] = dog['DogID']
+                st.experimental_rerun()  # Rerun the app to navigate to the profile page
+
+        # Display the dog table and let the manager select a dog
+        # st.dataframe(filtered_df)
+      
 
         st.header('Select a Dog')
         selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
