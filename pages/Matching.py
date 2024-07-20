@@ -109,7 +109,7 @@ def show_matching_page():
         f"**Prefers Large Dogs:** {selected_applicant['Large']}",
         f"**Prefers Small Dogs:** {selected_applicant['Small']}",
         f"**Prefers Medium Dogs:** {selected_applicant['Meduim']}",
-        f"**Prefers Healthy Dogs:** {selected_applicant['Healthy']}",
+        f"**Prefers Healthy Dogs:** {selected_applicant['Healthy ']}",
         f"**Prefers Dogs Needing Attention:** {selected_applicant['Need Attention']}",
         f"**Prefers Active Dogs:** {selected_applicant['Active']}",
         f"**Prefers Calm Dogs:** {selected_applicant['Calm']}",
@@ -117,8 +117,8 @@ def show_matching_page():
         f"**Preferred Gender:** {selected_applicant['Gender']}",
         f"**Prefers Spayed Dogs:** {selected_applicant['Spayed']}",
         f"**Prefers Neutered Dogs:** {selected_applicant['Neutered']}",
-        f"**Children Friendly:** {selected_applicant['Children_Friendly']}",
-        f"**Phone:** {selected_applicant['Phone']}",
+        f"**Children Friendly:** {selected_applicant['Children_Friendly ']}",
+        f"**Phone:** {selected_applicant['Phone ']}",
     ]
     for item in applicant_profile_items:
         st.markdown(f'<div class="profile-item">{item}</div>', unsafe_allow_html=True)
