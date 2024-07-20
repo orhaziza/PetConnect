@@ -127,6 +127,12 @@ def show_dog_profile_page():
 
         st.markdown('</tbody></table>', unsafe_allow_html=True)
 
+    if st.button("הוסף לסל התיאום"):
+        st.session_state['Cart_dog'] = selected_dog_id
+        
+        
+
+
 
 
 show_dog_profile_page()
