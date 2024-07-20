@@ -11,7 +11,7 @@ def load_dogs_data():
 
 # Function to load applicants data
 def load_applicants_data():
-    applicants_file_path = 'Data/Applicants.csv'
+    applicants_file_path = 'Data/AdoptionApplication.csv'
     applicants_df = pd.read_csv(applicants_file_path, encoding='utf-8')
     return applicants_df
 
