@@ -42,22 +42,20 @@ def move_applicant_to_adopters(applicant_id, dog_id):
     applicants_df = load_applicants_data()
     adopters_df = load_adopters_data()
 
-    # Find the applicant
-    applicant = applicants_df[applicants_df['ApplictionID'] == applicant_id].iloc[0]
+    selected_applicant = applicants_df[applicants_df['ApplictionID'] == applicant_id].iloc[0]
+    new_adopter = selected_applicant.to_dict()
 
-    # Create a new adopter record
-    new_adopter = {
-        'AdopterID': applicant['AdopterID'],
-        'Name': applicant['ApplicantName'],
-        'DogID': dog_id,
-        'ApplicationID': applicant_id,
-        'AdoptionDate': pd.Timestamp.now().strftime('%Y-%m-%d')
-    }
+    # Adding additional fields for the new adopter
+    new_adopter['DogID'] = dog_id
+    new_adopter['AdoptionDate'] = pd.Timestamp.now()
 
-    adopters_df = adopters_df.append(new_adopter, ignore_index=True)
-    save_adopters_data(adopters_df)
+    # Convert to DataFrame and concatenate
+    new_adopter_df = pd.DataFrame([new_adopter])
+    adopters_df = pd.concat([adopters_df, new_adopter_df], ignore_index=True)
 
-
+    # Save the updated adopters data back to CSV
+    adopters_df.to_csv('Data/Adopters.csv', index=False)
+    
 def show_matching_page():
     st.title("Matching Page")
 
