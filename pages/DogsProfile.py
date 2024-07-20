@@ -11,6 +11,10 @@ def load_dogs_data():
 def show_dog_profile_page():
     st.title("Dog Profile")
 
+    if st.button("הוסף לסל התיאום"):
+        st.session_state['Cart_dog'] = selected_dog_id
+        
+
     # Ensure selected_dog_id is in session state
     if 'selected_dog_id' not in st.session_state:
         st.error("No dog selected. Please select a dog from the previous page.")
@@ -127,9 +131,7 @@ def show_dog_profile_page():
 
         st.markdown('</tbody></table>', unsafe_allow_html=True)
 
-    if st.button("הוסף לסל התיאום"):
-        st.session_state['Cart_dog'] = selected_dog_id
-        
+
         
 
 
