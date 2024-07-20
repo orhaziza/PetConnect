@@ -80,6 +80,9 @@ def show_applicant_profile_page():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
+    if st.button("הוסף לסל תיאום"):
+        st.session_state['cart_applicant'] = st.session_state['selected_applicant_id']
+
 # Simulate selection of an applicant for demonstration purposes
 # This would normally be set in the previous page where the applicant is selected
 
