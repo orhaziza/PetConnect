@@ -2,6 +2,21 @@ import streamlit as st
 import pandas as pd
 
 
+
+# Function to load dogs data
+def load_dogs_data():
+    dogs_file_path = 'Data/Dogs.csv'
+    dogs_df = pd.read_csv(dogs_file_path, encoding='utf-8')
+    return dogs_df
+
+# Function to load applicants data
+def load_applicants_data():
+    applicants_file_path = 'Data/Applicants.csv'
+    applicants_df = pd.read_csv(applicants_file_path, encoding='utf-8')
+    return applicants_df
+
+
+
 def show_matching_page():
     st.title("Matching Page")
 
