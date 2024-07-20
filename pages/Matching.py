@@ -15,6 +15,47 @@ def load_applicants_data():
     applicants_df = pd.read_csv(applicants_file_path, encoding='utf-8')
     return applicants_df
 
+# Function to load adopters data
+def load_adopters_data():
+    adopters_file_path = 'Data/Adopters.csv'
+    adopters_df = pd.read_csv(adopters_file_path, encoding='utf-8')
+    return adopters_df
+
+# Function to save updated dogs data
+def save_dogs_data(dogs_df):
+    dogs_file_path = 'Data/Dogs.csv'
+    dogs_df.to_csv(dogs_file_path, index=False, encoding='utf-8')
+
+# Function to save updated adopters data
+def save_adopters_data(adopters_df):
+    adopters_file_path = 'Data/Adopters.csv'
+    adopters_df.to_csv(adopters_file_path, index=False, encoding='utf-8')
+
+# Function to update adoption status of the dog
+def update_dog_adoption_status(dog_id):
+    dogs_df = load_dogs_data()
+    dogs_df.loc[dogs_df['DogID'] == dog_id, 'AdoptionStatus'] = True
+    save_dogs_data(dogs_df)
+
+# Function to move applicant to adopters file
+def move_applicant_to_adopters(applicant_id, dog_id):
+    applicants_df = load_applicants_data()
+    adopters_df = load_adopters_data()
+
+    # Find the applicant
+    applicant = applicants_df[applicants_df['ApplictionID'] == applicant_id].iloc[0]
+
+    # Create a new adopter record
+    new_adopter = {
+        'AdopterID': applicant['AdopterID'],
+        'Name': applicant['ApplicantName'],
+        'DogID': dog_id,
+        'ApplicationID': applicant_id,
+        'AdoptionDate': pd.Timestamp.now().strftime('%Y-%m-%d')
+    }
+
+    adopters_df = adopters_df.append(new_adopter, ignore_index=True)
+    save_adopters_data(adopters_df)
 
 
 def show_matching_page():
@@ -125,6 +166,13 @@ def show_matching_page():
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
+
+
+    if st.button("בצע תיאום"):
+        move_applicant_to_adopters(selected_applicant_id, selected_dog_id)
+        update_dog_adoption_status(selected_dog_id)
+        st.success("Adoption confirmed! The applicant has been added to the adopters file and the dog's adoption status has been updated.")
+        
 
 
 show_matching_page()
