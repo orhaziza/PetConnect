@@ -12,7 +12,7 @@ def show_dog_profile_page():
     st.title("Dog Profile")
 
     if st.button("הוסף לסל התיאום"):
-        st.session_state['Cart_dog'] = selected_dog_id
+        st.session_state['Cart_dog'] = st.session_state['selected_dog_id']
         
 
     # Ensure selected_dog_id is in session state
