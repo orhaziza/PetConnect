@@ -29,8 +29,7 @@ def login(username, password):
 
     users = load_users()
     user = users[users['username'] == username]
-    st.markdown(username)
-    st.markdown(user)
+    st.write("Filtered user:", user)
     if not user.empty:
         stored_password = user.iloc[0]['password']
         if check_password(password, stored_password.encode()):
