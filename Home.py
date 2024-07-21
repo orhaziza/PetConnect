@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-    
+import bycript
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon = 'Data/Logo.png' )
 
@@ -12,15 +12,28 @@ with con1:
 
 
 # User credentials (in a real app, use a secure method for handling credentials)
-users = {"admin": "admin123", "user": "user123"}
 
-# Define the login function
-def login(username, password):
+def hash_password(password):
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+# Function to check password
+def check_password(password, hashed):
+    return bcrypt.checkpw(password.encode(), hashed)
     
-    if username in users and users[username] == password:
-        return True
-    else:
-        return False
+def load_users():
+    df = pd.read_csv("Data/Users.csv")
+    return df
+# Define the login function
+
+def login(username, password):
+    users = load_users()
+    user = users[users['username'] == username]
+    
+    if not user.empty:
+        stored_password = user.iloc[0]['password']
+        if check_password(password, stored_password.encode()):
+            return True
+    return False
 
 # Function to show the login form and handle the login process
 def show_login_page():
