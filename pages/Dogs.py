@@ -3,7 +3,7 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-
+nb
         
 def show_dogs_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
@@ -223,6 +223,8 @@ def show_dogs_page():
 
     if selected == "מצא כלב":
         st.subheader('מצא כלב')
+        st.markdown('<h2 style="direction: rtl;">מצא כלב</h2>', unsafe_allow_html=True)
+
 
         # Create search filters in columns
         col1, col2, col3, col4 = st.columns(4)
