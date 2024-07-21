@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import bcript
+import bcrypt
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon = 'Data/Logo.png' )
 
