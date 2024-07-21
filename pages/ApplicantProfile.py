@@ -1,7 +1,13 @@
 import streamlit as st
 import pandas as pd
 
+con1 = st.container()
+with con1:
+    col1, col2= st.columns([5, 1])
+    with col2:
+        st.image("Data/Logo.png", width=120)
 # Function to load application data
+
 def load_application_data():
     applications_file_path = 'Data/AdoptionApplication.csv'
     applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
