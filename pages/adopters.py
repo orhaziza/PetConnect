@@ -120,7 +120,7 @@ def show_adopters_page():
 
     # Define the menu options
     selected = option_menu(
-        menu_title="אומצים",  # Required
+        menu_title="מאמצים",  # Required
         options=["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
