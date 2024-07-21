@@ -15,6 +15,11 @@ with con1:
 
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+def update_passwords():
+    users = load_users()
+    users['password'] = users['password'].apply(hash_password)
+    users.to_csv("Data/Users.csv", index=False)
+update_passwords()
 
 # Function to check password
 def check_password(password, hashed):
