@@ -24,13 +24,13 @@ def show_application_page():
         st.stop()
 
     if not st.session_state["refresh"]:
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=10)
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
         data = conn.read(spreadsheet=url)
         st.dataframe(data)
 
     if st.button("refresh") and st.session_state["refresh"]:
         st.session_state["refresh"] = True
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=10)
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
         data = conn.read(spreadsheet=url)
         st.dataframe(data)
     
