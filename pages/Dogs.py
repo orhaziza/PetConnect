@@ -3,7 +3,6 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-nb
         
 def show_dogs_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
