@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
     
 # Set up the page configuration
-st.set_page_config(page_title='PetConnect Management System', layout='wide')
+st.set_page_config(page_title='פט קונקט', layout='wide', page_icon = 'Data/Logo.png' )
 
 con1 = st.container()
 with con1:
