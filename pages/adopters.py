@@ -3,6 +3,33 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+# Custom CSS for balloon animation
+st.markdown(
+    """
+    <style>
+    .balloon {
+        position: relative;
+        display: inline-block;
+    }
+
+    .balloon:after {
+        content: "🎈";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: balloon 2s ease-in-out infinite;
+    }
+
+    @keyframes balloon {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0); }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
@@ -143,7 +170,7 @@ def show_adopters_page():
         adoption_date = st.date_input('תאריך אימוץ', datetime.today())
         documents = st.text_area('מסמכים')
 
-        if st.button('שמור אומץ'):
+        if st.button('שמור מאמץ'):
             # Save adopter data to CSV or database
             new_adopter = {
                 'מזהה אומץ': adopter_id,
@@ -157,7 +184,9 @@ def show_adopters_page():
             }
             adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
             adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
-            st.success('אומץ חדש נשמר בהצלחה!')
+            st.success('מאמץ חדש נשמר בהצלחה!')
+            # Show balloon animation
+            st.markdown('<div class="balloon"></div>', unsafe_allow_html=True)
 
     elif selected == "ערוך מסמך":
         st.subheader('ערוך מסמך')
