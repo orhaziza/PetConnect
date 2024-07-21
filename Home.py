@@ -70,68 +70,8 @@ def add_logo():
     
 # Function to show the home page
 def show_home_page():
-    # st.sidebar.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
-    # add_logo()
-    st.title(f"Welcome, {st.session_state['username']}!")
-    st.header("PetConnect Management System")
-    st.write("This is your personalized home screen.")
-    # col_logo, _ = st.columns([3, 1])
-    # with col_logo:
-    #     if st.button("Home", key='home_button'):
-    #         st.experimental_set_query_params(page="home")
-    #         st.experimental_rerun()
-    #
-    #
-    # st.subheader("Quick Links")
-    # col1, col2, col3 = st.columns(3)
-    #
-    # with col1:
-    #     st.subheader("Manage Dogs")
-    #     st.write("View and manage information about dogs.")
-    #     if st.button("Go to Dogs"):
-    #         st.experimental_set_query_params(page="dogs")
-    #
-    # with col2:
-    #     st.subheader("Manage Foster Homes")
-    #     st.write("Manage foster home details and availability.")
-    #     if st.button("Go to Foster Homes"):
-    #         st.experimental_rerun()  # Placeholder for navigating to foster homes page
-    #
-    # with col3:
-    #     st.subheader("Manage Adopters")
-    #     st.write("Track and manage adopter information and preferences.")
-    #     if st.button("Go to Adopters"):
-    #         st.query_params(page="Dogs")
-
-    # Logo display as a button on the home page
-    col_logo, _ = st.columns([3, 1])
-    with col_logo:
-        if st.button("Home", key='home_button'):
-            st.session_state['page'] = "home"
-
-    st.write("This is your personalized home screen.")
-
-    st.subheader("Quick Links")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.subheader("Manage Dogs")
-        st.write("View and manage information about dogs.")
-        if st.button("Go to Dogs"):
-            st.switch_page("pages/Dogs.py")
-    with col2:
-        st.subheader("Manage Foster Homes")
-        st.write("Manage foster home details and availability.")
-        if st.button("Go to Foster Homes"):
-            st.switch_page('pages/FosterHome.py')
-    with col3:
-        st.subheader("Manage Adopters")
-        st.write("Track and manage adopter information and preferences.")
-        if st.button("Go to Adopters"):
-            st.switch_page("pages/adopters.py")
-
-    # Logo display on the right side of every page
-
+    df = pd.read_csv('Data/AdoptionApplication.csv')
+    st.dataframe(df)
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
