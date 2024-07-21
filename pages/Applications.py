@@ -7,7 +7,6 @@ from streamlit_gsheets import GSheetsConnection
 
 def fetch_data():
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-    conn = ""
     conn = st.experimental_connection("gsheets", type=GSheetsConnection)
     data = conn.read(spreadsheet=url)
     return data
@@ -31,6 +30,7 @@ def show_application_page():
         st.experimental_rerun()
 
     data = fetch_data()
+    st.write("Fetched data:", data)  # Debugging: Print fetched data
     st.dataframe(data)
     
     # Use st.columns to create four equally sized columns
