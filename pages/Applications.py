@@ -22,7 +22,7 @@ def show_application_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     
-    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+    conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=20)
     data = conn.read(spreadsheet=url)
     st.write("Start!!!")
     st.dataframe(data)
