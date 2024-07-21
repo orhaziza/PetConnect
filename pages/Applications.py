@@ -13,7 +13,7 @@ data = conn.read(spreadsheet=url)
 st.dataframe(data)
         
 if st.button("refresh"):
-    st.experimental_rerun()
+    conn.experimental_rerun()
     
 def show_application_page():
     # the logo and title
