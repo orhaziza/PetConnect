@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
         
 def show_dogs_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות')
+        st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
     st.set_page_config(page_title='Dogs', layout='wide')
