@@ -23,17 +23,10 @@ def show_application_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-    if not st.session_state["refresh"]:
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-        data = conn.read(spreadsheet=url)
-        st.dataframe(data)
+    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+    data = conn.read(spreadsheet=url)
+    st.dataframe(data)
 
-    if st.button("refresh") and st.session_state["refresh"]:
-        st.session_state["refresh"] = True
-        conn.experimental_rerun
-        data = conn.read(spreadsheet=url)
-        st.dataframe(data)
-    
     # Use st.columns to create four equally sized columns
     # Use st.columns to create four equally sized columns
     col1, col2, col3, col4 = st.columns(4)
