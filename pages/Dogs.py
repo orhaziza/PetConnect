@@ -223,7 +223,6 @@ def show_dogs_page():
 
     if selected == "מצא כלב":
         st.subheader('מצא כלב')
-        st.markdown('<h2 style="direction: rtl;">מצא כלב</h2>', unsafe_allow_html=True)
 
 
         # Create search filters in columns
