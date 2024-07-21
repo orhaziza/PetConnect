@@ -13,8 +13,9 @@ data = conn.read(spreadsheet=url)
 st.dataframe(data)
         
 if st.button("refresh"):
-        st.experimental_rerun()
-        data = conn.read(spreadsheet=url)
+        st.write("try1")
+        conn2 = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
+        data = conn2.read(spreadsheet=url)
         st.dataframe(data)
     
 def show_application_page():
