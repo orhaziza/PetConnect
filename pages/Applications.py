@@ -22,7 +22,7 @@ def show_application_page():
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?resourcekey=&gid=1409837987#gid=1409837987"
     conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-    data = conn.read(spreadsheet=url, usecols=[0, ])
+    data = conn.read(spreadsheet=url)
     st.write("Start!!!")
     st.dataframe(data)
     st.write("Finish!!!")
