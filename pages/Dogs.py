@@ -98,7 +98,7 @@ def show_dogs_page():
 
     
     selected = option_menu(
-        menu_title='<div style="direction: rtl;">כלבים</div>',  # Required
+        menu_title="כלבים",  # Required
         options=["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],  # Required
         icons=["file", "search", "file", "upload", "search"],  # Optional
         menu_icon="menu",  # Optional
