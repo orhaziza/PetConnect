@@ -156,7 +156,11 @@ def show_adopters_page():
                 'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
                 'מסמכים': documents
             }
-            adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
+            # Create a DataFrame from the new adopter entry
+            new_adopter_df = pd.DataFrame([new_adopter])
+            
+            # Concatenate the existing DataFrame with the new entry
+            adopter_df_hebrew = pd.concat([adopter_df_hebrew, new_adopter_df], ignore_index=True)
             adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
