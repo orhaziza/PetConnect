@@ -30,7 +30,6 @@ def show_application_page():
         st.experimental_rerun()
 
     data = fetch_data()
-    st.write("Fetched data:", data)  # Debugging: Print fetched data
     st.dataframe(data)
     
     # Use st.columns to create four equally sized columns
