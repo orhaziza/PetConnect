@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
-
+#logo
+con1 = st.container()
+with con1:
+    col1, col2= st.columns([5, 1])
+    with col2:
+        st.image("Data/Logo.png", width=120)
+        
 # Function to load dogs data
 def load_dogs_data():
     dogs_file_path = 'Data/Dogs.csv'
