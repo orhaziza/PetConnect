@@ -17,7 +17,7 @@ def show_dog_profile_page():
         with col1:
             st.title("Dog Profile")
         with col2:
-            st.image("Data/Logo.png", width=120)
+            st.image("Data/Logo.png", width=100)
 
 
     if st.button("הוסף לסל התיאום"):
