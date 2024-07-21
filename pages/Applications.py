@@ -30,7 +30,7 @@ def show_application_page():
 
     if st.button("refresh") and st.session_state["refresh"]:
         st.session_state["refresh"] = True
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+        conn.experimental_rerun
         data = conn.read(spreadsheet=url)
         st.dataframe(data)
     
