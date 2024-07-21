@@ -4,37 +4,10 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 # Set up the page configuration at the top
-st.set_page_config(page_title='Adopters', layout='wide')
 
-# Custom CSS for balloon animation
-st.markdown(
-    """
-    <style>
-    .balloon {
-        position: relative;
-        display: inline-block;
-    }
 
-    .balloon:after {
-        content: "🎈";
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: balloon 2s ease-in-out infinite;
-    }
-
-    @keyframes balloon {
-        0% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
-        100% { transform: translateY(0); }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 def show_adopters_page():
-    
+    st.set_page_config(page_title='Adopters', layout='wide')
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
@@ -183,8 +156,7 @@ def show_adopters_page():
                 'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
                 'מסמכים': documents
             }
-            # adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
-            adopter_df_hebrew = pd.concat([adopter_df_hebrew, new_adopter], ignore_index=True)
+            adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
             adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
