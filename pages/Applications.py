@@ -6,6 +6,7 @@ from streamlit_option_menu import option_menu
 from streamlit_gsheets import GSheetsConnection
 
 url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+st.session_state["refresh"] = False
 
 def show_application_page():
     st.set_page_config(page_title='Applications', layout='wide')
@@ -21,10 +22,17 @@ def show_application_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    
-    conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=10)
-    data = conn.read(spreadsheet=url)
-    st.dataframe(data)
+
+    if not st.session_state["refresh"]:
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=10)
+        data = conn.read(spreadsheet=url)
+        st.dataframe(data)
+
+    if st.button("refresh") and st.session_state["refresh"]:
+        st.session_state["refresh"] = True
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=10)
+        data = conn.read(spreadsheet=url)
+        st.dataframe(data)
     
     # Use st.columns to create four equally sized columns
     # Use st.columns to create four equally sized columns
