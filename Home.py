@@ -25,7 +25,7 @@ def update_passwords():
     users['password'] = users['password'].apply(hash_password)
     users.to_csv("Data/Users.csv", index=False)
     
-update_passwords()
+
 
 # Function to check password
 def check_password(password, hashed):
@@ -34,6 +34,7 @@ def check_password(password, hashed):
 # Define the login function
 
 def login(username, password):
+    update_passwords()
     users = load_users()
     user = users[users['username'] == username]
     
