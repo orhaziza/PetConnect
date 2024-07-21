@@ -9,7 +9,13 @@ def show_foster_homes_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     st.set_page_config(page_title='Foster Homes', layout='wide')
-
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([4, 1])  # Adjust column ratios as needed
+        with col1:
+            st.markdown('<h1 class="rtl">Foster Homes</h1>', unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=120)
 
 
 
