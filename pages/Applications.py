@@ -24,7 +24,10 @@ def show_application_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    
+        
+    if st.button("refresh"):
+        st.experimental_connection
+        
     # Use st.columns to create four equally sized columns
     # Use st.columns to create four equally sized columns
     col1, col2, col3, col4 = st.columns(4)
