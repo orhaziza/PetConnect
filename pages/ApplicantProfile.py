@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-con1 = st.container()
-with con1:
-    col1, col2= st.columns([5, 1])
-    with col2:
-        st.image("Data/Logo.png", width=120)
+
 # Function to load application data
 
 def load_application_data():
@@ -15,8 +11,14 @@ def load_application_data():
 
 # Function to display applicant profile page
 def show_applicant_profile_page():
-    st.title("Applicant Profile")
-
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([5, 1])
+    with col1:
+        st.markdown("<h1 style='text-align: center;'>Applicant Profile</h1>", unsafe_allow_html=True)
+    with col2:
+        st.image("Data/Logo.png", width=100)
+        
     # Ensure selected_applicant_id is in session state
     if 'selected_applicant_id' not in st.session_state:
         st.error("No applicant selected. Please select an applicant from the previous page.")
