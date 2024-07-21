@@ -50,19 +50,19 @@ def show_adopters_page():
 # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
     'dog_chipID': 'שבב כלב',
-    'AdopterID': 'מזהה אומץ',
-    'AdopterName': 'שם אומץ',
-    'Second_adopterID': 'מזהה אומץ שני',
-    'Second_adopterName': 'שם אומץ שני',
+    'AdopterID': 'מזהה מאמץ',
+    'AdopterName': 'שם מאמץ',
+    'Second_adopterID': 'מזהה מאמץ שני',
+    'Second_adopterName': 'שם מאמץ שני',
     'Floor': 'קומה',
     'Apartment': 'דירה',
     'Address_street_number': 'מספר רחוב',
     'Address_street': 'רחוב',
     'Address_city': 'עיר',
-    'adopter_phone_num': 'מספר טלפון של אומץ',
-    'Second_adopter_phone_num': 'מספר טלפון של אומץ שני',
-    'Adopter_mail': 'דואר אלקטרוני של אומץ',
-    'Second_adopter_mail': 'דואר אלקטרוני של אומץ שני',
+    'adopter_phone_num': 'מספר טלפון של המאמץ',
+    'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
+    'Adopter_mail': 'דואר אלקטרוני של המאמץ',
+    'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
     'preferences': 'העדפות',
     'LifeStyleInformation': 'מידע על אופני חיים',
     'AdoptionDate': 'תאריך אימוץ',
@@ -93,7 +93,7 @@ def show_adopters_page():
 
     # Button 3 in the third column
     with col3:
-        if st.button("אומצים 👤"):
+        if st.button("מאמצים 👤"):
             st.switch_page("pages/adopters.py")
 
     # Button 4 in the fourth column
@@ -103,7 +103,7 @@ def show_adopters_page():
 
     # # Define the menu options
     # with st.sidebar:
-    #     selected = option_menu("אומצים", ["כל הטבלה", "מצא אומץ", "הוסף אומץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
 
     # Custom CSS to center-align the option menu
     st.markdown(
@@ -121,7 +121,7 @@ def show_adopters_page():
     # Define the menu options
     selected = option_menu(
         menu_title="אומצים",  # Required
-        options=["כל הטבלה", "מצא אומץ", "הוסף אומץ", "ערוך מסמך"],  # Required
+        options=["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
@@ -139,31 +139,31 @@ def show_adopters_page():
     if selected == "כל הטבלה":
         st.dataframe(adopter_df_hebrew)
 
-    elif selected == "מצא אומץ":
-        st.subheader('מצא אומץ')
+    elif selected == "מצא מאמץ":
+        st.subheader('מצא מאמץ')
 
         # Create search filters for adopters
         col1, col2 = st.columns(2)
 
         with col1:
-            adopter_name = st.text_input('שם אומץ')
+            adopter_name = st.text_input('שם מאמץ')
         with col2:
             adoption_date = st.date_input('תאריך אימוץ')
 
         # Apply search filters
         filtered_adopters = adopter_df_hebrew[
-            (adopter_df_hebrew['שם אומץ'].str.contains(adopter_name, na=False, case=False)) &
+            (adopter_df_hebrew['שם מאמץ'].str.contains(adopter_name, na=False, case=False)) &
             (adopter_df_hebrew['תאריך אימוץ'] == adoption_date.strftime('%Y-%m-%d'))
             ]
 
         st.dataframe(filtered_adopters)
 
-    elif selected == "הוסף אומץ":
-        st.subheader('הוסף אומץ')
+    elif selected == "הוסף מאמץ":
+        st.subheader('הוסף מאמץ')
 
         # Add adoption form or input fields here
-        adopter_id = st.text_input('מזהה אומץ')
-        adopter_name = st.text_input('שם אומץ')
+        adopter_id = st.text_input('מזהה מאמץ')
+        adopter_name = st.text_input('שם מאמץ')
         address = st.text_area('כתובת')
         contact_info = st.text_input('פרטי קשר')
         preferences = st.text_area('העדפות')
