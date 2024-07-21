@@ -18,11 +18,7 @@ def hash_password(password):
 
 # Function to check password
 def check_password(password, hashed):
-    st.write("Checking password:", password)  # Debug: Show the entered password
-    st.write("With hashed password:", hashed)  # Debug: Show the stored hashed password
-    if isinstance(hashed, str):
-        hashed = hashed.encode()
-    return bcrypt.checkpw(password.encode(), hashed)
+    return password == hashed
     
 def load_users():
     df = pd.read_csv("Data/Users.csv")
@@ -32,14 +28,10 @@ def load_users():
 
 def login(username, password):
     users = load_users()
-    st.write("Loaded users:", users)  # Debug: Show the loaded users DataFrame
-    
     user = users[users['username'] == username]
-    st.write("Filtered user:", user)  # Debug: Show the filtered user DataFrame
     
     if not user.empty:
         stored_password = user.iloc[0]['password']
-        st.write("Stored password for user:", stored_password)  # Debug: Show the stored password
         if check_password(password, stored_password):
             return True
     return False
