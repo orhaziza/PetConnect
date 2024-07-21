@@ -5,6 +5,12 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 import numpy as np
+#logo
+con1 = st.container()
+with con1:
+    col1, col2= st.columns([5, 1])
+    with col2:
+        st.image("Data/Logo.png", width=120)
 
 st.set_page_config(page_title='Data Analysis', layout='wide')
 st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
