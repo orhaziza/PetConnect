@@ -6,7 +6,7 @@ from streamlit_option_menu import option_menu
         
 def show_dogs_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות")
+        st.error('<div style="direction: rtl;">לא ניתן לגשת לעמוד ללא התחברות</div>', unsafe_allow_html=True)
         st.stop()
 
     st.set_page_config(page_title='Dogs', layout='wide')
@@ -23,64 +23,7 @@ def show_dogs_page():
     # Creating Dataframe from csv
     dogs_file_path = "Data/Dogs.csv"
     dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
-    #
-    # selected2 = option_menu(
-    #     menu_title="",  # Required
-    #     options=["כלבים 🐶", "בתי אומנה", "אומצים", "בקשות"],  # Required
-    #     icons=["dog", "house", "person", "upload"],  # Optional
-    #     menu_icon="menu",  # Optional
-    #     default_index=0,  # Optional
-    #     orientation="horizontal"  # To place the menu in the center horizontally
-    # )
-    #
-    #
-    # if selected2 == "כלבים 🐶":
-    #     st.switch_page("pages/Dogs.py")
-    # if selected2 == "בתי אומנה":
-    #     st.switch_page('pages/FosterHome.py')
-    #
-    # if selected2 == "אומצים":
-    #     st.switch_page('pages/adopters.py')
-    #
-    # if selected2 == "בקשות":
-    #     st.switch_page('pages/Applications.py')
 
-    # if "current_page" not in st.session_state:
-    #     st.session_state.current_page = "home"
-    #
-    #     # Render the navigation menu
-    # selected2 = option_menu(
-    #     menu_title="",  # Required
-    #     options=["כלבים 🐶", "בתי אומנה", "אומצים", "בקשות"],  # Required
-    #     icons=["dog", "house", "person", "upload"],  # Optional
-    #     menu_icon="menu",  # Optional
-    #     default_index=0,  # Optional
-    #     orientation="horizontal"  # To place the menu in the center horizontally
-    # )
-    #
-    # # Handle page navigation using session state
-    # if selected2 == "כלבים 🐶":
-    #     st.session_state.current_page = "dogs"
-    # elif selected2 == "בתי אומנה":
-    #     st.session_state.current_page = "foster_homes"
-    # elif selected2 == "אומצים":
-    #     st.session_state.current_page = "adopters"
-    # elif selected2 == "בקשות":
-    #     st.session_state.current_page = "applications"
-    # else:
-    #     st.session_state.current_page = "home"
-    #
-    # # Call the appropriate page function based on the current page in session state
-    # if st.session_state.current_page == "dogs":
-    #     show_dogs_page()
-    # elif st.session_state.current_page == "foster_homes":
-    #     show_foster_homes_page()
-    # elif st.session_state.current_page == "adopters":
-    #     show_adopters_page()
-    # elif st.session_state.current_page == "applications":
-    #     show_application_page()
-    # else:
-    #     show_home_page()
 
     foster_home_file_path = "Data/FosterHome.csv"
     if not os.path.exists(foster_home_file_path):
@@ -153,34 +96,7 @@ def show_dogs_page():
     foster_home_df_hebrew = foster_home_df.rename(columns=dict(
         zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
 
-    # # Use st.columns to create four equally sized columns
-    # col1, col2, col3, col4 = st.columns(4)
-
-    # # Button 1 in the first column
-    # with col1:
-    #     if st.button("כלבים 🐶"):
-    #         st.switch_page("pages/Dogs.py")
-
-    # # Button 2 in the second column
-    # with col2:
-    #     if st.button("בתי אומנה 🏠"):
-    #         st.switch_page("pages/FosterHome.py")
-
-    # # Button 3 in the third column
-    # with col3:
-    #     if st.button("אומצים 👤"):
-    #         st.switch_page("pages/adopters.py")
-
-    # # Button 4 in the fourth column
-    # with col4:
-    #     if st.button("בקשות 📁"):
-    #         st.switch_page("pages/Applications.py")
-
-    # # Define the menu options
-    # with st.sidebar:
-    #     selected = option_menu("כלבים", ["כל הטבלה", "מצא כלב","הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],
-    #                            icons=["file", "search", "file", "upload", 'search'], menu_icon="menu", default_index=0)
-
+    
     selected = option_menu(
         menu_title="כלבים",  # Required
         options=["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],  # Required
@@ -221,7 +137,8 @@ def show_dogs_page():
             st.success("Changes saved successfully!")
 
     if selected == "מצא כלב":
-        st.subheader('מצא כלב')
+        st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
+
 
 
         # Create search filters in columns
