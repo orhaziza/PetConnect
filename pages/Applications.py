@@ -5,15 +5,14 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 from streamlit_gsheets import GSheetsConnection
 
-def fetch_data():
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-    data = conn.read(spreadsheet=url)
-    return data
+st.set_page_config(page_title='Applications', layout='wide')
+
+url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+data = conn.read(spreadsheet=url)
+st.dataframe(data)
     
 def show_application_page():
-    st.set_page_config(page_title='Applications', layout='wide')
-    
     # the logo and title
     con1 = st.container()
     with con1:
@@ -25,12 +24,6 @@ def show_application_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-
-    if st.button('Refresh Data'):
-        st.experimental_rerun()
-
-    data = fetch_data()
-    st.dataframe(data)
     
     # Use st.columns to create four equally sized columns
     # Use st.columns to create four equally sized columns
