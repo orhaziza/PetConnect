@@ -172,10 +172,10 @@ def show_dogs_page():
     #     if st.button("אומצים 👤"):
     #         st.switch_page("pages/adopters.py")
 
-    # Button 4 in the fourth column
-    with col4:
-        if st.button("בקשות 📁"):
-            st.switch_page("pages/Applications.py")
+    # # Button 4 in the fourth column
+    # with col4:
+    #     if st.button("בקשות 📁"):
+    #         st.switch_page("pages/Applications.py")
 
     # # Define the menu options
     # with st.sidebar:
