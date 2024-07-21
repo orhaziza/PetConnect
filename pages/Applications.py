@@ -3,14 +3,18 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-con1 = st.container()
-with con1:
-    col1, col2= st.columns([5, 1])
-    with col2:
-        st.image("Data/Logo.png", width=120)
+
 def show_application_page():
     st.set_page_config(page_title='Applications', layout='wide')
-
+    
+    # the logo and title
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            st.title("Applicant Profile")
+        with col2:
+            st.image("Data/Logo.png", width=120)
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
