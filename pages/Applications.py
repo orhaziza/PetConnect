@@ -3,6 +3,14 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+from streamlit_gsheets import GSheetsConnection
+
+url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?resourcekey=&gid=1409837987#gid=1409837987"
+
+conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+
+data = conn.read(spreadsheet=url, usecols=[0, 1])
+st.dataframe(data)
 
 def show_application_page():
     st.set_page_config(page_title='Applications', layout='wide')
