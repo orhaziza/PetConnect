@@ -5,16 +5,19 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+st.set_page_config(page_title='Data Analysis', layout='wide')
 #logo
 con1 = st.container()
 with con1:
     col1, col2= st.columns([5, 1])
     with col2:
         st.image("Data/Logo.png", width=120)
-
-st.set_page_config(page_title='Data Analysis', layout='wide')
+        
 st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+
 
 def plot_Applications(application_df):
     platform_counts = application_df['SourcePlatform'].value_counts()
