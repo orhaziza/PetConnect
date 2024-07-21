@@ -22,12 +22,11 @@ def show_application_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     
-    with st.echo():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-        data = conn.read(spreadsheet=url)
-        st.write("Start!!!")
-        st.dataframe(data)
-        st.write("Finish!!!")
+    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+    data = conn.read(spreadsheet=url)
+    st.write("Start!!!")
+    st.dataframe(data)
+    st.write("Finish!!!")
     
     # Use st.columns to create four equally sized columns
     # Use st.columns to create four equally sized columns
