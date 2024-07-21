@@ -20,21 +20,13 @@ def load_users():
     df = pd.read_csv("Data/Users.csv")
     return df
     
-def update_passwords():
-    users = load_users()
-    users['password'] = users['password'].apply(hash_password)
-    users.to_csv("Data/Users.csv", index=False)
-    
-
-
 # Function to check password
 def check_password(password, hashed):
     return bcrypt.checkpw(password.encode(), hashed)
-    
-# Define the login function
 
+# Define the login function
 def login(username, password):
-    update_passwords()
+
     users = load_users()
     user = users[users['username'] == username]
     
