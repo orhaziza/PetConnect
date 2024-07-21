@@ -24,25 +24,25 @@ def show_application_page():
     # Use st.columns to create four equally sized columns
     col1, col2, col3, col4 = st.columns(4)
 
-    # Button 1 in the first column
-    with col1:
-        if st.button("כלבים 🐶"):
-            st.switch_page("pages/Dogs.py")
+    # # Button 1 in the first column
+    # with col1:
+    #     if st.button("כלבים 🐶"):
+    #         st.switch_page("pages/Dogs.py")
 
-    # Button 2 in the second column
-    with col2:
-        if st.button("בתי אומנה 🏠"):
-            st.switch_page("pages/FosterHome.py")
+    # # Button 2 in the second column
+    # with col2:
+    #     if st.button("בתי אומנה 🏠"):
+    #         st.switch_page("pages/FosterHome.py")
 
-    # Button 3 in the third column
-    with col3:
-        if st.button("אומצים 👤"):
-            st.switch_page("pages/adopters.py")
+    # # Button 3 in the third column
+    # with col3:
+    #     if st.button("אומצים 👤"):
+    #         st.switch_page("pages/adopters.py")
 
-    # Button 4 in the fourth column
-    with col4:
-        if st.button("בקשות 📁"):
-            st.switch_page("pages/Applications.py")
+    # # Button 4 in the fourth column
+    # with col4:
+    #     if st.button("בקשות 📁"):
+    #         st.switch_page("pages/Applications.py")
 
 
     st.markdown(
