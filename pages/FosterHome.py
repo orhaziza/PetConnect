@@ -15,7 +15,7 @@ def show_foster_homes_page():
         with col1:
             st.markdown('<h1 class="rtl">Foster Homes</h1>', unsafe_allow_html=True)
         with col2:
-            st.image("Data/Logo.png", width=120)
+            st.image("Data/Logo.png", width=100)
 
 
 
@@ -91,7 +91,7 @@ def show_foster_homes_page():
 
     # Create the option menu inside a div with the custom class
     selected = option_menu(
-        menu_title="בתים לבית אומנה",  # Required
+        menu_title="בתים לאומנה",  # Required
         options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
