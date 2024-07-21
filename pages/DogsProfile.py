@@ -1,11 +1,6 @@
 import streamlit as st
 import pandas as pd
-#logo
-con1 = st.container()
-with con1:
-    col1, col2= st.columns([5, 1])
-    with col2:
-        st.image("Data/Logo.png", width=120)
+
         
 # Function to load dogs data
 def load_dogs_data():
@@ -15,7 +10,15 @@ def load_dogs_data():
 
 # Function to display dog profile page
 def show_dog_profile_page():
-    st.title("Dog Profile")
+    # Container for the title and logo
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("Dog Profile")
+        with col2:
+            st.image("Data/Logo.png", width=120)
+
 
     if st.button("הוסף לסל התיאום"):
         st.session_state['Cart_dog'] = st.session_state['selected_dog_id']
