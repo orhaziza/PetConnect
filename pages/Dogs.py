@@ -154,23 +154,23 @@ def show_dogs_page():
     foster_home_df_hebrew = foster_home_df.rename(columns=dict(
         zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
 
-    # Use st.columns to create four equally sized columns
-    col1, col2, col3, col4 = st.columns(4)
+    # # Use st.columns to create four equally sized columns
+    # col1, col2, col3, col4 = st.columns(4)
 
-    # Button 1 in the first column
-    with col1:
-        if st.button("כלבים 🐶"):
-            st.switch_page("pages/Dogs.py")
+    # # Button 1 in the first column
+    # with col1:
+    #     if st.button("כלבים 🐶"):
+    #         st.switch_page("pages/Dogs.py")
 
-    # Button 2 in the second column
-    with col2:
-        if st.button("בתי אומנה 🏠"):
-            st.switch_page("pages/FosterHome.py")
+    # # Button 2 in the second column
+    # with col2:
+    #     if st.button("בתי אומנה 🏠"):
+    #         st.switch_page("pages/FosterHome.py")
 
-    # Button 3 in the third column
-    with col3:
-        if st.button("אומצים 👤"):
-            st.switch_page("pages/adopters.py")
+    # # Button 3 in the third column
+    # with col3:
+    #     if st.button("אומצים 👤"):
+    #         st.switch_page("pages/adopters.py")
 
     # Button 4 in the fourth column
     with col4:
