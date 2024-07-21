@@ -48,9 +48,6 @@ def login(username, password):
 def show_login_page():
     st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
     
-    # st.title("PetConnect Management System")
-    # st.image('Data/Logo.png', use_column_width=True)  # Replace 'path_to_your_logo.png' with your logo file path
-
     st.subheader("Please log in to access the system.")
 
     # User input for login
@@ -65,7 +62,6 @@ def show_login_page():
             st.experimental_rerun()  # Refresh the page to update the content
         else:
             st.error("Invalid username or password")
-
 def add_logo():
     st.sidebar.markdown(
         """
