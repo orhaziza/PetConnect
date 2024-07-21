@@ -183,11 +183,12 @@ def show_adopters_page():
                 'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
                 'מסמכים': documents
             }
-            adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
+            # adopter_df_hebrew = adopter_df_hebrew.append(new_adopter, ignore_index=True)
+            adopter_df_hebrew = pd.concat([adopter_df_hebrew, new_adopter], ignore_index=True)
             adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
-            st.markdown('<div class="balloon"></div>', unsafe_allow_html=True)
+            st.balloons()  
 
     elif selected == "ערוך מסמך":
         st.subheader('ערוך מסמך')
