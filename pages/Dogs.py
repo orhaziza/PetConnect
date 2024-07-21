@@ -3,6 +3,37 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+# Function to display a flash animation
+def show_flash_animation():
+    # HTML and CSS for the flash animation
+    flash_animation_html = """
+    <style>
+    .flash {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        animation: flash-animation 0.5s ease-out;
+        z-index: 9999;
+    }
+
+    @keyframes flash-animation {
+        0% { background: rgba(255, 255, 255, 0.8); }
+        50% { background: rgba(255, 255, 255, 0.1); }
+        100% { background: rgba(255, 255, 255, 0.8); }
+    }
+    </style>
+    <div class="flash"></div>
+    <script>
+    setTimeout(function() {
+        document.querySelector('.flash').remove();
+    }, 500);
+    </script>
+    """
+    # Display the flash animation
+    st.markdown(flash_animation_html, unsafe_allow_html=True)
         
 def show_dogs_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
@@ -237,8 +268,10 @@ def show_dogs_page():
                     image_path_for_dog = os.path.join(images_folder, f"{selected_dog_id_for_image}.png")
                     with open(image_path_for_dog, "wb") as f:
                         f.write(uploaded_file_for_dog.getvalue())
-
+                    show_flash_animation()    
                     st.success(f'תמונה לכלב {selected_dog_name_for_image} הוספה בהצלחה!')
+                       
+
         else:
             st.write('לכל הכלבים במסד הנתונים קיימת תמונה')
 
@@ -286,6 +319,7 @@ def show_dogs_page():
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
+
 
 # Call the function to display the dogs page
 show_dogs_page()
