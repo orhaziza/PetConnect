@@ -6,31 +6,6 @@ from streamlit_option_menu import option_menu
 from streamlit_gsheets import GSheetsConnection
 
 st.set_page_config(page_title='Applications', layout='wide')
-url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-
-@st.cache_data()
-def fetch_data():
-    conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
-    return conn.read(spreadsheet=url)
-    
-if st.button("Clear Cache"):
-    st.cache_data.clear()
-    st.success("Cache cleared!")
-
-data = fetch_data()
-st.dataframe(data)
-
-# def show_table():
-#     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-#     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-#     data = conn.read(spreadsheet=url)
-#     st.dataframe(data)
-    
-# show_table()
-
-# if st.button("refreash"):
-#     show_table.clear()
-
     
 def show_application_page():
     # the logo and title
@@ -95,12 +70,27 @@ def show_application_page():
         }
     )
 
-    applications_file_path = 'Data/AdoptionApplication.csv'
-    if not os.path.exists(applications_file_path):
-        st.error("The applications file does not exist.")
-        st.stop()
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
-    applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
+    @st.cache_data()
+    def fetch_data():
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
+        
+    if st.button("Clear Cache"):
+        st.cache_data.clear()
+        st.success("Cache cleared!")
+    
+    data = fetch_data()
+    applications_df = st.dataframe(data)
+
+    
+    # applications_file_path = 'Data/AdoptionApplication.csv'
+    # if not os.path.exists(applications_file_path):
+    #     st.error("The applications file does not exist.")
+    #     st.stop()
+
+    # applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
 
     # Define Hebrew column names for adopters
     hebrew_columns_applications = {
