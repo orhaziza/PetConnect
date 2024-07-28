@@ -13,12 +13,12 @@ st.set_page_config(page_title='Data Analysis', layout='wide')
 #logo
 con1 = st.container()
 with con1:
-    col1, col2= st.columns([5, 1])
-    with col1:
-        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-    with col2:
-        st.image("Data/Logo.png", width=100)
+    col1, col2 = st.columns([5, 1])
+with col1:
+    st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+with col2:
+    st.image("Data/Logo.png", width=100)
 
 def plot_Applications(application_df):
     platform_counts = application_df.iloc[:, 1].value_counts()
@@ -96,14 +96,13 @@ def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-
+    
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-
     @st.cache_data()
     def fetch_data():
         conn = st.connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
-    if st.button("עדכן"):
+    if st.button("רענן מידע"):
         st.cache_data.clear()
     
     adopter_file_path = "Data/Adopters.csv"
