@@ -12,7 +12,7 @@ conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
 data = conn.read(spreadsheet=url)
 st.dataframe(data)
 if st.button("refreash"):
-    connection.clear()
+    conn.clear()
 
 # if st.button("refresh"):
 #         st.write("try1")
