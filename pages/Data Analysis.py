@@ -58,6 +58,7 @@ def plot_Dogs(dogs_df):
 
 def plot_Applications_Flow(application_df):
     df = application_df.iloc[:, 0:1]
+    df
     view = st.radio("Select View", ("שבועי", "חודשי"))
     if view == "שבועי":
         df['Period'] = df.iloc[:, 0].dt.to_period('W').apply(lambda r: r.start_time)
@@ -65,9 +66,6 @@ def plot_Applications_Flow(application_df):
     else:
         df['Period'] = df.iloc[:, 0].dt.to_period('M').apply(lambda r: r.start_time)
         period_format = "%Y-%m"
-    
-    df
-
     
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
