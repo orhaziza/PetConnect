@@ -94,7 +94,8 @@ def show_home_page():
         st.success("המידע עודכן!")
     
     df = fetch_data()
-
+    df
+    
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
