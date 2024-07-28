@@ -57,8 +57,8 @@ def plot_Dogs(dogs_df):
         st.bar_chart(distribution)
 
 def plot_Applications_Flow(application_df):
-    df = application_df.iloc[:, 0:1]
-    df["חותמת זמן"]
+    # df = application_df.iloc[:, 0:1]
+    df = application_df["חותמת זמן"]
     view = st.radio("Select View", ("שבועי", "חודשי"))
     if view == "שבועי":
         df['Period'] = df.iloc[:, 0].dt.to_period('W').apply(lambda r: r.start_time)
