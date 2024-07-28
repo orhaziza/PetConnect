@@ -81,9 +81,9 @@ def plot_Applications_by_WkDay(application_df):
     df = application_df
     df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S').dt.day_name()
     distribution = df["חותמת זמן"].value_counts()
-    distribution
     days_of_week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    distribution = distribution.reindex(fill_value=0) 
+    distribution = distribution.reindex(days_of_week, fill_value=0)
+    distribution = distribution.loc[days_of_week]
     st.bar_chart(distribution)
 
 def show_data_analysis_page():
