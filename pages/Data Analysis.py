@@ -66,7 +66,7 @@ def show_data_analysis_page():
 
     @st.cache_data()
     def fetch_data():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+        conn = st.connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
         
     if st.button("Clear Cache"):
