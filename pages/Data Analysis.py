@@ -77,6 +77,10 @@ def plot_Applications_Flow(application_df):
     # Plot the request counts using st.line_chart
     st.line_chart(request_counts)
 
+def plot_Applications_by_WkDay(application_df):
+    df = application_df
+    df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S').dt.day_name()
+    df["חותמת זמן"]
     
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
@@ -109,15 +113,6 @@ def show_data_analysis_page():
         st.error("Foster Home file does not exist.")
         st.stop()
     Foster_Home_df = pd.read_csv(FosterHome_file_path, encoding='utf-8')
-    
-    with st.container():
-        col1 , col2 = st.columns([1,1], gap="small")
-        with col1:
-            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
-            plot_Applications(fetch_data())
-        with col2:
-            st.write('בקשות אימוץ לאורך זמן:')
-            plot_Applications_Flow(fetch_data())
 
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
@@ -127,5 +122,19 @@ def show_data_analysis_page():
         with col2:
             st.write('התפלגות הכלבים בעמותה:')
             plot_Dogs(dogs_df)
+    
+    with st.container():
+        col1 , col2 , col3 = st.columns([1,1,1], gap="small")
+        with col1:
+            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
+            plot_Applications(fetch_data())
+        with col2:
+            st.write('בקשות אימוץ לאורך זמן:')
+            plot_Applications_Flow(fetch_data())
+        with col3:
+            st.write('בקשות אימוץ לפי יום בשבוע:')
+            plot_Applications_by_WkDay(fetch_data())
+
+
             
 show_data_analysis_page()
