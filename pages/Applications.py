@@ -6,13 +6,15 @@ from streamlit_option_menu import option_menu
 from streamlit_gsheets import GSheetsConnection
 
 st.set_page_config(page_title='Applications', layout='wide')
+show_table()
+def show_table():
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+    conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+    data = conn.read(spreadsheet=url)
+    st.dataframe(data)
 
-url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-data = conn.read(spreadsheet=url)
-st.dataframe(data)
 if st.button("refreash"):
-    conn.clear()
+    show_table.clear()
 
 # if st.button("refresh"):
 #         st.write("try1")
