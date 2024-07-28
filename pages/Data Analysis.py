@@ -19,8 +19,8 @@ with con1:
     with col2:
         st.image("Data/Logo.png", width=100)
 
-def plot_Applications(application_df):
-    st.dataframe(application_df)
+def plot_Applications(data):
+    application_df = st.dataframe(data)
     platform_counts = application_df.iloc[:, 1].value_counts()
     labels = [label[::-1] for label in platform_counts.index.tolist()]
     values = platform_counts.tolist()
@@ -102,7 +102,7 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
-            plot_Applications(st.dataframe(fetch_data()))
+            plot_Applications(fetch_data())
         with col2:
             st.write('התפלגות הכלבים בעמותה:')
             plot_Dogs(dogs_df)
