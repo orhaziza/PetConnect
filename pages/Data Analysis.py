@@ -104,8 +104,8 @@ def show_data_analysis_page():
         return conn.read(spreadsheet=url)
 
     with st.container():
-        col1 , col2 = st.columns([1,10], gap="small")
-        with col1:
+        col1 , col2, col3 = st.columns([1,10], gap="small")
+        with col2:
             if st.button("רענן מידע"):
                 st.cache_data.clear()
         
