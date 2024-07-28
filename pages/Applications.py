@@ -109,7 +109,7 @@ def show_application_page():
     #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
 
     if selected == "כל הטבלה":
-        st.dataframe(applic_df_hebrew)
+        st.dataframe(applications_df)
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         status = st.selectbox(
