@@ -17,7 +17,6 @@ with con1:
 with col1:
     st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-    st.button("רענן מידע")
 with col2:
     st.image("Data/Logo.png", width=100)
 
@@ -103,8 +102,12 @@ def show_data_analysis_page():
     def fetch_data():
         conn = st.connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
-    if st.button("רענן מידע"):
-        st.cache_data.clear()
+
+    with st.container():
+    col1 , col2 , col3 = st.columns([1,1,1], gap="small")
+    with col2:
+        if st.button("רענן מידע"):
+            st.cache_data.clear()
     
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
