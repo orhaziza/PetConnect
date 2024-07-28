@@ -11,7 +11,9 @@ url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYK
 conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
 data = conn.read(spreadsheet=url)
 st.dataframe(data)
-        
+if st.button("refreash"):
+    connection.clear()
+
 # if st.button("refresh"):
 #         st.write("try1")
 #         conn2 = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
