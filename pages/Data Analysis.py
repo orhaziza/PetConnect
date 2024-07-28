@@ -69,10 +69,9 @@ def show_data_analysis_page():
         conn = st.connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
         
-    if st.button("Clear Cache"):
+    if st.button("עדכן"):
         st.cache_data.clear()
-        st.success("המידע עודכן!")    
-    
+        
     # application_file_path = "Data/AdoptionApplication.csv"
     # if not os.path.exists(application_file_path):
     #     st.error("applications file does not exist.")
