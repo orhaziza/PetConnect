@@ -56,7 +56,11 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
+def plot_Applications_Flow(application_df):
+    df = application_df.iloc[:, 0:1]
+    df
 
+    
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
@@ -68,15 +72,8 @@ def show_data_analysis_page():
     def fetch_data():
         conn = st.connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
-        
     if st.button("עדכן"):
         st.cache_data.clear()
-        
-    # application_file_path = "Data/AdoptionApplication.csv"
-    # if not os.path.exists(application_file_path):
-    #     st.error("applications file does not exist.")
-    #     st.stop()
-    # application_df = pd.read_csv(application_file_path, encoding='utf-8')
     
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
@@ -111,6 +108,7 @@ def show_data_analysis_page():
             st.write('התפלגות בתי אומנה:')
             plot_Fosters(Foster_Home_df)
         with col2:
-            st.write('')
-        
+            st.write('בקשות אימוץ לאורך זמן:')
+            plot_Applications_Flow(fetch_data())
+            
 show_data_analysis_page()
