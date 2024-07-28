@@ -20,7 +20,8 @@ with con1:
         st.image("Data/Logo.png", width=100)
 
 def plot_Applications(application_df):
-    platform_counts = application_df[0].value_counts()
+    application_df.iloc[:, 1]
+    platform_counts = application_df.iloc[:, 1].value_counts()
     labels = [label[::-1] for label in platform_counts.index.tolist()]
     values = platform_counts.tolist()
     fig, ax = plt.subplots()
