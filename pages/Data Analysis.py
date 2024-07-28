@@ -116,8 +116,8 @@ def show_data_analysis_page():
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
             plot_Applications(fetch_data())
         with col2:
-            st.write('התפלגות הכלבים בעמותה:')
-            plot_Dogs(dogs_df)
+            st.write('בקשות אימוץ לאורך זמן:')
+            plot_Applications_Flow(fetch_data())
 
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
@@ -125,7 +125,7 @@ def show_data_analysis_page():
             st.write('התפלגות בתי אומנה:')
             plot_Fosters(Foster_Home_df)
         with col2:
-            st.write('בקשות אימוץ לאורך זמן:')
-            plot_Applications_Flow(fetch_data())
+            st.write('התפלגות הכלבים בעמותה:')
+            plot_Dogs(dogs_df)
             
 show_data_analysis_page()
