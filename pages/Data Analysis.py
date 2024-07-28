@@ -57,7 +57,7 @@ def plot_Dogs(dogs_df):
         st.bar_chart(distribution)
 
 def plot_Applications_Flow(application_df):
-    df = application_df["חותמת זמן"]
+    df = pd.to_datetime(application_df["חותמת זמן"])
     # df["חותמת זמן"] = pd.to_datetime(df["חותמת זמן"])
     
     view = st.radio("Select View", ("שבועי", "חודשי"))
