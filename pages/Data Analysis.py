@@ -56,16 +56,13 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
-def plot_Applications_Flow(application_df):
-    df = pd.to_datetime(application_df["חותמת זמן"])
-    # df["חותמת זמן"] = pd.to_datetime(df["חותמת זמן"])
-    
+def plot_Applications_Flow(application_df):    
     view = st.radio("Select View", ("שבועי", "חודשי"))
     if view == "שבועי":
-        df['Period'] = df["חותמת זמן"].dt.to_period('W').apply(lambda r: r.start_time)
+        df['Period'] = application_df["חותמת זמן"].dt.to_period('W').apply(lambda r: r.start_time)
         period_format = "%Y-%W"
     else:
-        df['Period'] = df["חותמת זמן"].dt.to_period('M').apply(lambda r: r.start_time)
+        df['Period'] = application_df["חותמת זמן"].dt.to_period('M').apply(lambda r: r.start_time)
         period_format = "%Y-%m"
     df
     
