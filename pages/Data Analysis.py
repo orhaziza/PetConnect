@@ -82,8 +82,8 @@ def plot_Applications_by_WkDay(application_df):
     df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S').dt.day_name()
 
     application = df["חותמת זמן"].value_counts()
-    labels = [label[::-1] for label in platform_counts.index.tolist()]
-    values = platform_counts.tolist()
+    labels = [label[::-1] for label in application.index.tolist()]
+    values = application.tolist()
     fig, ax = plt.subplots()
     fig.patch.set_facecolor('none')
     ax.patch.set_facecolor('none')
