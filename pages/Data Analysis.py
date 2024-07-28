@@ -20,6 +20,7 @@ with con1:
         st.image("Data/Logo.png", width=100)
 
 def plot_Applications(application_df):
+    application_df
     platform_counts = application_df['איך הגעתם אלינו?'].value_counts()
     labels = [label[::-1] for label in platform_counts.index.tolist()]
     values = platform_counts.tolist()
@@ -66,7 +67,7 @@ def show_data_analysis_page():
 
     @st.cache_data()
     def fetch_data():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection)
         return conn.read(spreadsheet=url)
         
     if st.button("Clear Cache"):
