@@ -10,7 +10,19 @@ with con1:
     with col2:
         st.image("Data/Logo.png", width=120)
 
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
+    @st.cache_data()
+    def fetch_data():
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
+        
+    if st.button("Clear Cache"):
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
+    
+    data = fetch_data()
+    data
 # User credentials (in a real app, use a secure method for handling credentials)
 
 def hash_password(password):
