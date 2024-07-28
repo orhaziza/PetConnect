@@ -22,7 +22,7 @@ with st.container():
     with col1:
         st.markdown("<h1 style='background-color:#42f598; text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
         st.markdown("<h3 style='background-color:#0066cc; text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-        col3, col4, col5 = st.columns([1,1 1])
+        col3, col4, col5 = st.columns([1,1,1])
         with col4:
             if st.button("רענן מידע", use_container_width=True):
                 st.cache_data.clear()
