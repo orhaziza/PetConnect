@@ -73,9 +73,7 @@ def show_data_analysis_page():
     if st.button("Clear Cache"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
-    
-    applications_df = st.dataframe(fetch_data())
-    
+        
     # application_file_path = "Data/AdoptionApplication.csv"
     # if not os.path.exists(application_file_path):
     #     st.error("applications file does not exist.")
@@ -104,7 +102,7 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
-            plot_Applications(applications_df)
+            plot_Applications(st.dataframe(fetch_data()))
         with col2:
             st.write('התפלגות הכלבים בעמותה:')
             plot_Dogs(dogs_df)
