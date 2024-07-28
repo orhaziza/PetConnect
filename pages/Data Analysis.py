@@ -56,16 +56,27 @@ def plot_Dogs(dogs_df):
         st.subheader(f'Distribution of Dogs by {characteristic.capitalize()}')
         st.bar_chart(distribution)
 
-def plot_Applications_Flow(application_df):   
-    df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"])
+def plot_Applications_Flow(application_df):
+    df = application_df
+    df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S')
+
     view = st.radio("Select View", ("שבועי", "חודשי"))
     if view == "שבועי":
-        df["Period"] = application_df["חותמת זמן"].dt.to_period('W').apply(lambda r: r.start_time)
-        period_format = "%Y-%W"
+        df["Period"] = df["חותמת זמן"].dt.to_period('W').apply(lambda r: r.start_time)
+        df['Period'] = df['Period'].dt.strftime('%Y-%m-%d')
     else:
-        df["Period"] = application_df["חותמת זמן"].dt.to_period('M').apply(lambda r: r.start_time)
-        period_format = "%Y-%m"
-    df
+        df["Period"] = df["חותמת זמן"].dt.to_period('M').apply(lambda r: r.start_time)
+        df['Period'] = df['Period'].dt.strftime('%Y-%m')
+
+    # Count the number of requests per period
+    request_counts = df['Period'].value_counts().sort_index()
+    request_counts = request_counts.reset_index()
+    request_counts.columns = ['Period', 'RequestCount']
+    request_counts.set_index('Period', inplace=True)
+
+    # Plot the request counts using st.line_chart
+    st.line_chart(request_counts)
+
     
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
