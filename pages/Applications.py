@@ -3,20 +3,20 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-from streamlit_gsheets import GSheetsConnection
+#from streamlit_gsheets import GSheetsConnection
 
 st.set_page_config(page_title='Applications', layout='wide')
 
-url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
-data = conn.read(spreadsheet=url)
-st.dataframe(data)
+# url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+# conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
+# data = conn.read(spreadsheet=url)
+# st.dataframe(data)
         
-if st.button("refresh"):
-        st.write("try1")
-        conn2 = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
-        data = conn2.read(spreadsheet=url)
-        st.dataframe(data)
+# if st.button("refresh"):
+#         st.write("try1")
+#         conn2 = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0)
+#         data = conn2.read(spreadsheet=url)
+#         st.dataframe(data)
     
 def show_application_page():
     # the logo and title
