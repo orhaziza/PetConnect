@@ -58,6 +58,14 @@ def plot_Dogs(dogs_df):
 
 def plot_Applications_Flow(application_df):
     df = application_df.iloc[:, 0:1]
+    view = st.radio("Select View", ("שבועי", "חודשי"))
+    if view == "שבועי":
+        df['Period'] = df.iloc[:, 0].dt.to_period('W').apply(lambda r: r.start_time)
+        period_format = "%Y-%W"
+    else:
+        df['Period'] = df.iloc[:, 0].dt.to_period('M').apply(lambda r: r.start_time)
+        period_format = "%Y-%m"
+    
     df
 
     
