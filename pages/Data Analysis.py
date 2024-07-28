@@ -20,9 +20,9 @@ def fetch_data():
 with st.container():
     col1, col2 = st.columns([15, 1])
     with col1:
-        st.markdown("<h1 style='background-color:#42f598; text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='background-color:#0066cc; text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-        col3, col4, col5 = st.columns([1,1,1])
+        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+        col3, col4, col5 = st.columns([2,1,2])
         with col4:
             if st.button("רענן מידע", use_container_width=True):
                 st.cache_data.clear()
