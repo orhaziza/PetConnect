@@ -104,11 +104,11 @@ def show_data_analysis_page():
         return conn.read(spreadsheet=url)
 
     with st.container():
-    col1 , col2 , col3 = st.columns([1,1,1], gap="small")
-    with col2:
-        if st.button("רענן מידע"):
-            st.cache_data.clear()
-    
+        col1 , col2 , col3 = st.columns([1,1,1], gap="small")
+        with col2:
+            if st.button("רענן מידע"):
+                st.cache_data.clear()
+        
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
         st.error("The adopter file does not exist.")
