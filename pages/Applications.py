@@ -79,7 +79,7 @@ def show_application_page():
         
     if st.button("Clear Cache"):
         st.cache_data.clear()
-        st.success("Cache cleared!")
+        st.success("המידע עודכן!")
     
     data = fetch_data()
     applications_df = st.dataframe(data)
@@ -93,20 +93,20 @@ def show_application_page():
     # applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
 
     # Define Hebrew column names for adopters
-    hebrew_columns_applications = {
-        'ApplictionID': 'מזהה בקשה',
-        'ApplicantName': 'שם מבקש',
-        'dogID': 'מזהה כלב',
-        'AdopterID': 'מזהה מאמץ',
-        'applicationDate': 'תאריך בקשה',
-        'status': 'סטטוס בקשה',
-        'messageContect': 'תוכן בקשה',
-        'SourcePlatform': 'מאיפה הגעת אלינו',
-    }
+    # hebrew_columns_applications = {
+    #     'ApplictionID': 'מזהה בקשה',
+    #     'ApplicantName': 'שם מבקש',
+    #     'dogID': 'מזהה כלב',
+    #     'AdopterID': 'מזהה מאמץ',
+    #     'applicationDate': 'תאריך בקשה',
+    #     'status': 'סטטוס בקשה',
+    #     'messageContect': 'תוכן בקשה',
+    #     'SourcePlatform': 'מאיפה הגעת אלינו',
+    # }
 
-    # adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
-    applic_df_hebrew = applications_df.rename(columns=dict(
-        zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
+    # # adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
+    # applic_df_hebrew = applications_df.rename(columns=dict(
+    #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
 
     if selected == "כל הטבלה":
         st.dataframe(applic_df_hebrew)
