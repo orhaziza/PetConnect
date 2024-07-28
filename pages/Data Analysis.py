@@ -80,8 +80,17 @@ def plot_Applications_Flow(application_df):
 def plot_Applications_by_WkDay(application_df):
     df = application_df
     df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S').dt.day_name()
-    df["חותמת זמן"]
-    
+
+    application = df["חותמת זמן"].value_counts()
+    labels = [label[::-1] for label in platform_counts.index.tolist()]
+    values = platform_counts.tolist()
+    fig, ax = plt.subplots()
+    fig.patch.set_facecolor('none')
+    ax.patch.set_facecolor('none')
+    ax.pie(values, labels = labels, autopct='%1.1f%%', startangle=140)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig)
+
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
