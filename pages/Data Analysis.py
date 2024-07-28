@@ -21,15 +21,16 @@ with con1:
 
 def plot_Applications(data):
     application_df = st.dataframe(data)
-    platform_counts = application_df.iloc[:, 1].value_counts()
-    labels = [label[::-1] for label in platform_counts.index.tolist()]
-    values = platform_counts.tolist()
-    fig, ax = plt.subplots()
-    fig.patch.set_facecolor('none')
-    ax.patch.set_facecolor('none')
-    ax.pie(values, labels = labels, autopct='%1.1f%%', startangle=140)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    st.pyplot(fig)
+    application_df
+    # platform_counts = application_df.iloc[:, 1].value_counts()
+    # labels = [label[::-1] for label in platform_counts.index.tolist()]
+    # values = platform_counts.tolist()
+    # fig, ax = plt.subplots()
+    # fig.patch.set_facecolor('none')
+    # ax.patch.set_facecolor('none')
+    # ax.pie(values, labels = labels, autopct='%1.1f%%', startangle=140)
+    # ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    # st.pyplot(fig)
 
 def plot_Fosters(Foster_Home_df):
     lst = ['HouseSize','Backyard','NearDogPark','HouseMembers','AvailabilityAtHome','ChildrenFriendly','AnimalFriendly','MaximumCapacity','AllowedAtProperty','Allergies','IsMobile','EnergyLevel','PastFosters','PastExperience']
