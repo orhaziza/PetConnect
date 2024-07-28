@@ -13,19 +13,6 @@ with con1:
     with col2:
         st.image("Data/Logo.png", width=120)
 
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-
-    @st.cache_data()
-    def fetch_data():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        return conn.read(spreadsheet=url)
-        
-    if st.button("Clear Cache"):
-        st.cache_data.clear()
-        st.success("המידע עודכן!")
-    
-    data = fetch_data()
-    data
 # User credentials (in a real app, use a secure method for handling credentials)
 
 def hash_password(password):
@@ -69,34 +56,44 @@ def show_login_page():
             st.experimental_rerun()  # Refresh the page to update the content
         else:
             st.error("Invalid username or password")
-def add_logo():
-    st.sidebar.markdown(
-        """
-        <style>
-            .logo-container {
-                display: flex;
-                justify-content: flex-start; /* Aligns the logo to the top left */
-                align-items: center;
-                height: 100px; /* Adjust height as needed */
-            }
-            .logo-container img {
-                width: 80px; /* Adjust width as needed */
-                cursor: pointer; /* Pointer cursor on hover */
-            }
-        </style>
-        <div class="logo-container">
-            <a href="/">
-                <img src="Data/Logo.png" alt="Logo">
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+# def add_logo():
+#     st.sidebar.markdown(
+#         """
+#         <style>
+#             .logo-container {
+#                 display: flex;
+#                 justify-content: flex-start; /* Aligns the logo to the top left */
+#                 align-items: center;
+#                 height: 100px; /* Adjust height as needed */
+#             }
+#             .logo-container img {
+#                 width: 80px; /* Adjust width as needed */
+#                 cursor: pointer; /* Pointer cursor on hover */
+#             }
+#         </style>
+#         <div class="logo-container">
+#             <a href="/">
+#                 <img src="Data/Logo.png" alt="Logo">
+#             </a>
+#         </div>
+#         """,
+#         unsafe_allow_html=True,
+#     )
     
 # Function to show the home page
 def show_home_page():
-    df = pd.read_csv('Data/AdoptionApplication.csv')
-    st.dataframe(df)
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+
+    @st.cache_data()
+    def fetch_data():
+        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
+        
+    if st.button("Clear Cache"):
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
+    
+    df = fetch_data()
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
