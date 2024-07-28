@@ -20,8 +20,7 @@ with con1:
         st.image("Data/Logo.png", width=100)
 
 def plot_Applications(application_df):
-    st.write(application_df)
-    platform_counts = application_df['איך הגעתם אלינו?'].value_counts()
+    platform_counts = application_df[0].value_counts()
     labels = [label[::-1] for label in platform_counts.index.tolist()]
     values = platform_counts.tolist()
     fig, ax = plt.subplots()
@@ -72,10 +71,7 @@ def show_data_analysis_page():
         
     if st.button("Clear Cache"):
         st.cache_data.clear()
-        st.success("המידע עודכן!")
-
-    st.write("try 1!")
-    st.dataframe(fetch_data())
+        st.success("המידע עודכן!")    
     
     # application_file_path = "Data/AdoptionApplication.csv"
     # if not os.path.exists(application_file_path):
@@ -105,7 +101,7 @@ def show_data_analysis_page():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
             st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
-            plot_Applications(application_df)
+            plot_Applications(st.dataframe(fetch_data()))
         with col2:
             st.write('התפלגות הכלבים בעמותה:')
             plot_Dogs(dogs_df)
