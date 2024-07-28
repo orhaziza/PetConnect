@@ -75,7 +75,10 @@ def show_data_analysis_page():
         st.success("המידע עודכן!")
 
     application_df = st.dataframe(fetch_data())
-        
+    st.write("try 1!")
+    application_df
+
+    
     # application_file_path = "Data/AdoptionApplication.csv"
     # if not os.path.exists(application_file_path):
     #     st.error("applications file does not exist.")
