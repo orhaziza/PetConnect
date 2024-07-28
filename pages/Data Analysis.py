@@ -5,6 +5,7 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import matplotlib.pyplot as plt
 import numpy as np
+from streamlit_gsheets import GSheetsConnection
 
 
 st.set_page_config(page_title='Data Analysis', layout='wide')
