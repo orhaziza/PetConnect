@@ -61,7 +61,8 @@ def plot_Applications_Flow(application_df):
     df = application_df
     df["חותמת זמן"] = pd.to_datetime(application_df["חותמת זמן"], yearfirst=True, format='%d/%m/%Y %H:%M:%S')
 
-    view = st.radio("Select View", ("שבועי", "חודשי"))
+    view = st.radio("בחר", ("שבועי", "חודשי"))
+
     if view == "שבועי":
         df["Period"] = df["חותמת זמן"].dt.to_period('W').apply(lambda r: r.start_time)
         df['Period'] = df['Period'].dt.strftime('%Y-%m-%d')
@@ -130,22 +131,22 @@ def show_data_analysis_page():
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
-            st.write('התפלגות בתי אומנה:')
+            st.markdown("<h6 style='text-align: right;'>התפלגות בתי אומנה</h6>", unsafe_allow_html=True)
             plot_Fosters(Foster_Home_df)
         with col2:
-            st.write('התפלגות הכלבים בעמותה:')
+            st.markdown("<h6 style='text-align: right;'>התפלגות הכלבים בעמותה</h6>", unsafe_allow_html=True)
             plot_Dogs(dogs_df)
     
     with st.container():
         col1 , col2 , col3 = st.columns([1,1,1], gap="small")
         with col1:
-            st.write('התפלגות בקשות אימוץ לפי פלטפורמת פרסום:')
+            st.markdown("<h6 style='text-align: right;'>התפלגות בקשות אימוץ לפי פלטפורמת פרסום</h6>", unsafe_allow_html=True)
             plot_Applications(fetch_data())
         with col2:
-            st.write('בקשות אימוץ לאורך זמן:')
+            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לאורך זמן</h6>", unsafe_allow_html=True)
             plot_Applications_Flow(fetch_data())
         with col3:
-            st.write('בקשות אימוץ לפי יום בשבוע:')
+            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לפי יום בשבוע</h6>", unsafe_allow_html=True)
             plot_Applications_by_WkDay(fetch_data())
 
 
