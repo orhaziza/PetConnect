@@ -83,8 +83,13 @@ def plot_Applications_by_WkDay(application_df):
     distribution = df["חותמת זמן"].value_counts()
     days_of_week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     distribution = distribution.reindex(days_of_week, fill_value=0)
-    distribution = distribution.loc[days_of_week]
-    st.bar_chart(distribution)
+    distribution_df = distribution.reset_index()
+    distribution_df.columns = ['Day', 'Count']
+    
+    # Create a bar chart using Altair
+    chart = alt.Chart(distribution_df).mark_bar().encode(
+        x=alt.X('Day', sort=days_of_week),y='Count')
+    st.altair_chart(chart, use_container_width=True)
 
 def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
