@@ -13,7 +13,7 @@ st.set_page_config(page_title='Data Analysis', layout='wide')
 #logo
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([5, 1])
+    col1, col2 = st.columns([10, 1])
 with col1:
     st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
