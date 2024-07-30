@@ -82,6 +82,8 @@ def show_login_page():
     
 # Function to show the home page
 def show_home_page():
+    import datetime as dt
+
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
     @st.cache_data()
@@ -94,7 +96,20 @@ def show_home_page():
         st.success("המידע עודכן!")
     
     df = fetch_data()
-    df
+    
+    # Ensure the timestamp column is in datetime format
+    df['חותמת זמן'] = pd.to_datetime(df['חותמת זמן'])
+    
+    # Filter the DataFrame to include only records from the past two days
+    two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
+    recent_df = df[df['חותמת זמן'] >= two_days_ago]
+    
+    # Set the title and subtitle
+    st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>אלו כל בקשות האימוץ שהתקבלו ביומיים האחרונים</h2>", unsafe_allow_html=True)
+    
+    # Display the filtered DataFrame
+    st.dataframe(recent_df)
     
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
