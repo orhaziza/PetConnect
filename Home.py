@@ -91,7 +91,7 @@ def show_home_page():
         conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
         
-    if st.button("Clear Cache"):
+    if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
     
