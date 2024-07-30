@@ -97,25 +97,20 @@ def show_home_page():
     
     df = fetch_data()
     
-    # Ensure the timestamp column is in datetime format with the correct format
-    try:
-        df['חותמת זמן'] = pd.to_datetime(df['חותמת זמן'], format='%Y-%m-%d %H:%M:%S')
-    except Exception as e:
-        st.error(f"Error parsing dates: {e}")
-        st.write(df['חותמת זמן'].head())
-        return
-
+    # Ensure the timestamp column is in datetime format
+    df['חותמת זמן'] = pd.to_datetime(df['חותמת זמן'])
+    
     # Filter the DataFrame to include only records from the past two days
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
     recent_df = df[df['חותמת זמן'] >= two_days_ago]
-
+    
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: center;'>אלו כל בקשות האימוץ שהתקבלו ביומיים האחרונים</h2>", unsafe_allow_html=True)
-
+    
     # Display the filtered DataFrame
     st.dataframe(recent_df)
-    
+
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
