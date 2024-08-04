@@ -89,13 +89,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([1, 5])
-    with col2:
-        st.markdown("<h1 class='header'>PetConnect ברוך הבא ל </h1>", unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 3])
     with col1:
         st.image("Data/Logo.png", width=120)
+    with col2:
+        st.markdown("<h1 class='header'>ברוך הבא ל PetConnect</h1>", unsafe_allow_html=True)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 def hash_password(password):
