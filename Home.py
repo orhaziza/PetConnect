@@ -64,6 +64,11 @@ def show_home_page():
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
         
+    @st.cache_data(ttl=0.5)
+    def save_data(df):
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        conn.write(df, url)
+    
     if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
@@ -95,29 +100,40 @@ def show_home_page():
     # Rename the columns in the DataFrame
     df.rename(columns=columns_mapping, inplace=True)
 
+    # Add the 'seen' column if it doesn't exist
+    if 'seen' not in df.columns:
+        df['seen'] = False
+    
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     
     # Filter the DataFrame to include only records from the past two days
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[df['Timestamp'] >= two_days_ago]
+    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['seen'])]
     
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
     
     # Display the number of records
-    st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
-    
-    # Display each record as text
-    for i in range(len(recent_df)):
-        st.markdown(f"""
-        <div style='text-align: right;'>
-            <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
-            <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
-            <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
-        </div>
-        <hr>
-        """, unsafe_allow_html=True)
+    if len(recent_df) > 0:
+        st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
+        
+        # Display each record as text
+        for i in range(len(recent_df)):
+            st.markdown(f"""
+            <div style='text-align: right;'>
+                <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
+                <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
+                <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
+            </div>
+            <hr>
+            """, unsafe_allow_html=True)
+            if st.checkbox("ראיתי", key=f"seen_{i}"):
+                df.loc[recent_df.index[i], 'seen'] = True
+
+        save_data(df)
+    else:
+        st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
