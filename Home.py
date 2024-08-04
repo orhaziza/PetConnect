@@ -70,6 +70,9 @@ def show_home_page():
     
     df = fetch_data()
     
+    # Debug: print original column names
+    st.write("Original columns:", df.columns.tolist())
+    
     # Mapping Hebrew column names to English equivalents
     columns_mapping = {
         'חותמת זמן': 'Timestamp',
@@ -91,6 +94,9 @@ def show_home_page():
 
     # Rename the columns in the DataFrame
     df.rename(columns=columns_mapping, inplace=True)
+
+    # Debug: print renamed column names
+    st.write("Renamed columns:", df.columns.tolist())
 
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
