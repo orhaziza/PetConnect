@@ -250,8 +250,7 @@ def show_adopters_page():
                 save_file(adopter_id, uploaded_file)
                 st.success('File uploaded successfully.')
 
-            # Show confirmation if any action is taken
-            st.experimental_rerun()
+
 
             # Sidebar logout button
         if st.sidebar.button("Log Out"):
