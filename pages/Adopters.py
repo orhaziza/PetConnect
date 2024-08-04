@@ -255,8 +255,8 @@ def show_adopters_page():
 
             # Sidebar logout button
         if st.sidebar.button("Log Out"):
-        st.session_state['logged_in'] = False
-        st.experimental_rerun()
+            st.session_state['logged_in'] = False
+            st.experimental_rerun()
 
 
 
