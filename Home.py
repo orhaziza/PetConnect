@@ -7,19 +7,22 @@ import datetime as dt
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
-# Define CSS styles for better visual design
+# Define CSS styles for the customized design
 st.markdown("""
     <style>
+        body {
+            background-color: #f0f0f0; /* Grey background */
+        }
         .header {
             text-align: center;
             font-size: 2.5em;
             margin-top: 20px;
-            color: #1a73e8;
+            color: #800080; /* Purple color for headers */
         }
         .subheader {
             text-align: center;
             font-size: 1.5em;
-            color: #1a73e8;
+            color: #000000; /* Black color for subheaders */
         }
         .login-container {
             max-width: 500px;
@@ -27,7 +30,7 @@ st.markdown("""
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #ffffff; /* White background for the login container */
         }
         .record {
             text-align: right;
@@ -35,15 +38,23 @@ st.markdown("""
             border: 1px solid #ddd;
             border-radius: 10px;
             margin-bottom: 10px;
-            background-color: #f1f1f1;
+            background-color: #ffffff; /* White background for records */
         }
         .refresh-btn {
             display: flex;
             justify-content: center;
             margin: 20px 0;
         }
+        .stButton > button {
+            color: #ffffff; /* White text for buttons */
+            background-color: #0000ff; /* Blue background for buttons */
+        }
+        .stButton > button:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
     </style>
 """, unsafe_allow_html=True)
+
 
 con1 = st.container()
 with con1:
