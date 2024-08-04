@@ -86,19 +86,6 @@ st.markdown("""
         .icon-button img {
             margin-right: 5px;
         }
-        .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #30475E; /* Dark blue */
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 2s linear infinite;
-            margin: auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -111,7 +98,6 @@ with con1:
         st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
-
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
@@ -227,9 +213,8 @@ def show_home_page():
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
-    # Refresh button after the last update
-    st.markdown("<div class='refresh-btn'><button class='stButton'><img src='https://img.icons8.com/color/48/000000/refresh--v1.png' alt='refresh'>רענן</button></div>", unsafe_allow_html=True)
-    if st.button("רענן"):
+    # Refresh button with emoji
+    if st.button("🔄 רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
 
@@ -239,7 +224,7 @@ if 'logged_in' not in st.session_state:
 
 # Main routing logic
 if st.session_state['logged_in']:
-    if st.sidebar.button("Log Out"):
+    if st.sidebar.button("Log Out", key='logout', help='Log Out'):
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
