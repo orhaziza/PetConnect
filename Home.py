@@ -64,23 +64,14 @@ def show_home_page():
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
     
-    def save_data(df):
-        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        try:
-            st.write("Attempting to save data to Google Sheets")
-            conn.write(df, url)
-            st.success("Data saved successfully!")
-        except Exception as e:
-            st.error(f"Failed to save data to Google Sheets: {e}")
+    if 'seen_records' not in st.session_state:
+        st.session_state['seen_records'] = []
 
     if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
     
     df = fetch_data()
-    
-    # Debugging line
-    st.write("Data fetched from Google Sheets", df)
     
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
@@ -110,15 +101,12 @@ def show_home_page():
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     
-    # Add the 'seen' column if it doesn't exist and set to False where NaN
-    if 'seen' not in df.columns:
-        df['seen'] = False
-    else:
-        df['seen'] = df['seen'].fillna(False)
-
+    # Add a unique identifier to each record
+    df['Record ID'] = df.index
+    
     # Filter the DataFrame to include only records from the past two days and unseen records
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['seen'])]
+    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
@@ -137,10 +125,9 @@ def show_home_page():
             </div>
             <hr>
             """, unsafe_allow_html=True)
-            if st.checkbox("ראיתי", key=f"seen_{i}"):
-                df.loc[recent_df.index[i], 'seen'] = True
+            if st.checkbox("ראיתי", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
+                st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
 
-        save_data(df)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
