@@ -17,7 +17,7 @@ st.markdown("""
             background-color: #E8E8E8; /* Light grey background */
         }
         .header {
-            text-align: left;
+            text-align: center;
             font-size: 2.5em;
             margin-top: 20px;
             color: #222831; /* Dark color for headers */
@@ -78,24 +78,46 @@ st.markdown("""
             background-color: #C74444; /* Darker red on hover */
             transform: scale(1.05);
         }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button img {
+            margin-right: 5px;
+        }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #30475E; /* Dark blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 """, unsafe_allow_html=True)
 
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([5, 1])
-    with col1:
-        st.markdown("<h1 class='header'>ברוך הבא ל PetConnect</h1>", unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 5])
     with col2:
+        st.markdown("<h1 class='header'> PetConnect ברוך הבא ל</h1>", unsafe_allow_html=True)
+    with col1:
         st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
+
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 # Function to check password
 def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode(), hashed.encode())
+    return password == hashed
 
 def load_users():
     df = pd.read_csv("Data/Users.csv")
@@ -113,21 +135,22 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():
-    st.markdown("<h2 class='subheader'>Please log in to access the system.</h2>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    
+    st.subheader("Please log in to access the system.")
 
     # User input for login
-    with st.form("login_form", clear_on_submit=True):
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        submitted = st.form_submit_button("Login")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
 
-        if submitted:
-            if login(username, password):
-                st.session_state['logged_in'] = True
-                st.session_state['username'] = username
-                st.experimental_rerun()  # Refresh the page to update the content
-            else:
-                st.error("Invalid username or password")
+    # Login button
+    if st.button("Login"):
+        if login(username, password):
+            st.session_state['logged_in'] = True
+            st.session_state['username'] = username
+            st.experimental_rerun()  # Refresh the page to update the content
+        else:
+            st.error("Invalid username or password")
 
 # Function to show the home page
 def show_home_page():
@@ -141,10 +164,7 @@ def show_home_page():
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
 
-    # Refresh button
-    st.markdown("<div class='refresh-btn'><button class='stButton'><span>🔄</span> רענן</button></div>", unsafe_allow_html=True)
-    
-    if st.button("🔄 רענן"):
+    if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
     
@@ -186,11 +206,11 @@ def show_home_page():
     recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
     # Set the title and subtitle
-    st.markdown("<h1 class='header'>מסך עדכונים</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
     
     # Display the number of records
     if len(recent_df) > 0:
-        st.markdown(f"<h2 class='subheader'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
         
         # Display each record as text
         for i in range(len(recent_df)):
@@ -198,18 +218,19 @@ def show_home_page():
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
             
             st.markdown(f"""
-            <div class='record'>
+            <div style='text-align: right;'>
                 <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
                 <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
                 <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
                 <p><b>מספר הטלפון:</b> {formatted_phone_number}</p>
             </div>
+            <hr>
             """, unsafe_allow_html=True)
             if st.checkbox("ראיתי", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
                 st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
 
     else:
-        st.markdown("<h2 class='subheader'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
@@ -217,7 +238,7 @@ if 'logged_in' not in st.session_state:
 
 # Main routing logic
 if st.session_state['logged_in']:
-    if st.sidebar.button("Log Out", key='logout', help='Log Out'):
+    if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
