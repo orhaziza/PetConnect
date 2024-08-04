@@ -58,7 +58,7 @@ def show_application_page():
     
     data = fetch_data()
     applications_df = st.dataframe(data)
-    st.dataframe(applications_df)
+    applications_df
 
 
     
