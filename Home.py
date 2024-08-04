@@ -70,12 +70,34 @@ def show_home_page():
     
     df = fetch_data()
     
+    # Mapping Hebrew column names to English equivalents
+    columns_mapping = {
+        'חותמת זמן': 'Timestamp',
+        'איך הגעתם אלינו?': 'How did you hear about us?',
+        'בנוגע לאיזה מהכלבים שלנו פניתם 🐕': 'Which dog are you interested in?',
+        'שם פרטי ושם משפחה': 'Full Name',
+        'עיר מגורים': 'City',
+        'מספר הנפשות הגרות בבית': 'Number of people in household',
+        'גילאי ילדים במידה ויש': 'Ages of children (if any)',
+        'כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺': 'Additional information',
+        'מספר טלפון': 'Phone number',
+        'האם אימצת אצלנו בעבר?': 'Have you adopted from us before?',
+        'האם יש גינה (מגודרת) בבית?': 'Do you have a garden (fenced)?',
+        'ניסיון עם בעלי חיים?': 'Experience with animals?',
+        'האם יש בעלי חיים נוספים בבית': 'Do you have other pets?',
+        'זמינות': 'Availability',
+        'במידה ויש, אילו?': 'If any, which?'
+    }
+
+    # Rename the columns in the DataFrame
+    df.rename(columns=columns_mapping, inplace=True)
+
     # Ensure the timestamp column is in datetime format
-    df['חותמת זמן'] = pd.to_datetime(df['חותמת זמן'])
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     
     # Filter the DataFrame to include only records from the past two days
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[df['חותמת זמן'] >= two_days_ago]
+    recent_df = df[df['Timestamp'] >= two_days_ago]
     
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
@@ -87,9 +109,9 @@ def show_home_page():
     for i in range(len(recent_df)):
         st.markdown(f"""
         <div style='text-align: right;'>
-            <p>שם: {recent_df.iloc[i]['שם פרטי ושם משפחה']}</p>
-            <p>כלב: {recent_df.iloc[i]['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']}</p>
-            <p>מידע נוסף: {recent_df.iloc[i]['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']}</p>
+            <p>שם: {recent_df.iloc[i]['Full Name']}</p>
+            <p>כלב: {recent_df.iloc[i]['Which dog are you interested in?']}</p>
+            <p>מידע נוסף: {recent_df.iloc[i]['Additional information']}</p>
         </div>
         <hr>
         """, unsafe_allow_html=True)
