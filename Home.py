@@ -106,7 +106,7 @@ con1 = st.container()
 with con1:
     col1, col2 = st.columns([1, 5])
     with col2:
-        st.markdown("<h1 class='header'>ברוך הבא ל PetConnect</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 class='header'> PetConnect ברוך הבא ל</h1>", unsafe_allow_html=True)
     with col1:
         st.image("Data/Logo.png", width=120)
 
