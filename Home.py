@@ -54,11 +54,11 @@ with con1:
 # User credentials (in a real app, use a secure method for handling credentials)
 
 def hash_password(password):
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 # Function to check password
 def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode(), hashed.encode())
+    return password == hashed
 
 def load_users():
     df = pd.read_csv("Data/Users.csv")
