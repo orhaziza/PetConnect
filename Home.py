@@ -84,12 +84,12 @@ def show_home_page():
     st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
     
     # Display each record as text
-    for index, row in recent_df.iterrows():
+    for i in range(len(recent_df)):
         st.markdown(f"""
         <div style='text-align: right;'>
-            <p>שם: {row['שם פרטי ושם משפחה']}</p>
-            <p>כלב: {row['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']}</p>
-            <p>מידע נוסף: {row['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']}</p>
+            <p>שם: {recent_df.iloc[i]['שם פרטי ושם משפחה']}</p>
+            <p>כלב: {recent_df.iloc[i]['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']}</p>
+            <p>מידע נוסף: {recent_df.iloc[i]['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']}</p>
         </div>
         <hr>
         """, unsafe_allow_html=True)
