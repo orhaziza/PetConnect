@@ -5,7 +5,90 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 # Set up the page configuration at the top
 
-# Define the CSS styles
+# Function to load adopters data
+def load_adopters_data():
+    adopter_file_path = 'Data/Adopters.csv'
+    adopters_df = pd.read_csv(adopter_file_path, encoding='utf-8')
+    return adopters_df
+
+# Function to save a file
+def save_file(adopter_id, file):
+    try:
+        file_name = f'{adopter_id}_{file.name}'
+        file_path = os.path.join(FILES_DIR, file_name)
+
+        # Debugging statements
+        st.write(f'Saving file to: {file_path}')
+        st.write(f'File name: {file.name}')
+
+        # Write the file
+        with open(file_path, 'wb') as f:
+            f.write(file.read())
+
+        st.success('File saved successfully')
+    except Exception as e:
+        st.error(f'Error saving file: {e}')
+        raise
+
+# Function to delete a file
+def delete_file(file_name):
+    file_path = os.path.join(FILES_DIR, file_name)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        
+def show_adopters_page():
+    st.set_page_config(page_title='Adopters', layout='wide')
+    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+        st.error("לא ניתן לגשת לעמוד ללא התחברות")
+        st.stop()
+
+    # Load adopter data
+    adopter_file_path = "Data/Adopters.csv"
+    if not os.path.exists(adopter_file_path):
+        st.error("The adopter file does not exist.")
+        st.stop()
+
+    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
+
+# Define Hebrew column names for adopters
+    hebrew_columns_adopters = {
+    'dog_chipID': 'שבב כלב',
+    'AdopterID': 'מזהה מאמץ',
+    'AdopterName': 'שם מאמץ',
+    'Second_adopterID': 'מזהה מאמץ שני',
+    'Second_adopterName': 'שם מאמץ שני',
+    'Floor': 'קומה',
+    'Apartment': 'דירה',
+    'Address_street_number': 'מספר רחוב',
+    'Address_street': 'רחוב',
+    'Address_city': 'עיר',
+    'adopter_phone_num': 'מספר טלפון של המאמץ',
+    'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
+    'Adopter_mail': 'דואר אלקטרוני של המאמץ',
+    'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
+    'preferences': 'העדפות',
+    'LifeStyleInformation': 'מידע על אופני חיים',
+    'AdoptionDate': 'תאריך אימוץ',
+    'Documents': 'מסמכים',
+    'ownership_form': 'טופס בעלות',
+    'ownership_transfer': 'העברת בעלות',
+    'Payment_type': 'סוג תשלום',
+    'Recieipt_Num': 'מספר קבלה',
+    'Security_payment': 'תשלום ביטחון'
+    # Add more column name translations as needed
+    }
+
+
+
+    # Use st.columns to create four equally sized columns
+    # Use st.columns to create four equally sized columns
+
+    # # Define the menu options
+    # with st.sidebar:
+    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+
+    # Custom CSS to center-align the option menu
+    # Define the CSS styles
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -115,101 +198,7 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
-
-# Function to load adopters data
-def load_adopters_data():
-    adopter_file_path = 'Data/Adopters.csv'
-    adopters_df = pd.read_csv(adopter_file_path, encoding='utf-8')
-    return adopters_df
-
-# Function to save a file
-def save_file(adopter_id, file):
-    try:
-        file_name = f'{adopter_id}_{file.name}'
-        file_path = os.path.join(FILES_DIR, file_name)
-
-        # Debugging statements
-        st.write(f'Saving file to: {file_path}')
-        st.write(f'File name: {file.name}')
-
-        # Write the file
-        with open(file_path, 'wb') as f:
-            f.write(file.read())
-
-        st.success('File saved successfully')
-    except Exception as e:
-        st.error(f'Error saving file: {e}')
-        raise
-
-# Function to delete a file
-def delete_file(file_name):
-    file_path = os.path.join(FILES_DIR, file_name)
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        
-def show_adopters_page():
-    st.set_page_config(page_title='Adopters', layout='wide')
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות")
-        st.stop()
-
-    # Load adopter data
-    adopter_file_path = "Data/Adopters.csv"
-    if not os.path.exists(adopter_file_path):
-        st.error("The adopter file does not exist.")
-        st.stop()
-
-    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
-
-# Define Hebrew column names for adopters
-    hebrew_columns_adopters = {
-    'dog_chipID': 'שבב כלב',
-    'AdopterID': 'מזהה מאמץ',
-    'AdopterName': 'שם מאמץ',
-    'Second_adopterID': 'מזהה מאמץ שני',
-    'Second_adopterName': 'שם מאמץ שני',
-    'Floor': 'קומה',
-    'Apartment': 'דירה',
-    'Address_street_number': 'מספר רחוב',
-    'Address_street': 'רחוב',
-    'Address_city': 'עיר',
-    'adopter_phone_num': 'מספר טלפון של המאמץ',
-    'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
-    'Adopter_mail': 'דואר אלקטרוני של המאמץ',
-    'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
-    'preferences': 'העדפות',
-    'LifeStyleInformation': 'מידע על אופני חיים',
-    'AdoptionDate': 'תאריך אימוץ',
-    'Documents': 'מסמכים',
-    'ownership_form': 'טופס בעלות',
-    'ownership_transfer': 'העברת בעלות',
-    'Payment_type': 'סוג תשלום',
-    'Recieipt_Num': 'מספר קבלה',
-    'Security_payment': 'תשלום ביטחון'
-    # Add more column name translations as needed
-    }
-
-
-
-    # Use st.columns to create four equally sized columns
-    # Use st.columns to create four equally sized columns
-
-    # # Define the menu options
-    # with st.sidebar:
-    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-
-    # Custom CSS to center-align the option menu
-    st.markdown(
-        """
-        <style>
-        .option-menu-container {
-            display: flex;
-            justify-content: center;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    
 
     # Define the menu options
     selected = option_menu(
