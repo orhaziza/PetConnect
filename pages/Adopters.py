@@ -224,14 +224,12 @@ def show_adopters_page():
         # Load the existing adopters data
         adopter_df_hebrew = load_adopters_data()
 
-        # Show the page
-        st.title('Adopter Files Management')
 
         # Select adopter
         adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['AdopterID'])
 
         if adopter_id:
-            st.subheader(f'Files for Adopter {adopter_id}')
+            st.subheader(f'קבצים של {adopter_id}')
 
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
@@ -241,14 +239,14 @@ def show_adopters_page():
                     st.write(file_name)
                     if st.button(f'Delete {file_name}'):
                         delete_file(file_name)
-                        st.success(f'File {file_name} deleted successfully.')
+                        st.success(f'File {file_name} נמחק בהצלחה')
                         st.experimental_rerun()
 
             # Upload new file
-            uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
+            uploaded_file = st.file_uploader('העלאת קובץ pdf', type='pdf')
             if uploaded_file:
                 save_file(adopter_id, uploaded_file)
-                st.success('File uploaded successfully.')
+                st.success('הפעולה בוצעה בהצלחה')
 
 
 
