@@ -3,9 +3,8 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-
 # Set up the page configuration at the top
-st.set_page_config(page_title='Adopters', layout='wide')
+
 
 # Function to load adopters data
 def load_adopters_data():
@@ -18,6 +17,10 @@ def save_file(adopter_id, file):
     try:
         file_name = f'{adopter_id}_{file.name}'
         file_path = os.path.join(FILES_DIR, file_name)
+
+        # Debugging statements
+        st.write(f'Saving file to: {file_path}')
+        st.write(f'File name: {file.name}')
 
         # Write the file
         with open(file_path, 'wb') as f:
@@ -33,8 +36,9 @@ def delete_file(file_name):
     file_path = os.path.join(FILES_DIR, file_name)
     if os.path.exists(file_path):
         os.remove(file_path)
-
+        
 def show_adopters_page():
+    st.set_page_config(page_title='Adopters', layout='wide')
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
@@ -47,131 +51,47 @@ def show_adopters_page():
 
     adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
 
-    # Define Hebrew column names for adopters
+# Define Hebrew column names for adopters
     hebrew_columns_adopters = {
-        'dog_chipID': 'שבב כלב',
-        'AdopterID': 'מזהה מאמץ',
-        'AdopterName': 'שם מאמץ',
-        'Second_adopterID': 'מזהה מאמץ שני',
-        'Second_adopterName': 'שם מאמץ שני',
-        'Floor': 'קומה',
-        'Apartment': 'דירה',
-        'Address_street_number': 'מספר רחוב',
-        'Address_street': 'רחוב',
-        'Address_city': 'עיר',
-        'adopter_phone_num': 'מספר טלפון של המאמץ',
-        'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
-        'Adopter_mail': 'דואר אלקטרוני של המאמץ',
-        'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
-        'preferences': 'העדפות',
-        'LifeStyleInformation': 'מידע על אופני חיים',
-        'AdoptionDate': 'תאריך אימוץ',
-        'Documents': 'מסמכים',
-        'ownership_form': 'טופס בעלות',
-        'ownership_transfer': 'העברת בעלות',
-        'Payment_type': 'סוג תשלום',
-        'Recieipt_Num': 'מספר קבלה',
-        'Security_payment': 'תשלום ביטחון'
+    'dog_chipID': 'שבב כלב',
+    'AdopterID': 'מזהה מאמץ',
+    'AdopterName': 'שם מאמץ',
+    'Second_adopterID': 'מזהה מאמץ שני',
+    'Second_adopterName': 'שם מאמץ שני',
+    'Floor': 'קומה',
+    'Apartment': 'דירה',
+    'Address_street_number': 'מספר רחוב',
+    'Address_street': 'רחוב',
+    'Address_city': 'עיר',
+    'adopter_phone_num': 'מספר טלפון של המאמץ',
+    'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
+    'Adopter_mail': 'דואר אלקטרוני של המאמץ',
+    'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
+    'preferences': 'העדפות',
+    'LifeStyleInformation': 'מידע על אופני חיים',
+    'AdoptionDate': 'תאריך אימוץ',
+    'Documents': 'מסמכים',
+    'ownership_form': 'טופס בעלות',
+    'ownership_transfer': 'העברת בעלות',
+    'Payment_type': 'סוג תשלום',
+    'Recieipt_Num': 'מספר קבלה',
+    'Security_payment': 'תשלום ביטחון'
+    # Add more column name translations as needed
     }
 
-    # Custom CSS for styling
+
+
+    # Use st.columns to create four equally sized columns
+    # Use st.columns to create four equally sized columns
+
+    # # Define the menu options
+    # with st.sidebar:
+    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+
+    # Custom CSS to center-align the option menu
     st.markdown(
         """
         <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #E8E8E8; /* Light grey background */
-        }
-        .header {
-            text-align: center;
-            font-size: 2.5em;
-            margin-top: 20px;
-            color: #222831; /* Dark color for headers */
-        }
-        .subheader {
-            text-align: center;
-            font-size: 1.5em;
-            color: #222831; /* Dark color for subheaders */
-        }
-        .login-container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #ffffff; /* White background for the login container */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .record {
-            text-align: right;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background-color: #ffffff; /* White background for records */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .refresh-btn {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .stButton > button {
-            color: #ffffff; /* White text for buttons */
-            background-color: #30475E; /* Dark blue color for buttons */
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .stButton > button:hover {
-            background-color: #25394C; /* Darker blue on hover */
-            transform: scale(1.05);
-        }
-        .stButton > button.logout {
-            background-color: #F05454; /* Red color for logout button */
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .stButton > button.logout:hover {
-            background-color: #C74444; /* Darker red on hover */
-            transform: scale(1.05);
-        }
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 20px 0;
-        }
-        .dataframe {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 20px 0;
-            font-size: 1.1em;
-            min-width: 400px;
-            border-radius: 5px 5px 0 0;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .dataframe thead tr {
-            background-color: #30475E;
-            color: #ffffff;
-            text-align: left;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-        }
-        .dataframe th, .dataframe td {
-            padding: 12px 15px;
-        }
-        .dataframe tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-        .dataframe tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-        .dataframe tbody tr:hover {
-            background-color: #f1f1f1;
-        }
         .option-menu-container {
             display: flex;
             justify-content: center;
@@ -200,7 +120,7 @@ def show_adopters_page():
 
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        st.dataframe(adopter_df_hebrew, height=600)
+        st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
@@ -242,7 +162,6 @@ def show_adopters_page():
         st.subheader('הוסף מאמץ')
 
         # Add adoption form or input fields here
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
         dog_chipID = st.text_input('מזהה שבב כלב')
         adopter_id = st.text_input('מזהה מאמץ')
         adopter_name = st.text_input('שם מאמץ')
@@ -266,7 +185,6 @@ def show_adopters_page():
         payment_type = st.text_input('סוג תשלום')
         receipt_num = st.text_input('מספר קבלה')
         security_payment = st.text_input('תשלום ביטחון')
-        st.markdown("</div>", unsafe_allow_html=True)
 
         if st.button('שמור מאמץ'):
             # Save adopter data to CSV or database
@@ -314,8 +232,7 @@ def show_adopters_page():
         # Ensure the directory exists
         if not os.path.exists(FILES_DIR):
             os.makedirs(FILES_DIR)
-        
-        # Load the existing adopters data
+      # Load the existing adopters data
         adopter_df_hebrew = load_adopters_data()
 
         # Show the page
@@ -327,7 +244,7 @@ def show_adopters_page():
         if adopter_id:
             st.subheader(f'Files for Adopter {adopter_id}')
 
-            # List existing files
+             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
                 st.write('Existing files:')
@@ -352,9 +269,14 @@ def show_adopters_page():
                 else:
                     st.error('Uploaded file does not have a name.')
 
-    # Sidebar logout button
-    if st.sidebar.button("Log Out"):
-        st.session_state['logged_in'] = False
-        st.experimental_rerun()
+
+
+
+            # Sidebar logout button
+        if st.sidebar.button("Log Out"):
+            st.session_state['logged_in'] = False
+            st.experimental_rerun()
+
+
 
 show_adopters_page()
