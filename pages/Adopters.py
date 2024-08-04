@@ -92,6 +92,10 @@ def show_adopters_page():
         st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
+        # Ensure columns are treated as strings
+        adopter_df_hebrew['שבב כלב'] = adopter_df_hebrew['שבב כלב'].astype(str)
+        adopter_df_hebrew['מזהה מאמץ'] = adopter_df_hebrew['מזהה מאמץ'].astype(str)
+        adopter_df_hebrew['שם מאמץ'] = adopter_df_hebrew['שם מאמץ'].astype(str)
         col1, col2, col3 = st.columns(3)
 
         with col1:
