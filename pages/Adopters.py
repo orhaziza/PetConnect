@@ -244,16 +244,22 @@ def show_adopters_page():
         if adopter_id:
             st.subheader(f'Files for Adopter {adopter_id}')
 
-            # List existing files
+             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
                 st.write('Existing files:')
                 for file_name in files:
                     st.write(file_name)
-                    if st.button(f'Delete {file_name}'):
-                        delete_file(file_name)
-                        st.experimental_rerun()
-
+                    with open(os.path.join(FILES_DIR, file_name), "rb") as file:
+                        btn = st.download_button(
+                            label=f"Download {file_name}",
+                            data=file,
+                            file_name=file_name,
+                            mime='application/octet-stream'
+                        )
+            if st.button(f'Delete {file_name}'):
+                delete_file(file_name)
+                st.experimental_rerun()
             # Upload new file
             uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
             if uploaded_file is not None:
