@@ -19,10 +19,6 @@ def save_file(adopter_id, file):
         file_name = f'{adopter_id}_{file.name}'
         file_path = os.path.join(FILES_DIR, file_name)
 
-        # Debugging statements
-        st.write(f'Saving file to: {file_path}')
-        st.write(f'File name: {file.name}')
-
         # Write the file
         with open(file_path, 'wb') as f:
             f.write(file.read())
@@ -204,7 +200,7 @@ def show_adopters_page():
 
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        st.dataframe(adopter_df_hebrew)
+        st.dataframe(adopter_df_hebrew, height=600)
 
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
