@@ -13,7 +13,7 @@ def show_application_page():
     with con1:
         col1, col2 = st.columns([5, 1])
         with col1:
-            st.title("Applicant Profile")
+            st.title("Applications")
         with col2:
             st.image("Data/Logo.png", width=120)
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
