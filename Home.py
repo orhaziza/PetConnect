@@ -17,7 +17,7 @@ st.markdown("""
             background-color: #E8E8E8; /* Light grey background */
         }
         .header {
-            text-align: center;
+            text-align: left;
             font-size: 2.5em;
             margin-top: 20px;
             color: #222831; /* Dark color for headers */
@@ -91,11 +91,11 @@ st.markdown("""
 
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([1, 5])
-    with col2:
-        st.markdown("<h1 class='header'>PetConnect ברוך הבא ל </h1>", unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 3])
     with col1:
         st.image("Data/Logo.png", width=120)
+    with col2:
+        st.markdown("<h1 class='header'>PetConnect ברוך הבא ל </h1>", unsafe_allow_html=True)
 
 # User credentials (in a real app, use a secure method for handling credentials)
 def hash_password(password):
@@ -214,7 +214,8 @@ def show_home_page():
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
     # Refresh button with emoji
-    if st.button("🔄 רענן"):
+    st.markdown("<div class='refresh-btn'><button class='stButton'><span>🔄</span> רענן</button></div>", unsafe_allow_html=True)
+    if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
 
