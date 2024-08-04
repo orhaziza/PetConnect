@@ -228,7 +228,7 @@ def show_adopters_page():
         st.title('Adopter Files Management')
 
         # Select adopter
-        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['AdopterID'])
 
         if adopter_id:
             st.subheader(f'Files for Adopter {adopter_id}')
