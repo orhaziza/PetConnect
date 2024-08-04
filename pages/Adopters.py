@@ -6,6 +6,24 @@ from streamlit_option_menu import option_menu
 # Set up the page configuration at the top
 
 
+# Function to load adopters data
+def load_adopters_data():
+    adopter_file_path = 'Data/Adopters.csv'
+    adopters_df = pd.read_csv(adopter_file_path, encoding='utf-8')
+    return adopters_df
+
+# Function to save a file
+def save_file(adopter_id, file):
+    file_path = os.path.join(FILES_DIR, f'{adopter_id}_{file.name}')
+    with open(file_path, 'wb') as f:
+        f.write(file.read())
+
+# Function to delete a file
+def delete_file(file_name):
+    file_path = os.path.join(FILES_DIR, file_name)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
@@ -195,12 +213,48 @@ def show_adopters_page():
 
     elif selected == "ערוך מסמך":
         st.subheader('ערוך מסמך')
+        # Directory for storing adopter files
+        FILES_DIR = 'Data/Adopters/'
 
+        # Ensure the directory exists
+        if not os.path.exists(FILES_DIR):
+            os.makedirs(FILES_DIR)
         # Edit document functionality
         # Implement as per your requirements
+        # Load the existing adopters data
+        adopter_df_hebrew = load_adopters_data()
 
-    # Sidebar logout button
-    if st.sidebar.button("Log Out"):
+        # Show the page
+        st.title('Adopter Files Management')
+
+        # Select adopter
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
+
+        if adopter_id:
+            st.subheader(f'Files for Adopter {adopter_id}')
+
+            # List existing files
+            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
+            if files:
+                st.write('Existing files:')
+                for file_name in files:
+                    st.write(file_name)
+                    if st.button(f'Delete {file_name}'):
+                        delete_file(file_name)
+                        st.success(f'File {file_name} deleted successfully.')
+                        st.experimental_rerun()
+
+            # Upload new file
+            uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
+            if uploaded_file:
+                save_file(adopter_id, uploaded_file)
+                st.success('File uploaded successfully.')
+
+            # Show confirmation if any action is taken
+            st.experimental_rerun()
+
+            # Sidebar logout button
+        if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
 
