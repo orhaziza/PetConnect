@@ -3,7 +3,120 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+
 # Set up the page configuration at the top
+st.set_page_config(page_title='Adopters', layout='wide')
+
+# Define the CSS styles
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #E8E8E8; /* Light grey background */
+        }
+        .header {
+            text-align: left;
+            font-size: 2.5em;
+            margin-top: 20px;
+            color: #222831; /* Dark color for headers */
+        }
+        .subheader {
+            text-align: center;
+            font-size: 1.5em;
+            color: #222831; /* Dark color for subheaders */
+        }
+        .login-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #ffffff; /* White background for the login container */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .record {
+            text-align: right;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #ffffff; /* White background for records */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .record:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .refresh-btn {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .stButton > button {
+            color: #ffffff; /* White text for buttons */
+            background-color: #30475E; /* Dark blue color for buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        .stButton > button.logout {
+            background-color: #F05454; /* Red color for logout button */
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .stButton > button.logout:hover {
+            background-color: #C74444; /* Darker red on hover */
+            transform: scale(1.05);
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button img {
+            margin-right: 5px;
+        }
+        .option-menu-container {
+            display: flex;
+            justify-content: center;
+        }
+        .dataframe-container {
+            background-color: #ffffff; /* White background for dataframe */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        .file-upload-container {
+            background-color: #ffffff; /* White background for file upload */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .stDownloadButton > button {
+            color: #ffffff; /* White text for download buttons */
+            background-color: #30475E; /* Dark blue color for download buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stDownloadButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 
 # Function to load adopters data
