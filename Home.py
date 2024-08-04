@@ -92,7 +92,7 @@ st.markdown("""
 
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([1, 8])
+    col1, col2 = st.columns([1, 10])
     with col1:
         st.image("Data/Logo.png", width=120)
     with col2:
