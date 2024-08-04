@@ -2,14 +2,14 @@ import streamlit as st
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 import bcrypt
-
+import datetime as dt
 
 # Set up the page configuration
-st.set_page_config(page_title='פט קונקט', layout='wide', page_icon = 'Data/Logo.png' )
+st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
 con1 = st.container()
 with con1:
-    col1, col2= st.columns([5, 1])
+    col1, col2 = st.columns([5, 1])
     with col2:
         st.image("Data/Logo.png", width=120)
 
@@ -21,12 +21,10 @@ def hash_password(password):
 # Function to check password
 def check_password(password, hashed):
     return password == hashed
-    
+
 def load_users():
     df = pd.read_csv("Data/Users.csv")
     return df
-    
-
 
 def login(username, password):
     users = load_users()
@@ -56,34 +54,9 @@ def show_login_page():
             st.experimental_rerun()  # Refresh the page to update the content
         else:
             st.error("Invalid username or password")
-# def add_logo():
-#     st.sidebar.markdown(
-#         """
-#         <style>
-#             .logo-container {
-#                 display: flex;
-#                 justify-content: flex-start; /* Aligns the logo to the top left */
-#                 align-items: center;
-#                 height: 100px; /* Adjust height as needed */
-#             }
-#             .logo-container img {
-#                 width: 80px; /* Adjust width as needed */
-#                 cursor: pointer; /* Pointer cursor on hover */
-#             }
-#         </style>
-#         <div class="logo-container">
-#             <a href="/">
-#                 <img src="Data/Logo.png" alt="Logo">
-#             </a>
-#         </div>
-#         """,
-#         unsafe_allow_html=True,
-#     )
-    
+
 # Function to show the home page
 def show_home_page():
-    import datetime as dt
-
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
     @st.cache_data()
@@ -106,10 +79,20 @@ def show_home_page():
     
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center;'>אלו כל בקשות האימוץ שהתקבלו ביומיים האחרונים</h2>", unsafe_allow_html=True)
     
-    # Display the filtered DataFrame
-    st.dataframe(recent_df)
+    # Display the number of records
+    st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
+    
+    # Display each record as text
+    for index, row in recent_df.iterrows():
+        st.markdown(f"""
+        <div style='text-align: right;'>
+            <p>שם: {row['שם פרטי ושם משפחה']}</p>
+            <p>כלב: {row['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']}</p>
+            <p>מידע נוסף: {row['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']}</p>
+        </div>
+        <hr>
+        """, unsafe_allow_html=True)
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
