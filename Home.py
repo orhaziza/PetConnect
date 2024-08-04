@@ -58,28 +58,20 @@ def show_login_page():
 # Function to show the home page
 def show_home_page():
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-    seen_status_url = "https://docs.google.com/spreadsheets/d/your_seen_status_sheet_id/edit?usp=sharing"
 
     @st.cache_data()
     def fetch_data():
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
-
-    @st.cache_data()
-    def fetch_seen_status():
-        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        return conn.read(spreadsheet=seen_status_url)
-
-    def save_seen_status(seen_df):
-        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        conn.write(seen_df, seen_status_url)
     
+    if 'seen_records' not in st.session_state:
+        st.session_state['seen_records'] = []
+
     if st.button("רענן"):
         st.cache_data.clear()
         st.success("המידע עודכן!")
     
     df = fetch_data()
-    seen_df = fetch_seen_status()
     
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
@@ -109,19 +101,12 @@ def show_home_page():
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     
-    # Add the 'seen' status to the DataFrame
-    if 'Record ID' not in df.columns:
-        df['Record ID'] = df.index
-
-    if 'Record ID' not in seen_df.columns:
-        seen_df['Record ID'] = seen_df.index
-
-    recent_df = df.merge(seen_df, on='Record ID', how='left', suffixes=('', '_seen'))
-    recent_df['seen'] = recent_df['seen'].fillna(False)
+    # Add a unique identifier to each record
+    df['Record ID'] = df.index
     
     # Filter the DataFrame to include only records from the past two days and unseen records
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = recent_df[(recent_df['Timestamp'] >= two_days_ago) & (~recent_df['seen'])]
+    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
     # Set the title and subtitle
     st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
@@ -140,12 +125,9 @@ def show_home_page():
             </div>
             <hr>
             """, unsafe_allow_html=True)
-            if st.checkbox("ראיתי", key=f"seen_{i}"):
-                recent_df.at[i, 'seen'] = True
+            if st.checkbox("ראיתי", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
+                st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
 
-        # Update the seen status DataFrame and save it
-        seen_df = recent_df[['Record ID', 'seen']]
-        save_seen_status(seen_df)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
