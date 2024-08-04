@@ -92,6 +92,8 @@ def show_adopters_page():
         st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
+        st.warning('תכניס לפחות קרטריון אחד')
+
         # Ensure columns are treated as strings
         adopter_df_hebrew['שבב כלב'] = adopter_df_hebrew['שבב כלב'].astype(str)
         adopter_df_hebrew['מזהה מאמץ'] = adopter_df_hebrew['מזהה מאמץ'].astype(str)
@@ -124,7 +126,7 @@ def show_adopters_page():
         if not filtered_adopters.empty:
             st.dataframe(filtered_adopters)
         else:
-            st.warning('No results found for the given criteria.')
+            st.warning('אין תוצאות למסננים שהיזנת!')
     elif selected == "הוסף מאמץ":
         st.subheader('הוסף מאמץ')
 
