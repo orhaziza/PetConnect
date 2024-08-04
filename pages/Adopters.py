@@ -14,9 +14,23 @@ def load_adopters_data():
 
 # Function to save a file
 def save_file(adopter_id, file):
-    file_path = os.path.join(FILES_DIR, f'{adopter_id}_{file.name}')
-    with open(file_path, 'wb') as f:
-        f.write(file.read())
+    try:
+        # Ensure the file name is safe
+        file_name = f'{adopter_id}_{file.name}'
+        file_path = os.path.join(FILES_DIR, file_name)
+        
+        # Debugging statements
+        print(f'Saving file to: {file_path}')
+        print(f'File name: {file.name}')
+        
+        # Write the file
+        with open(file_path, 'wb') as f:
+            f.write(file.read())
+        
+        print('File saved successfully')
+    except Exception as e:
+        print(f'Error saving file: {e}')
+        raise
 
 # Function to delete a file
 def delete_file(file_name):
