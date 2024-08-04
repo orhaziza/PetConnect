@@ -106,7 +106,7 @@ con1 = st.container()
 with con1:
     col1, col2 = st.columns([1, 5])
     with col2:
-        st.markdown("<h1 class='header'> PetConnect ברוך הבא ל</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 class='header'>ברוך הבא ל PetConnect</h1>", unsafe_allow_html=True)
     with col1:
         st.image("Data/Logo.png", width=120)
 
@@ -117,7 +117,7 @@ def hash_password(password):
 
 # Function to check password
 def check_password(password, hashed):
-    return password == hashed
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def load_users():
     df = pd.read_csv("Data/Users.csv")
@@ -164,10 +164,6 @@ def show_home_page():
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
 
-    if st.button("רענן"):
-        st.cache_data.clear()
-        st.success("המידע עודכן!")
-    
     df = fetch_data()
     
     # Clean up the column names
@@ -218,19 +214,24 @@ def show_home_page():
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
             
             st.markdown(f"""
-            <div style='text-align: right;'>
+            <div class='record'>
                 <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
                 <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
                 <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
                 <p><b>מספר הטלפון:</b> {formatted_phone_number}</p>
             </div>
-            <hr>
             """, unsafe_allow_html=True)
             if st.checkbox("ראיתי", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
                 st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
 
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
+
+    # Refresh button after the last update
+    st.markdown("<div class='refresh-btn'><button class='stButton'><img src='https://img.icons8.com/color/48/000000/refresh--v1.png' alt='refresh'>רענן</button></div>", unsafe_allow_html=True)
+    if st.button("רענן"):
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
