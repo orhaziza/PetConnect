@@ -135,36 +135,67 @@ def show_adopters_page():
         st.subheader('הוסף מאמץ')
 
         # Add adoption form or input fields here
+        dog_chipID = st.text_input('מזהה שבב כלב')
         adopter_id = st.text_input('מזהה מאמץ')
         adopter_name = st.text_input('שם מאמץ')
-        address = st.text_area('כתובת')
-        contact_info = st.text_input('פרטי קשר')
+        second_adopter_id = st.text_input('מזהה מאמץ נוסף')
+        second_adopter_name = st.text_input('שם מאמץ נוסף')
+        floor = st.text_input('קומה')
+        apartment = st.text_input('דירה')
+        address_street_number = st.text_input('מספר רחוב')
+        address_street = st.text_input('רחוב')
+        address_city = st.text_input('עיר')
+        adopter_phone_num = st.text_input('מספר טלפון מאמץ')
+        second_adopter_phone_num = st.text_input('מספר טלפון מאמץ נוסף')
+        adopter_mail = st.text_input('דוא"ל מאמץ')
+        second_adopter_mail = st.text_input('דוא"ל מאמץ נוסף')
         preferences = st.text_area('העדפות')
         lifestyle_info = st.text_area('מידע על אופני חיים')
         adoption_date = st.date_input('תאריך אימוץ', datetime.today())
         documents = st.text_area('מסמכים')
+        ownership_form = st.text_input('טופס בעלות')
+        ownership_transfer = st.text_input('העברת בעלות')
+        payment_type = st.text_input('סוג תשלום')
+        receipt_num = st.text_input('מספר קבלה')
+        security_payment = st.text_input('תשלום ביטחון')
 
         if st.button('שמור מאמץ'):
             # Save adopter data to CSV or database
             new_adopter = {
-                'מזהה אומץ': adopter_id,
-                'שם אומץ': adopter_name,
-                'כתובת': address,
-                'פרטי קשר': contact_info,
-                'העדפות': preferences,
-                'מידע על אופני חיים': lifestyle_info,
-                'תאריך אימוץ': adoption_date.strftime('%Y-%m-%d'),
-                'מסמכים': documents
+                'dog_chipID': dog_chipID,
+                'AdopterID': adopter_id,
+                'AdopterName': adopter_name,
+                'Second_adopterID': second_adopter_id,
+                'Second_adopterName': second_adopter_name,
+                'Floor': floor,
+                'Apartment': apartment,
+                'Address_street_number': address_street_number,
+                'Address_street': address_street,
+                'Address_city': address_city,
+                'adopter_phone_num': adopter_phone_num,
+                'Second_adopter_phone_num': second_adopter_phone_num,
+                'Adopter_mail': adopter_mail,
+                'Second_adopter_mail': second_adopter_mail,
+                'preferences': preferences,
+                'LifeStyleInformation': lifestyle_info,
+                'AdoptionDate': adoption_date.strftime('%Y-%m-%d'),
+                'Documents': documents,
+                'ownership_form': ownership_form,
+                'ownership_transfer': ownership_transfer,
+                'Payment_type': payment_type,
+                'Recieipt_Num': receipt_num,
+                'Security_payment': security_payment
             }
+
             # Create a DataFrame from the new adopter entry
             new_adopter_df = pd.DataFrame([new_adopter])
-            
+
             # Concatenate the existing DataFrame with the new entry
             adopter_df_hebrew = pd.concat([adopter_df_hebrew, new_adopter_df], ignore_index=True)
             adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
-            st.balloons()  
+            st.balloons()
 
     elif selected == "ערוך מסמך":
         st.subheader('ערוך מסמך')
