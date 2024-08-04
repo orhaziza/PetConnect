@@ -122,6 +122,7 @@ def show_home_page():
                 <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
                 <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
                 <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
+                <p><b>מספר הטלפון:</b> {recent_df.iloc[i]['Phone number']}</p>
             </div>
             <hr>
             """, unsafe_allow_html=True)
