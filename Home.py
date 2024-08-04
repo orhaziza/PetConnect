@@ -14,18 +14,18 @@ st.markdown("""
         
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #D8D8D8; /* Light grey background */
+            background-color: #F1EFEF; /* Light grey background */
         }
         .header {
             text-align: center;
             font-size: 2.5em;
             margin-top: 20px;
-            color: #245953; /* Dark green color for headers */
+            color: #CCC8AA; /* Beige color for headers */
         }
         .subheader {
             text-align: center;
             font-size: 1.5em;
-            color: #408E91; /* Teal color for subheaders */
+            color: #7D7C7C; /* Grey color for subheaders */
         }
         .login-container {
             max-width: 500px;
@@ -52,13 +52,16 @@ st.markdown("""
         }
         .stButton > button {
             color: #ffffff; /* White text for buttons */
-            background-color: #E49393; /* Pink color for buttons */
+            background-color: #7D7C7C; /* Grey color for buttons */
             border-radius: 5px;
             transition: background-color 0.3s, transform 0.3s;
         }
         .stButton > button:hover {
-            background-color: #cc7c7c; /* Darker pink on hover */
+            background-color: #575656; /* Darker grey on hover */
             transform: scale(1.05);
+        }
+        .stButton > button.logout {
+            background-color: red;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -191,7 +194,7 @@ if 'logged_in' not in st.session_state:
 
 # Main routing logic
 if st.session_state['logged_in']:
-    if st.sidebar.button("Log Out"):
+    if st.sidebar.button("Log Out", key='logout', help='Log Out'):
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
