@@ -96,7 +96,7 @@ def show_adopters_page():
 
         # Create search filters for adopters
         col1, col2, col3 = st.columns(3)
-    
+        st.write(adopter_df_hebrew.columns)
         with col1:
             dog_chipID = st.text_input('מזהה שבב כלב')
         with col2:
