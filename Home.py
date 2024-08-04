@@ -7,27 +7,25 @@ import datetime as dt
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
-# Define CSS styles for a modern look
+# Define CSS styles for the customized design
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f6;
+            background-color: #D8D8D8; /* Light grey background */
         }
         .header {
             text-align: center;
             font-size: 2.5em;
             margin-top: 20px;
-            background: linear-gradient(90deg, #800080, #000000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #245953; /* Dark green color for headers */
         }
         .subheader {
             text-align: center;
             font-size: 1.5em;
-            color: #4a4a4a;
+            color: #408E91; /* Teal color for subheaders */
         }
         .login-container {
             max-width: 500px;
@@ -35,7 +33,7 @@ st.markdown("""
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            background-color: #fff;
+            background-color: #ffffff; /* White background for the login container */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .record {
@@ -44,7 +42,7 @@ st.markdown("""
             border: 1px solid #ddd;
             border-radius: 10px;
             margin-bottom: 10px;
-            background-color: #fff;
+            background-color: #ffffff; /* White background for records */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .refresh-btn {
@@ -53,13 +51,13 @@ st.markdown("""
             margin: 20px 0;
         }
         .stButton > button {
-            color: #fff;
-            background-color: #800080;
+            color: #ffffff; /* White text for buttons */
+            background-color: #E49393; /* Pink color for buttons */
             border-radius: 5px;
             transition: background-color 0.3s, transform 0.3s;
         }
         .stButton > button:hover {
-            background-color: #a040a0;
+            background-color: #cc7c7c; /* Darker pink on hover */
             transform: scale(1.05);
         }
     </style>
