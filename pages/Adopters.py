@@ -92,15 +92,8 @@ def show_adopters_page():
         st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
-        adopter_df_hebrew['שבב כלב'] = adopter_df_hebrew['שבב כלב'].astype(str)
-        adopter_df_hebrew['מזהה מאמץ'] = adopter_df_hebrew['מזהה מאמץ'].astype(str)
-        adopter_df_hebrew['שם מאמץ'] = adopter_df_hebrew['שם מאמץ'].astype(str)
-
-        st.subheader('מצא מאמץ')
-
-        # Create search filters for adopters
         col1, col2, col3 = st.columns(3)
-        st.write(adopter_df_hebrew.columns)
+
         with col1:
             dog_chipID = st.text_input('מזהה שבב כלב')
         with col2:
@@ -108,17 +101,26 @@ def show_adopters_page():
         with col3:
             adopter_name = st.text_input('שם מאמץ')
 
-        # Apply search filters
-        if dog_chipID or adopter_id or adopter_name:
-            filtered_adopters = adopter_df_hebrew[
-                (adopter_df_hebrew['שבב כלב'].str.contains(dog_chipID, na=False, case=False)) |
-                (adopter_df_hebrew['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)) |
-                (adopter_df_hebrew['שם מאמץ'].str.contains(adopter_name, na=False, case=False))
-            ]
+        # Initialize filter conditions
+        conditions = pd.Series([True] * len(adopter_df_hebrew))  # Start with all True
+
+        # Apply each filter if a criterion is provided
+        if dog_chipID:
+            conditions &= adopter_df_hebrew['שבב כלב'].str.contains(dog_chipID, na=False, case=False)
+        
+        if adopter_id:
+            conditions &= adopter_df_hebrew['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)
+    
+        if adopter_name:
+            conditions &= adopter_df_hebrew['שם מאמץ'].str.contains(adopter_name, na=False, case=False)
+
+        # Apply the combined conditions to filter the DataFrame
+        filtered_adopters = adopter_df_hebrew[conditions]
+
+        if not filtered_adopters.empty:
             st.dataframe(filtered_adopters)
         else:
-            st.warning('תבחר בלפחות אחד מהקרטריונים')
-
+            st.warning('No results found for the given criteria.')
     elif selected == "הוסף מאמץ":
         st.subheader('הוסף מאמץ')
 
