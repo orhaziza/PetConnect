@@ -70,8 +70,11 @@ def show_home_page():
     
     df = fetch_data()
     
-    # Debug: print original column names
-    st.write("Original columns:", df.columns.tolist())
+    # Clean up the column names
+    df.columns = [col.strip() for col in df.columns]
+    
+    # Debug: print cleaned column names
+    st.write("Cleaned columns:", df.columns.tolist())
     
     # Mapping Hebrew column names to English equivalents
     columns_mapping = {
