@@ -201,7 +201,7 @@ if 'logged_in' not in st.session_state:
 
 # Main routing logic
 if st.session_state['logged_in']:
-    if st.sidebar.button("Log Out", key='logout', help='Log Out', css_class='logout'):
+    if st.sidebar.button("Log Out", key='logout', help='Log Out'):
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
