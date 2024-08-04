@@ -73,9 +73,6 @@ def show_home_page():
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
     
-    # Debug: print cleaned column names
-    st.write("Cleaned columns:", df.columns.tolist())
-    
     # Mapping Hebrew column names to English equivalents
     columns_mapping = {
         'חותמת זמן': 'Timestamp',
@@ -98,9 +95,6 @@ def show_home_page():
     # Rename the columns in the DataFrame
     df.rename(columns=columns_mapping, inplace=True)
 
-    # Debug: print renamed column names
-    st.write("Renamed columns:", df.columns.tolist())
-
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     
@@ -118,9 +112,9 @@ def show_home_page():
     for i in range(len(recent_df)):
         st.markdown(f"""
         <div style='text-align: right;'>
-            <p>שם: {recent_df.iloc[i]['Full Name']}</p>
-            <p>כלב: {recent_df.iloc[i]['Which dog are you interested in?']}</p>
-            <p>מידע נוסף: {recent_df.iloc[i]['Additional information']}</p>
+            <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
+            <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
+            <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
         </div>
         <hr>
         """, unsafe_allow_html=True)
