@@ -54,7 +54,7 @@ with con1:
 # User credentials (in a real app, use a secure method for handling credentials)
 
 def hash_password(password):
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
 # Function to check password
 def check_password(password, hashed):
