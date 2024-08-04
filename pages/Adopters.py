@@ -118,7 +118,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 # Function to load adopters data
 def load_adopters_data():
     adopter_file_path = 'Data/Adopters.csv'
@@ -149,9 +148,8 @@ def delete_file(file_name):
     file_path = os.path.join(FILES_DIR, file_name)
     if os.path.exists(file_path):
         os.remove(file_path)
-        
+
 def show_adopters_page():
-    st.set_page_config(page_title='Adopters', layout='wide')
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
@@ -164,55 +162,33 @@ def show_adopters_page():
 
     adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
 
-# Define Hebrew column names for adopters
+    # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
-    'dog_chipID': 'שבב כלב',
-    'AdopterID': 'מזהה מאמץ',
-    'AdopterName': 'שם מאמץ',
-    'Second_adopterID': 'מזהה מאמץ שני',
-    'Second_adopterName': 'שם מאמץ שני',
-    'Floor': 'קומה',
-    'Apartment': 'דירה',
-    'Address_street_number': 'מספר רחוב',
-    'Address_street': 'רחוב',
-    'Address_city': 'עיר',
-    'adopter_phone_num': 'מספר טלפון של המאמץ',
-    'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
-    'Adopter_mail': 'דואר אלקטרוני של המאמץ',
-    'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
-    'preferences': 'העדפות',
-    'LifeStyleInformation': 'מידע על אופני חיים',
-    'AdoptionDate': 'תאריך אימוץ',
-    'Documents': 'מסמכים',
-    'ownership_form': 'טופס בעלות',
-    'ownership_transfer': 'העברת בעלות',
-    'Payment_type': 'סוג תשלום',
-    'Recieipt_Num': 'מספר קבלה',
-    'Security_payment': 'תשלום ביטחון'
-    # Add more column name translations as needed
+        'dog_chipID': 'שבב כלב',
+        'AdopterID': 'מזהה מאמץ',
+        'AdopterName': 'שם מאמץ',
+        'Second_adopterID': 'מזהה מאמץ שני',
+        'Second_adopterName': 'שם מאמץ שני',
+        'Floor': 'קומה',
+        'Apartment': 'דירה',
+        'Address_street_number': 'מספר רחוב',
+        'Address_street': 'רחוב',
+        'Address_city': 'עיר',
+        'adopter_phone_num': 'מספר טלפון של המאמץ',
+        'Second_adopter_phone_num': 'מספר טלפון של המאמץ שני',
+        'Adopter_mail': 'דואר אלקטרוני של המאמץ',
+        'Second_adopter_mail': 'דואר אלקטרוני של המאמץ שני',
+        'preferences': 'העדפות',
+        'LifeStyleInformation': 'מידע על אופני חיים',
+        'AdoptionDate': 'תאריך אימוץ',
+        'Documents': 'מסמכים',
+        'ownership_form': 'טופס בעלות',
+        'ownership_transfer': 'העברת בעלות',
+        'Payment_type': 'סוג תשלום',
+        'Recieipt_Num': 'מספר קבלה',
+        'Security_payment': 'תשלום ביטחון'
+        # Add more column name translations as needed
     }
-
-
-
-    # Use st.columns to create four equally sized columns
-    # Use st.columns to create four equally sized columns
-
-    # # Define the menu options
-    # with st.sidebar:
-    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-
-    # Custom CSS to center-align the option menu
-    st.markdown(
-        """
-        <style>
-        .option-menu-container {
-            display: flex;
-            justify-content: center;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
     # Define the menu options
     selected = option_menu(
@@ -315,7 +291,7 @@ def show_adopters_page():
                 'adopter_phone_num': adopter_phone_num,
                 'Second_adopter_phone_num': second_adopter_phone_num,
                 'Adopter_mail': adopter_mail,
-                'Second_adopter_mail': second_adopter_mail,
+                'Second_adopter_mail': adopter_mail,
                 'preferences': preferences,
                 'LifeStyleInformation': lifestyle_info,
                 'AdoptionDate': adoption_date.strftime('%Y-%m-%d'),
@@ -382,14 +358,9 @@ def show_adopters_page():
                 else:
                     st.error('Uploaded file does not have a name.')
 
-
-
-
-            # Sidebar logout button
+        # Sidebar logout button
         if st.sidebar.button("Log Out"):
             st.session_state['logged_in'] = False
             st.experimental_rerun()
-
-
 
 show_adopters_page()
