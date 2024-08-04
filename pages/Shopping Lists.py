@@ -7,7 +7,11 @@ from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title='ShoppingList', layout='wide')
 st.session_state['list'] = False
-
+items_file_path = "Data/Shopping List.csv"
+items_df = pd.read_csv(items_file_path, encoding='utf-8')
+dogs_file_path = "Data/Dogs.csv"
+dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
+dog_df = dog_df[dog_df['AdoptionStatus'] == 0]
 
 con1 = st.container()
 with con1:
@@ -32,22 +36,39 @@ def show_shopping_list_page():
             "container": {"class": "option-menu-container"}}
                     )
     if selected == "צור רשימה לכלב":
-        dogs_file_path = "Data/Dogs.csv"
-        dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
-        dog_df = dog_df[dog_df['AdoptionStatus'] == 0]
-
-        with st.container():
             col1, col2 = st.columns([3, 1])
             with col1:
-                st.selectbox('בחר כלב:', dog_df['Name'].unique())
+                dog = st.selectbox('בחר כלב:', dog_df['Name'].unique())
             with col2:
                 if st.button("צור רשימה"):
-                    st.session_state['list'] = True
+                    with st.form("my_form"):
+                        create_list(dog)
+                        submitted = st.form_submit_button("Download")
+                        if submitted:
+                            st.write("downloading data")
 
     if selected == "הוסף מוצר":
-        st.session_state['list'] = False
         st.write("not yet")
 
-
+def create_list(dog):
+    df = dog_df.loc[dog_df['Name'] == dog].reset_index()
+    categories = items_df['Product Category'].unique()
+    sl = items_df.iloc[:0,:].copy()
+    flag = False
+    if not (df["Size"][0]=='XS' or df["Size"][0]=='S' or df["Size"][0]=='M' or df["Size"][0]=='L' or df["Size"][0]=='XL'):
+        st.warning('Dog has NO size!')
+        flag = True
+    for c in categories:
+        if c=="גורים":
+            if df["Age"][0]<12:
+                category_products = items_df[items_df['Product Category'] == c]
+                sl = pd.concat([sl, category_products], ignore_index=True) 
+        else:    
+            if not flag:
+                category_products = items_df[items_df['Product Category'] == c]
+                sl = pd.concat([sl, category_products[category_products['Dog Size'] == df["Size"][0]]], ignore_index=True) 
+    
+    sl['new_column'] = True
+    sl = st.data_editor(sl) 
 
 show_shopping_list_page()
