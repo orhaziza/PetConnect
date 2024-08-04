@@ -88,7 +88,7 @@ def show_home_page():
 
     @st.cache_data()
     def fetch_data():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
         
     if st.button("רענן"):
