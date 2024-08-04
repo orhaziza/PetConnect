@@ -232,17 +232,17 @@ def show_adopters_page():
         # Ensure the directory exists
         if not os.path.exists(FILES_DIR):
             os.makedirs(FILES_DIR)
-        # Edit document functionality
-        # Implement as per your requirements
-        # Load the existing adopters data
+      # Load the existing adopters data
         adopter_df_hebrew = load_adopters_data()
 
+        # Show the page
+        st.title('Adopter Files Management')
 
         # Select adopter
-        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['AdopterID'])
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
         if adopter_id:
-            st.subheader(f'קבצים של {adopter_id}')
+            st.subheader(f'Files for Adopter {adopter_id}')
 
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
@@ -252,14 +252,17 @@ def show_adopters_page():
                     st.write(file_name)
                     if st.button(f'Delete {file_name}'):
                         delete_file(file_name)
-                        st.success(f'File {file_name} נמחק בהצלחה')
                         st.experimental_rerun()
 
             # Upload new file
-            uploaded_file = st.file_uploader('העלאת קובץ pdf', type='pdf')
-            if uploaded_file:
-                save_file(adopter_id, uploaded_file)
-                st.success('הפעולה בוצעה בהצלחה')
+            uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
+            if uploaded_file is not None:
+                if uploaded_file.name:
+                    save_file(adopter_id, uploaded_file)
+                    st.success('File uploaded successfully.')
+                else:
+                    st.error('Uploaded file does not have a name.')
+
 
 
 
