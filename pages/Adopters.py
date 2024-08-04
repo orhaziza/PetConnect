@@ -107,9 +107,9 @@ def show_adopters_page():
         # Apply search filters
         if dog_chipID or adopter_id or adopter_name:
             filtered_adopters = adopter_df_hebrew[
-                (adopter_df_hebrew['dog_chipID'].str.contains(dog_chipID, na=False, case=False)) |
-                (adopter_df_hebrew['AdopterID'].str.contains(adopter_id, na=False, case=False)) |
-                (adopter_df_hebrew['AdopterName'].str.contains(adopter_name, na=False, case=False))
+                (adopter_df_hebrew['שבב כלב'].str.contains(dog_chipID, na=False, case=False)) |
+                (adopter_df_hebrew['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)) |
+                (adopter_df_hebrew['שם מאמץ'].str.contains(adopter_name, na=False, case=False))
             ]
             st.dataframe(filtered_adopters)
         else:
