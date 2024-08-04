@@ -95,20 +95,25 @@ def show_adopters_page():
         st.subheader('מצא מאמץ')
 
         # Create search filters for adopters
-        col1, col2 = st.columns(2)
-
+        col1, col2, col3 = st.columns(3)
+    
         with col1:
-            adopter_name = st.text_input('שם מאמץ')
+            dog_chipID = st.text_input('מזהה שבב כלב')
         with col2:
-            adoption_date = st.date_input('תאריך אימוץ')
+            adopter_id = st.text_input('מזהה מאמץ')
+        with col3:
+            adopter_name = st.text_input('שם מאמץ')
 
         # Apply search filters
-        filtered_adopters = adopter_df_hebrew[
-            (adopter_df_hebrew['שם מאמץ'].str.contains(adopter_name, na=False, case=False)) &
-            (adopter_df_hebrew['תאריך אימוץ'] == adoption_date.strftime('%Y-%m-%d'))
+        if dog_chipID or adopter_id or adopter_name:
+            filtered_adopters = adopter_df_hebrew[
+                (adopter_df_hebrew['dog_chipID'].str.contains(dog_chipID, na=False, case=False)) |
+                (adopter_df_hebrew['AdopterID'].str.contains(adopter_id, na=False, case=False)) |
+                (adopter_df_hebrew['AdopterName'].str.contains(adopter_name, na=False, case=False))
             ]
-
-        st.dataframe(filtered_adopters)
+            st.dataframe(filtered_adopters)
+        else:
+            st.warning('תבחר בלפחות אחד מהקרטריונים')
 
     elif selected == "הוסף מאמץ":
         st.subheader('הוסף מאמץ')
