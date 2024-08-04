@@ -7,22 +7,27 @@ import datetime as dt
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
-# Define CSS styles for the customized design
+# Define CSS styles for a modern look
 st.markdown("""
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
         body {
-            background-color: #f0f0f0; /* Grey background */
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f6;
         }
         .header {
             text-align: center;
             font-size: 2.5em;
             margin-top: 20px;
-            color: #800080; /* Purple color for headers */
+            background: linear-gradient(90deg, #800080, #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .subheader {
             text-align: center;
             font-size: 1.5em;
-            color: #000000; /* Black color for subheaders */
+            color: #4a4a4a;
         }
         .login-container {
             max-width: 500px;
@@ -30,7 +35,8 @@ st.markdown("""
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
-            background-color: #ffffff; /* White background for the login container */
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .record {
             text-align: right;
@@ -38,7 +44,8 @@ st.markdown("""
             border: 1px solid #ddd;
             border-radius: 10px;
             margin-bottom: 10px;
-            background-color: #ffffff; /* White background for records */
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .refresh-btn {
             display: flex;
@@ -46,15 +53,17 @@ st.markdown("""
             margin: 20px 0;
         }
         .stButton > button {
-            color: #ffffff; /* White text for buttons */
-            background-color: #0000ff; /* Blue background for buttons */
+            color: #fff;
+            background-color: #800080;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .stButton > button:hover {
-            background-color: #1e90ff; /* Lighter blue on hover */
+            background-color: #a040a0;
+            transform: scale(1.05);
         }
     </style>
 """, unsafe_allow_html=True)
-
 
 con1 = st.container()
 with con1:
