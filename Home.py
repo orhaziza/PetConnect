@@ -86,25 +86,38 @@ st.markdown("""
         .icon-button img {
             margin-right: 5px;
         }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #30475E; /* Dark blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 """, unsafe_allow_html=True)
 
-
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([1, 15])
-    with col1:
-        st.image("Data/Logo.png", width=120)
+    col1, col2 = st.columns([1, 5])
     with col2:
         st.markdown("<h1 class='header'> PetConnect ברוך הבא ל</h1>", unsafe_allow_html=True)
+    with col1:
+        st.image("Data/Logo.png", width=120)
 
 # User credentials (in a real app, use a secure method for handling credentials)
+
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 # Function to check password
 def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode(), hashed.encode())
+    return password == hashed
 
 def load_users():
     df = pd.read_csv("Data/Users.csv")
@@ -151,6 +164,10 @@ def show_home_page():
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
 
+    if st.button("רענן"):
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
+    
     df = fetch_data()
     
     # Clean up the column names
@@ -201,12 +218,13 @@ def show_home_page():
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
             
             st.markdown(f"""
-            <div class='record'>
+            <div style='text-align: right;'>
                 <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
                 <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
                 <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
                 <p><b>מספר הטלפון:</b> {formatted_phone_number}</p>
             </div>
+            <hr>
             """, unsafe_allow_html=True)
             if st.checkbox("ראיתי", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
                 st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
@@ -214,18 +232,13 @@ def show_home_page():
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
-    # Refresh button with emoji
-    if st.button("🔄 רענן"):
-        st.cache_data.clear()
-        st.success("המידע עודכן!")
-
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
 # Main routing logic
 if st.session_state['logged_in']:
-    if st.sidebar.button("Log Out", key='logout', help='Log Out'):
+    if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()  # Refresh the page to update the content
     else:
