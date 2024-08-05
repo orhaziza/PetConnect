@@ -84,7 +84,25 @@ def show_application_page():
     #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
 
     if selected == "כל הטבלה":
-        applications_df = st.dataframe(data)
+         # Input fields for filtering
+        col1, col2 = st.columns(2)
+        with col1:
+            applicant_name = st.text_input('שם מבקש')
+        with col2:
+            application_date = st.date_input('תאריך בקשה')
+
+        # Convert 'חותמת זמן' column to datetime
+        data['חותמת זמן'] = pd.to_datetime(data['חותמת זמן'], errors='coerce')
+
+        # Filter the data based on user input
+        if applicant_name:
+            data = data[data['שם פרטי ושם משפחה'].str.contains(applicant_name, case=False, na=False)]
+
+        if application_date:
+            data = data[data['חותמת זמן'].dt.date == application_date]
+
+        st.dataframe(data)
+        
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         status = st.selectbox(
