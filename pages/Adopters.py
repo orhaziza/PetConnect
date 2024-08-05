@@ -5,7 +5,12 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 # Set up the page configuration at the top
 
+# Directory for storing adopter files
+FILES_DIR = 'Data/Adopters/'
 
+# Ensure the directory exists
+if not os.path.exists(FILES_DIR):
+    os.makedirs(FILES_DIR)
 # Function to load adopters data
 def load_adopters_data():
     adopter_file_path = 'Data/Adopters.csv'
@@ -328,12 +333,7 @@ def show_adopters_page():
 
     elif selected == "ערוך מסמך":
         st.subheader('ערוך מסמך')
-        # Directory for storing adopter files
-        FILES_DIR = 'Data/Adopters/'
 
-        # Ensure the directory exists
-        if not os.path.exists(FILES_DIR):
-            os.makedirs(FILES_DIR)
       # Load the existing adopters data
         adopter_df_hebrew = load_adopters_data()
 
