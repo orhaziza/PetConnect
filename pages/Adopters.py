@@ -341,13 +341,13 @@ def show_adopters_page():
             st.balloons()
 
     elif selected == "ערוך מסמך":
-        st.title('Adopter Files Management')
+        st.title('מסמכים')
 
         # Select adopter
         adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
         if adopter_id:
-            st.subheader(f'Files for Adopter {adopter_id}')
+            st.subheader(f'מסמכים של {adopter_id}')
 
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
@@ -357,21 +357,21 @@ def show_adopters_page():
                     st.write(file_name)
                     with open(os.path.join(FILES_DIR, file_name), "rb") as file:
                         btn = st.download_button(
-                            label=f"Download {file_name}",
+                            label=f"הורד {file_name}",
                             data=file,
                             file_name=file_name,
                             mime='application/octet-stream'
                         )
-                    if st.button(f'Delete {file_name}', key=f'delete_{file_name}'):
+                    if st.button(f'Delete {file_name}', key=f'מחק_{file_name}'):
                         delete_file(file_name)
 
             # Upload new file
-            uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
+            uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
             if uploaded_file is not None:
                 if uploaded_file.name:
                     save_file(adopter_id, uploaded_file)
                 else:
-                    st.error('Uploaded file does not have a name.')
+                    st.error('אין שם לקובץ ')
 
           # Sidebar logout button
         if st.sidebar.button("Log Out"):
