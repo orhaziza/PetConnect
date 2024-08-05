@@ -85,12 +85,12 @@ def show_application_page():
 
     if selected == "כל הטבלה":
         # Filters
-        with st.expander("Filter Data"):
+        with st.expander("סינון:"):
             col1, col2 = st.columns(2)
             with col1:
-                filter_date = st.date_input("Filter by Date", value=None)
+                filter_date = st.date_input("תאריך:", value=None)
             with col2:
-                filter_name = st.text_input("Filter by Applicant Name")
+                filter_name = st.text_input("שם:")
 
         # Apply filters only if inputs are provided
         if filter_date is not None:
