@@ -362,7 +362,7 @@ def show_adopters_page():
                             file_name=file_name,
                             mime='application/octet-stream'
                         )
-                    if st.button(f'Delete {file_name}', key=file_name):
+                    if st.button(f'Delete {file_name}', key=f'delete_{file_name}'):
                         delete_file(file_name)
                         st.experimental_rerun()
 
@@ -375,9 +375,7 @@ def show_adopters_page():
                 else:
                     st.error('Uploaded file does not have a name.')
 
-
-
-            # Sidebar logout button
+          # Sidebar logout button
         if st.sidebar.button("Log Out"):
             st.session_state['logged_in'] = False
             st.experimental_rerun()
