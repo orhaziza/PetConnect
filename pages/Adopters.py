@@ -12,6 +12,7 @@ FILES_DIR = 'Data/Adopters/'
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
 # Function to load adopters data
+# Function to load adopters data
 def load_adopters_data():
     adopter_file_path = 'Data/Adopters.csv'
     adopters_df = pd.read_csv(adopter_file_path, encoding='utf-8')
@@ -22,15 +23,8 @@ def save_file(adopter_id, file):
     try:
         file_name = f'{adopter_id}_{file.name}'
         file_path = os.path.join(FILES_DIR, file_name)
-
-        # Debugging statements
-        st.write(f'Saving file to: {file_path}')
-        st.write(f'File name: {file.name}')
-
-        # Write the file
         with open(file_path, 'wb') as f:
             f.write(file.read())
-
         st.success('File saved successfully')
     except Exception as e:
         st.error(f'Error saving file: {e}')
@@ -38,9 +32,24 @@ def save_file(adopter_id, file):
 
 # Function to delete a file
 def delete_file(file_name):
-    file_path = os.path.join(FILES_DIR, file_name)
-    if os.path.exists(file_path):
+    try:
+        file_path = os.path.join(FILES_DIR, file_name)
         os.remove(file_path)
+        st.success(f'File {file_name} deleted successfully.')
+    except Exception as e:
+        st.error(f'Error deleting file: {e}')
+        raise
+
+# Function to load a file for download
+def load_file(file_name):
+    file_path = os.path.join(FILES_DIR, file_name)
+    with open(file_path, 'rb') as f:
+        file_bytes = f.read()
+    return file_bytes
+
+# Load the existing adopters data
+adopter_df_hebrew = load_adopters_data()
+
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
@@ -332,21 +341,15 @@ def show_adopters_page():
             st.balloons()
 
     elif selected == "ערוך מסמך":
-        st.subheader('ערוך מסמך')
-
-      # Load the existing adopters data
-        adopter_df_hebrew = load_adopters_data()
-
-        # Show the page
         st.title('Adopter Files Management')
 
         # Select adopter
-        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['AdopterID'])
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
         if adopter_id:
             st.subheader(f'Files for Adopter {adopter_id}')
 
-             # List existing files
+            # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
                 st.write('Existing files:')
@@ -359,18 +362,18 @@ def show_adopters_page():
                             file_name=file_name,
                             mime='application/octet-stream'
                         )
-            if st.button(f'Delete {file_name}'):
-                delete_file(file_name)
-                st.experimental_rerun()
+                    if st.button(f'Delete {file_name}', key=file_name):
+                        delete_file(file_name)
+                        st.experimental_rerun()
+
             # Upload new file
             uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
             if uploaded_file is not None:
                 if uploaded_file.name:
                     save_file(adopter_id, uploaded_file)
-                    st.success('File uploaded successfully.')
+                    st.experimental_rerun()
                 else:
                     st.error('Uploaded file does not have a name.')
-
 
 
 
