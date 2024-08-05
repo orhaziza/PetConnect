@@ -88,17 +88,18 @@ def show_application_page():
         with st.expander("Filter Data"):
             col1, col2 = st.columns(2)
             with col1:
-                filter_date = st.date_input("Filter by Date")
+                filter_date = st.date_input("Filter by Date", value=None)
             with col2:
                 filter_name = st.text_input("Filter by Applicant Name")
 
-        # Apply filters
-        if filter_date:
+        # Apply filters only if inputs are provided
+        if filter_date is not None:
             data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
         if filter_name:
             data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
 
         st.dataframe(data)
+
         
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
