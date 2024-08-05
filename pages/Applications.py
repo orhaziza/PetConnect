@@ -84,22 +84,19 @@ def show_application_page():
     #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
 
     if selected == "כל הטבלה":
-         # Input fields for filtering
-        col1, col2 = st.columns(2)
-        with col1:
-            applicant_name = st.text_input('שם מבקש')
-        with col2:
-            application_date = st.date_input('תאריך בקשה')
+        # Filters
+        with st.expander("Filter Data"):
+            col1, col2 = st.columns(2)
+            with col1:
+                filter_date = st.date_input("Filter by Date")
+            with col2:
+                filter_name = st.text_input("Filter by Applicant Name")
 
-        # Convert 'חותמת זמן' column to datetime
-        data['חותמת זמן'] = pd.to_datetime(data['חותמת זמן'], errors='coerce')
-
-        # Filter the data based on user input
-        if applicant_name:
-            data = data[data['שם פרטי ושם משפחה'].str.contains(applicant_name, case=False, na=False)]
-
-        if application_date:
-            data = data[data['חותמת זמן'].dt.date == application_date]
+        # Apply filters
+        if filter_date:
+            data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
+        if filter_name:
+            data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
 
         st.dataframe(data)
         
