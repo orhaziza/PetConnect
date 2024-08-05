@@ -364,14 +364,12 @@ def show_adopters_page():
                         )
                     if st.button(f'Delete {file_name}', key=f'delete_{file_name}'):
                         delete_file(file_name)
-                        st.experimental_rerun()
 
             # Upload new file
             uploaded_file = st.file_uploader('Upload a PDF file', type='pdf')
             if uploaded_file is not None:
                 if uploaded_file.name:
                     save_file(adopter_id, uploaded_file)
-                    st.experimental_rerun()
                 else:
                     st.error('Uploaded file does not have a name.')
 
