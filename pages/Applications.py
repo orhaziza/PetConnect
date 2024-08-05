@@ -85,6 +85,7 @@ def show_application_page():
 
     if selected == "כל הטבלה":
         applications_df = st.dataframe(data)
+        st.dataframe(data)
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         status = st.selectbox(
