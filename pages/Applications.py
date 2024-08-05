@@ -57,7 +57,6 @@ def show_application_page():
         st.success("המידע עודכן!")
     
     data = fetch_data()
-    applications_df = st.dataframe(data)
 
 
     
@@ -85,7 +84,8 @@ def show_application_page():
     #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
 
     if selected == "כל הטבלה":
-        st.dataframe(applications_df)
+        applications_df = st.dataframe(data)
+        aplication_df
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         status = st.selectbox(
