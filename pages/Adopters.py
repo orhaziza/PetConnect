@@ -352,7 +352,7 @@ def show_adopters_page():
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
-                st.write('Existing files:')
+                st.write('קבצים שיש במערכת ')
                 for file_name in files:
                     st.write(file_name)
                     with open(os.path.join(FILES_DIR, file_name), "rb") as file:
@@ -362,7 +362,7 @@ def show_adopters_page():
                             file_name=file_name,
                             mime='application/octet-stream'
                         )
-                    if st.button(f'Delete {file_name}', key=f'מחק_{file_name}'):
+                    if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
                         delete_file(file_name)
 
             # Upload new file
