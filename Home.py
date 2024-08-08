@@ -144,7 +144,7 @@ def show_home_page():
         with col2:
             if st.button("רענן"):
                 st.cache_data.clear()
-                st.toast("<h6 style='text-align: right;'>!המידע עודכן בהצלחה</h6>")
+                st.toast("‏\u200F!המידע עודכן בהצלחה")
     
     df = fetch_data()
     
