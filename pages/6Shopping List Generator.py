@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 
-st.set_page_config(page_title='ShoppingList', layout='wide')
 st.session_state['list'] = False
 items_file_path = "Data/Shopping List.csv"
 items_df = pd.read_csv(items_file_path, encoding='utf-8')
@@ -18,14 +17,15 @@ def show_shopping_list_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    # Define the menu options
+    st.set_page_config(page_title='ShoppingList', layout='wide')
 
     con1 = st.container()
     with con1:
         col1, col2= st.columns([5, 1])
     with col2:
         st.image("Data/Logo.png", width=120)
-        
+
+    # Define the menu options
     selected = option_menu(
         menu_title="",  # Required
         options=["צור רשימה לכלב", "הוסף מוצר"],  # Added new option for the table with scores
