@@ -142,7 +142,7 @@ def show_foster_homes_page():
         house_size = st.selectbox('גודל הבית', [''] + list(foster_home_df['HouseSize'].unique()))
         contact_info = st.text_input('פרטי קשר')
         backyard = st.selectbox('חצר', [''] + list(foster_home_df['Backyard'].unique()))
-        near_dog_park = st.selectbox('קרוב לגן כלבים', [''] + list(foster_home_df['nearDogPark'].unique()))
+        near_dog_park = st.selectbox('קרוב לגן כלבים', [''] + list(foster_home_df['NearDogPark'].unique()))
         house_members = st.text_input('חברי בית')
         availability_at_home = st.selectbox('זמינות בבית', [''] + list(foster_home_df['AvailabilityAtHome'].unique()))
         children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df['ChildrenFriendly'].unique()))
