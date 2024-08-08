@@ -11,7 +11,7 @@ st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/
 
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([6,1])
+    col1, col2 = st.columns([6,1], gap="small"))
     with col1:
         st.markdown("<h1 style='text-align: center;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
     with col2:
