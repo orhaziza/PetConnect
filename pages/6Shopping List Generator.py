@@ -13,18 +13,19 @@ dogs_file_path = "Data/Dogs.csv"
 dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
 dog_df = dog_df[dog_df['AdoptionStatus'] == 0]
 
-con1 = st.container()
-with con1:
-    col1, col2= st.columns([5, 1])
-    with col2:
-        st.image("Data/Logo.png", width=120)
-
 
 def show_shopping_list_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     # Define the menu options
+
+    con1 = st.container()
+    with con1:
+        col1, col2= st.columns([5, 1])
+    with col2:
+        st.image("Data/Logo.png", width=120)
+        
     selected = option_menu(
         menu_title="",  # Required
         options=["צור רשימה לכלב", "הוסף מוצר"],  # Added new option for the table with scores
@@ -50,6 +51,11 @@ def show_shopping_list_page():
     if selected == "הוסף מוצר":
         st.write("not yet")
 
+    # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
+
 def create_list(dog):
     df = dog_df.loc[dog_df['Name'] == dog].reset_index()
     categories = items_df['Product Category'].unique()
@@ -70,5 +76,6 @@ def create_list(dog):
     
     sl['new_column'] = True
     sl = st.data_editor(sl) 
+    
 
 show_shopping_list_page()
