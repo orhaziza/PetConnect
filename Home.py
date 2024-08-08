@@ -11,10 +11,10 @@ st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/
 
 con1 = st.container()
 with con1:
-    col1, col2 = st.columns([1, 5])
-    with col2:
-        st.markdown("<h1 style='text-align: center;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    col1, col2 = st.columns([5,1])
     with col1:
+        st.markdown("<h1 style='text-align: center;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+    with col2:
         st.image("Data/Logo.png", width=120)
 
 # Function to hash the password using SHA-256
