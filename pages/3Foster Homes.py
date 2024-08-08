@@ -138,7 +138,7 @@ def show_foster_homes_page():
         foster_home_id = st.text_input('מזהה בית אומנה')
         foster_name = st.text_input('שם בית אומנה')
         address = st.text_area('כתובת')
-        house_size = st.selectbox('גודל הבית', [''] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else [])
+        house_size = st.selectbox('גודל הבית', ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else [])
         contact_info = st.text_input('פרטי קשר')
         backyard = st.selectbox('חצר', ['True', 'False'] + list(foster_home_df_hebrew['חצר'].unique()) if 'חצר' in foster_home_df_hebrew.columns else [])
         near_dog_park = st.selectbox('קרוב לגן כלבים', ['True', 'False'] + list(foster_home_df_hebrew['קרוב לגן כלבים'].unique()) if 'קרוב לגן כלבים' in foster_home_df_hebrew.columns else [])
