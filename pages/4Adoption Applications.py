@@ -189,7 +189,7 @@ def score_adopter(dog, applicant):
     multi = 0
     if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
         multi = 1
-    if dog['Children_Friendly] and applicant["מספר הנפשות הגרות בבית"]> 0:
+    if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
         score +=10
     if dog['Children_Friendly'] and ap[plicant
     
