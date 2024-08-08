@@ -8,8 +8,71 @@ import numpy as np
 from streamlit_gsheets import GSheetsConnection
 import altair as alt
 
-
 url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+
+def show_data_analysis_page():
+    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+        st.error("לא ניתן לגשת לעמוד ללא התחברות")
+        st.stop()
+    
+    st.set_page_config(page_title='Data Analysis', layout='wide')
+
+    with st.container():
+        col1, col2 = st.columns([15, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+            col3, col4, col5 = st.columns([2,1,2])
+            with col4:
+                if st.button("רענן מידע", use_container_width=True):
+                    st.cache_data.clear()
+        with col2:
+            st.image("Data/Logo.png", width=100)
+
+    adopter_file_path = "Data/Adopters.csv"
+    if not os.path.exists(adopter_file_path):
+        st.error("The adopter file does not exist.")
+        st.stop()
+    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
+
+    dogs_file_path = "Data/Dogs.csv"
+    if not os.path.exists(dogs_file_path):
+        st.error("Dogs file does not exist.")
+        st.stop()
+    dogs_df = pd.read_csv(dogs_file_path, encoding='utf-8')
+
+    FosterHome_file_path = "Data/FosterHome.csv"
+    if not os.path.exists(FosterHome_file_path):
+        st.error("Foster Home file does not exist.")
+        st.stop()
+    Foster_Home_df = pd.read_csv(FosterHome_file_path, encoding='utf-8')
+
+    with st.container():
+        col1 , col2 = st.columns([1,1], gap="small")
+        with col1:
+            st.markdown("<h6 style='text-align: right;'>התפלגות בתי אומנה</h6>", unsafe_allow_html=True)
+            plot_Fosters(Foster_Home_df)
+        with col2:
+            st.markdown("<h6 style='text-align: right;'>התפלגות הכלבים בעמותה</h6>", unsafe_allow_html=True)
+            plot_Dogs(dogs_df)
+    
+    with st.container():
+        col1 , col2 , col3 = st.columns([1,1,1], gap="small")
+        with col1:
+            st.markdown("<h6 style='text-align: right;'>התפלגות בקשות אימוץ לפי פלטפורמת פרסום</h6>", unsafe_allow_html=True)
+            plot_Applications(fetch_data())
+        with col2:
+            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לאורך זמן</h6>", unsafe_allow_html=True)
+            plot_Applications_Flow(fetch_data())
+        with col3:
+            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לפי יום בשבוע</h6>", unsafe_allow_html=True)
+            plot_Applications_by_WkDay(fetch_data())
+
+    # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
+        
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection)
@@ -88,69 +151,6 @@ def plot_Applications_by_WkDay(application_df):
         x=alt.X('Day', sort=days_of_week),y='Count')
     st.altair_chart(chart, use_container_width=True)
 
-def show_data_analysis_page():
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות")
-        st.stop()
-    
-    st.set_page_config(page_title='Data Analysis', layout='wide')
-
-    with st.container():
-        col1, col2 = st.columns([15, 1])
-        with col1:
-            st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-            st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-            col3, col4, col5 = st.columns([2,1,2])
-            with col4:
-                if st.button("רענן מידע", use_container_width=True):
-                    st.cache_data.clear()
-        with col2:
-            st.image("Data/Logo.png", width=100)
-
-    adopter_file_path = "Data/Adopters.csv"
-    if not os.path.exists(adopter_file_path):
-        st.error("The adopter file does not exist.")
-        st.stop()
-    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
-
-    dogs_file_path = "Data/Dogs.csv"
-    if not os.path.exists(dogs_file_path):
-        st.error("Dogs file does not exist.")
-        st.stop()
-    dogs_df = pd.read_csv(dogs_file_path, encoding='utf-8')
-
-    FosterHome_file_path = "Data/FosterHome.csv"
-    if not os.path.exists(FosterHome_file_path):
-        st.error("Foster Home file does not exist.")
-        st.stop()
-    Foster_Home_df = pd.read_csv(FosterHome_file_path, encoding='utf-8')
-
-    with st.container():
-        col1 , col2 = st.columns([1,1], gap="small")
-        with col1:
-            st.markdown("<h6 style='text-align: right;'>התפלגות בתי אומנה</h6>", unsafe_allow_html=True)
-            plot_Fosters(Foster_Home_df)
-        with col2:
-            st.markdown("<h6 style='text-align: right;'>התפלגות הכלבים בעמותה</h6>", unsafe_allow_html=True)
-            plot_Dogs(dogs_df)
-    
-    with st.container():
-        col1 , col2 , col3 = st.columns([1,1,1], gap="small")
-        with col1:
-            st.markdown("<h6 style='text-align: right;'>התפלגות בקשות אימוץ לפי פלטפורמת פרסום</h6>", unsafe_allow_html=True)
-            plot_Applications(fetch_data())
-        with col2:
-            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לאורך זמן</h6>", unsafe_allow_html=True)
-            plot_Applications_Flow(fetch_data())
-        with col3:
-            st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לפי יום בשבוע</h6>", unsafe_allow_html=True)
-            plot_Applications_by_WkDay(fetch_data())
-
-    # Sidebar logout button
-    if st.sidebar.button("Log Out"):
-        st.session_state['logged_in'] = False
-        st.experimental_rerun()
 
 
-            
 show_data_analysis_page()
