@@ -148,7 +148,7 @@ def show_foster_homes_page():
         children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df['ChildrenFriendly'].unique()))
         animal_friendly = st.selectbox('ידידותי לכלבים', [''] + list(foster_home_df['AnimalFriendly'].unique()))
         max_capacity = st.number_input('קיבולת מקסימלית', min_value=0)
-        allowed_at_property = st.selectbox('מותר בנכס', [''] + list(foster_home_df['allowedAtProperty'].unique()))
+        allowed_at_property = st.selectbox('מותר בנכס', [''] + list(foster_home_df['AllowedAtProperty'].unique()))
         allergies = st.text_area('אלרגיות')
         is_mobile = st.checkbox('נייד')
         energy_level = st.slider('רמת אנרגיה', min_value=1, max_value=5)
