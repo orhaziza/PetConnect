@@ -109,49 +109,6 @@ def show_adopters_page():
         <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
     
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #E8E8E8; /* Light grey background */
-    }
-    .header {
-        text-align: left;
-        font-size: 2.5em;
-        margin-top: 20px;
-        color: #222831; /* Dark color for headers */
-    }
-    .subheader {
-        text-align: center;
-        font-size: 1.5em;
-        color: #222831; /* Dark color for subheaders */
-    }
-    .login-container {
-        max-width: 500px;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        background-color: #ffffff; /* White background for the login container */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .record {
-        text-align: right;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background-color: #ffffff; /* White background for records */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .record:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-    .refresh-btn {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
     .stButton > button {
         color: #ffffff; /* White text for buttons */
         background-color: #30475E; /* Dark blue color for buttons */
