@@ -51,8 +51,8 @@ def show_shopping_list_page():
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
+        st.switch_page("Home.py")
         st.session_state['logged_in'] = False
-        st.switch_page("pages/Home.py")
         st.experimental_rerun()
     
     def create_list(dog):
