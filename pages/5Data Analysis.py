@@ -9,13 +9,6 @@ from streamlit_gsheets import GSheetsConnection
 import altair as alt
 
 
-st.set_page_config(page_title='Data Analysis', layout='wide')
-
-with st.container():
-    col1, col2 = st.columns([15, 1])
-    with col1:
-        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-
 url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 @st.cache_data()
 def fetch_data():
@@ -99,10 +92,13 @@ def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
+    
+    st.set_page_config(page_title='Data Analysis', layout='wide')
 
     with st.container():
         col1, col2 = st.columns([15, 1])
         with col1:
+            st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
             st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
             col3, col4, col5 = st.columns([2,1,2])
             with col4:
