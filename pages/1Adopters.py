@@ -65,7 +65,7 @@ def show_adopters_page():
 
     adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
 
-# Define Hebrew column names for adopters
+    # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
     'dog_chipID': 'שבב כלב',
     'AdopterID': 'מזהה מאמץ',
@@ -373,7 +373,7 @@ def show_adopters_page():
                 else:
                     st.error('אין שם לקובץ ')
 
-      # Sidebar logout button
+    # Sidebar logout button
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
