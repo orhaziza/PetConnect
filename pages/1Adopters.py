@@ -373,10 +373,10 @@ def show_adopters_page():
                 else:
                     st.error('אין שם לקובץ ')
 
-          # Sidebar logout button
-        if st.sidebar.button("Log Out"):
-            st.session_state['logged_in'] = False
-            st.experimental_rerun()
+      # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
 
 
 
