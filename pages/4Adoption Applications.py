@@ -186,13 +186,12 @@ def show_application_page():
 
 def score_adopter(dog, applicant):
     score = 0
-    
-    if dog['Size'] == 'L' and applicant['Large']:
-        score += 10
-    if dog['Size'] == 'S' and applicant['Meduim']:
-        score += 10
-    if dog['Size'] == 'Small' and applicant['Small']:
-        score += 10
+    multi = 0
+    if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
+        multi = 1
+    if dog['Children_Friendly] and applicant["מספר הנפשות הגרות בבית"]> 0:
+        score +=10
+    if dog['Children_Friendly'] and ap[plicant
     
     if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
         score += 20
