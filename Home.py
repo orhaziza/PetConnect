@@ -41,9 +41,7 @@ def login(username, password):
     return False
 
 # Function to show the login form and handle the login process
-def show_login_page():
-    st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
-    
+def show_login_page():    
     st.subheader("Please log in to access the system.")
 
     # User input for login
