@@ -4,6 +4,21 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 
+FILES_DIR = 'Data/FosterHomes/'
+
+    # Ensure the directory exists
+if not os.path.exists(FILES_DIR):
+    os.makedirs(FILES_DIR)
+        
+def save_file(foster_home_id, uploaded_file):
+    with open(os.path.join(FILES_DIR, f'{foster_home_id}_{uploaded_file.name}'), "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    st.success(f'קובץ {uploaded_file.name} נשמר בהצלחה!')
+
+def delete_file(file_name):
+    os.remove(os.path.join(FILES_DIR, file_name))
+    st.success(f'קובץ {file_name} נמחק בהצלחה!')
+
 def show_foster_homes_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
@@ -18,7 +33,9 @@ def show_foster_homes_page():
             st.image("Data/Logo.png", width=100)
 
 
+   
 
+        
     # Load foster home data
     foster_home_file_path = "Data/FosterHome.csv"
     if not os.path.exists(foster_home_file_path):
@@ -181,6 +198,36 @@ def show_foster_homes_page():
             foster_home_df = foster_home_df.append(new_foster_home, ignore_index=True)
             foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
+
+    elif selected == "ערוך מסמך":
+        st.title('מסמכים')
+
+        foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
+
+        if foster_home_id:
+            st.subheader(f'מסמכים של {foster_home_id}')
+
+            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
+            if files:
+                st.write('קבצים שיש במערכת ')
+                for file_name in files:
+                    st.write(file_name)
+                    with open(os.path.join(FILES_DIR, file_name), "rb") as file:
+                        btn = st.download_button(
+                            label=f"הורד {file_name}",
+                            data=file,
+                            file_name=file_name,
+                            mime='application/octet-stream'
+                        )
+                    if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
+                        delete_file(file_name)
+
+            uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
+            if uploaded_file is not None:
+                if uploaded_file.name:
+                    save_file(foster_home_id, uploaded_file)
+                else:
+                    st.error('אין שם לקובץ ')
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
