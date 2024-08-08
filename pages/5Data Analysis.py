@@ -17,18 +17,6 @@ def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection)
     return conn.read(spreadsheet=url)
 
-with st.container():
-    col1, col2 = st.columns([15, 1])
-    with col1:
-        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-        col3, col4, col5 = st.columns([2,1,2])
-        with col4:
-            if st.button("רענן מידע", use_container_width=True):
-                st.cache_data.clear()
-    with col2:
-        st.image("Data/Logo.png", width=100)
-
 def plot_Applications(application_df):
     platform_counts = application_df.iloc[:, 1].value_counts()
     labels = [label[::-1] for label in platform_counts.index.tolist()]
@@ -111,7 +99,19 @@ def show_data_analysis_page():
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
-        
+
+    with st.container():
+    col1, col2 = st.columns([15, 1])
+    with col1:
+        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+        col3, col4, col5 = st.columns([2,1,2])
+        with col4:
+            if st.button("רענן מידע", use_container_width=True):
+                st.cache_data.clear()
+    with col2:
+        st.image("Data/Logo.png", width=100)
+
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
         st.error("The adopter file does not exist.")
