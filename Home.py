@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from streamlit_gsheets import GSheetsConnection
-import bcrypt
 import datetime as dt
 import hashlib
 
@@ -111,14 +110,14 @@ with con1:
     with col1:
         st.image("Data/Logo.png", width=120)
 
-# User credentials (in a real app, use a secure method for handling credentials)
-
+# Function to hash the password using SHA-256
 def hash_password(password):
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    sha_signature = hashlib.sha256(password.encode()).hexdigest()
+    return sha_signature
 
 # Function to check password
 def check_password(password, hashed):
-    return password == hashed
+    return hash_password(password) == hashed
 
 def load_users():
     df = pd.read_csv("Data/Users.csv")
