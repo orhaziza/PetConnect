@@ -106,6 +106,11 @@ def show_data_analysis_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
+
+        # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
         
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
