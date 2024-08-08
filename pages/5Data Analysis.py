@@ -11,6 +11,11 @@ import altair as alt
 
 st.set_page_config(page_title='Data Analysis', layout='wide')
 
+with st.container():
+    col1, col2 = st.columns([15, 1])
+    with col1:
+        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
+
 url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 @st.cache_data()
 def fetch_data():
@@ -95,22 +100,16 @@ def show_data_analysis_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-        # Sidebar logout button
-    if st.sidebar.button("Log Out"):
-        st.session_state['logged_in'] = False
-        st.experimental_rerun()
-
     with st.container():
-    col1, col2 = st.columns([15, 1])
-    with col1:
-        st.markdown("<h1 style='text-align: center;'>Data Analysis Page</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
-        col3, col4, col5 = st.columns([2,1,2])
-        with col4:
-            if st.button("רענן מידע", use_container_width=True):
-                st.cache_data.clear()
-    with col2:
-        st.image("Data/Logo.png", width=100)
+        col1, col2 = st.columns([15, 1])
+        with col1:
+            st.markdown("<h3 style='text-align: center;'>כאן תוכלו לצפות בויזואליזציות על בסיס הנתונים שנאספו עד כה</h3>", unsafe_allow_html=True)
+            col3, col4, col5 = st.columns([2,1,2])
+            with col4:
+                if st.button("רענן מידע", use_container_width=True):
+                    st.cache_data.clear()
+        with col2:
+            st.image("Data/Logo.png", width=100)
 
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
@@ -150,6 +149,11 @@ def show_data_analysis_page():
         with col3:
             st.markdown("<h6 style='text-align: right;'>בקשות אימוץ לפי יום בשבוע</h6>", unsafe_allow_html=True)
             plot_Applications_by_WkDay(fetch_data())
+
+    # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
 
 
             
