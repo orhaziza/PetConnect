@@ -144,7 +144,7 @@ def show_home_page():
         with col2:
             if st.button("רענן"):
                 st.cache_data.clear()
-                st.success("המידע עודכן!")
+                st.success("!המידע עודכן בהצלחה")
     
     df = fetch_data()
     
