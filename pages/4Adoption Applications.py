@@ -191,7 +191,7 @@ def score_adopter(dog, applicant):
         multi = 1
     if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
         score +=10
-    if dog['Children_Friendly'] and ap[plicant
+    if dog['Children_Friendly'] and applicant
     
     if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
         score += 20
