@@ -70,7 +70,7 @@ def show_foster_homes_page():
 
     # Define the menu options
     # with st.sidebar:
-    #     selected = option_menu("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
+    #     selected = option_menu("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
 
     st.markdown(
         """
