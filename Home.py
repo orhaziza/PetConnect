@@ -140,7 +140,7 @@ def show_home_page():
         st.session_state['seen_records'] = []
     
     with st.container():
-        col1, col2, col3 = st.columns([1.5, 1, 1])
+        col1, col2, col3 = st.columns([1.5, 0.5, 1])
         with col2:
             if st.button("רענן"):
                 st.cache_data.clear()
