@@ -187,20 +187,20 @@ def show_application_page():
 def score_adopter(dog, applicant):
     score = 0
     multi = 0
-    if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
-        multi = 1
-    if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
-        score +=10
-    if dog['Children_Friendly'] and applicant
+    # if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
+    #     multi = 1
+    # if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
+    #     score +=10
+    # if dog['Children_Friendly'] and applicant
     
-    if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
-        score += 20
-    if dog['EnergyLevel'] >1 and applicant["Active"]:
-        score +=20
+    # if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
+    #     score += 20
+    # if dog['EnergyLevel'] >1 and applicant["Active"]:
+    #     score +=20
     
 
-    if dog['AnimalFriendly'] and applicant['Animal Friendly']:
-        score += 15
+    # if dog['AnimalFriendly'] and applicant['Animal Friendly']:
+    #     score += 15
 
     #if dog["HealthStatus"] == 'טוב' and applicant['Healthy']:
         #score +=10
