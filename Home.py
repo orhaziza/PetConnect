@@ -140,10 +140,13 @@ def show_home_page():
     
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
-
-    if st.button("רענן"):
-        st.cache_data.clear()
-        st.success("המידע עודכן!")
+    
+    with st.container():
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            if st.button("רענן"):
+                st.cache_data.clear()
+                st.success("המידע עודכן!")
     
     df = fetch_data()
     
