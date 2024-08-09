@@ -109,7 +109,7 @@ def show_foster_homes_page():
     # Create the option menu inside a div with the custom class
     selected = option_menu(
         menu_title="בתים לאומנה",  # Required
-        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
+        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
@@ -199,7 +199,7 @@ def show_foster_homes_page():
             foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
 
-    elif selected == "ערוך מסמך":
+    elif selected == "מסמכים":
         st.title('מסמכים')
 
         # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
