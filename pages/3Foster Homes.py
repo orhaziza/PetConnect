@@ -3,33 +3,14 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+from streamlit_gsheets import GSheetsConnection
 
-FILES_DIR = 'Data/FosterHomes/'
-
-    # Ensure the directory exists
-if not os.path.exists(FILES_DIR):
-    os.makedirs(FILES_DIR)
-        
-def save_file(foster_home_id, uploaded_file):
-    with open(os.path.join(FILES_DIR, f'{foster_home_id}_{uploaded_file.name}'), "wb") as f:
-        f.write(uploaded_file.getbuffer())
-    st.success(f'קובץ {uploaded_file.name} נשמר בהצלחה!')
-
-def delete_file(file_name):
-    os.remove(os.path.join(FILES_DIR, file_name))
-    st.success(f'קובץ {file_name} נמחק בהצלחה!')
-
-def show_foster_homes_page():
+st.set_page_config(page_title='Applications', layout='wide')
+    
+def show_application_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    st.set_page_config(page_title='Foster Homes', layout='wide')
-    with st.container():
-        col4, col1, col2 = st.columns([1, 10, 1])
-        with col1:
-            st.markdown("<h1 style='text-align: center;'>בתי אומנה</h1>", unsafe_allow_html=True)
-        with col2:
-            st.image("Data/Logo.png", width=100)
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
         # Custom CSS to center-align the option menu
@@ -103,45 +84,6 @@ def show_foster_homes_page():
         """,
         unsafe_allow_html=True
     )
-   
-
-        
-    # Load foster home data
-    foster_home_file_path = "Data/FosterHome.csv"
-    if not os.path.exists(foster_home_file_path):
-        st.error("The foster home file does not exist.")
-        st.stop()
-
-    foster_home_df = pd.read_csv(foster_home_file_path, encoding='utf-8')
-
-
-    # Define Hebrew column names for foster homes
-    hebrew_columns_foster_homes = {
-        'FosterHomeID': 'מזהה בית אומנה',
-        'FosterName': 'שם בית אומנה',
-        'Address': 'כתובת',
-        'HouseSize': 'גודל הבית',
-        'Contactinfomation': 'פרטי קשר',
-        'Backyard': 'חצר',
-        'nearDogPark': 'קרוב לגן כלבים',
-        'HouseMembers': 'חברי בית',
-        'AvailabilityAtHome': 'זמינות בבית',
-        'ChildrenFriendly': 'ידידותי לילדים',
-        'AnimalFriendly': 'ידידותי לכלבים',
-        'MaximumCapacity': 'קיבולת מקסימלית',
-        'allowedAtProperty': 'מותר בנכס',
-        'allergies': 'אלרגיות',
-        'IsMobile': 'נייד',
-        'EnergyLevel': 'רמת אנרגיה',
-        'pastFosters': 'אומנויות קודמות',
-        'pastExperience': 'ניסיון קודם',
-        'documents': 'מסמכים',
-    }
-
-    # Define the menu options
-    # with st.sidebar:
-    #     selected = option_menu("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-
     st.markdown(
         """
         <style>
@@ -153,34 +95,20 @@ def show_foster_homes_page():
         """,
         unsafe_allow_html=True
     )
-    # # Use st.columns to create four equally sized columns
-    # col1, col2, col3, col4 = st.columns(4)
+    # the logo and title
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>בקשות אימוץ</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
 
-    # # Button 1 in the first column
-    # with col1:
-    #     if st.button("כלבים 🐶"):
-    #         st.switch_page("pages/Dogs.py")
 
-    # # Button 2 in the second column
-    # with col2:
-    #     if st.button("בתי אומנה 🏠"):
-    #         st.switch_page("pages/FosterHome.py")
-
-    # # Button 3 in the third column
-    # with col3:
-    #     if st.button("אומצים 👤"):
-    #         st.switch_page("pages/adopters.py")
-
-    # # Button 4 in the fourth column
-    # with col4:
-    #     if st.button("בקשות 📁"):
-    #         st.switch_page("pages/Applications.py")
-
-    # Create the option menu inside a div with the custom class
+    # Define the menu options
     selected = option_menu(
-        menu_title="בתים לאומנה",  # Required
-        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
-        icons=["file", "search", "file", "upload"],  # Optional
+        menu_title="בקשות",  # Required
+        options=["כל הטבלה", "טבלה עם ציון"],  # Added new option for the table with scores
+        icons=["file", "search", "file", "upload", "table"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
@@ -189,120 +117,180 @@ def show_foster_homes_page():
         }
     )
 
-    # Translate column names
-    foster_home_df_hebrew = foster_home_df.rename(columns=dict(
-        zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
-    # Display different pages based on selected option
-    if selected == "כל הטבלה":
-        st.dataframe(foster_home_df_hebrew)
+    @st.cache_data()
+    def fetch_data():
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
 
-    elif selected == "מצא בית אומנה":
-        st.subheader('מצא בית אומנה')
+    col1, col2, col3= st.columns([1.5, 1, 1])
 
-        # Create search filters for foster homes
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            foster_name = st.text_input('שם בית אומנה')
-        with col2:
-            house_size = st.selectbox('גודל הבית', [''] + list(foster_home_df['HouseSize'].unique()))
-        with col3:
-            children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df['ChildrenFriendly'].unique()))
-
-        # Apply search filters
-        filtered_foster_homes = foster_home_df_hebrew[
-            (foster_home_df_hebrew['שם בית אומנה'].str.contains(foster_name, na=False, case=False)) &
-            (foster_home_df_hebrew['גודל הבית'].isin([house_size]) if house_size else True) &
-            (foster_home_df_hebrew['ידידותי לילדים'].isin([children_friendly]) if children_friendly else True)
-            ]
-
-        st.dataframe(filtered_foster_homes)
-
-    elif selected == "הוסף בית אומנה":
-        st.subheader('הוסף בית אומנה')
-
-        foster_home_id = st.text_input('מזהה בית אומנה')
-        foster_name = st.text_input('שם בית אומנה')
-        address = st.text_area('כתובת')
-        house_size = st.selectbox('גודל הבית', ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else [])
-        contact_info = st.text_input('פרטי קשר')
-        backyard = st.selectbox('חצר', ['True', 'False'] + list(foster_home_df_hebrew['חצר'].unique()) if 'חצר' in foster_home_df_hebrew.columns else [])
-        near_dog_park = st.selectbox('קרוב לגן כלבים', ['True', 'False'] + list(foster_home_df_hebrew['קרוב לגן כלבים'].unique()) if 'קרוב לגן כלבים' in foster_home_df_hebrew.columns else [])
-        house_members = st.text_input('חברי בית')
-        availability_at_home = st.selectbox('זמינות בבית', [''] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else [])
-        children_friendly = st.selectbox('ידידותי לילדים', ['True', 'False'] + list(foster_home_df_hebrew['ידידותי לילדים'].unique()) if 'ידידותי לילדים' in foster_home_df_hebrew.columns else [])
-        animal_friendly = st.selectbox('ידידותי לכלבים', ['True', 'False'] + list(foster_home_df_hebrew['ידידותי לכלבים'].unique()) if 'ידידותי לכלבים' in foster_home_df_hebrew.columns else [])
-        max_capacity = st.number_input('קיבולת מקסימלית', min_value=0)
-        allowed_at_property = st.selectbox('מותר בנכס', ['True', 'False'] + list(foster_home_df_hebrew['מותר בנכס'].unique()) if 'מותר בנכס' in foster_home_df_hebrew.columns else [])
-        allergies = st.text_area('אלרגיות')
-        is_mobile = st.checkbox('נייד')
-        energy_level = st.slider('רמת אנרגיה', min_value=1, max_value=5)
-        past_fosters = st.text_area('אומנויות קודמות')
-        past_experience = st.text_area('ניסיון קודם')
-        documents = st.text_area('מסמכים')
-
-        if st.button('שמור בית אומנה'):
-            # Save foster home data to CSV or database
-            new_foster_home = {
-                'מזהה בית אומנה': foster_home_id,
-                'שם בית אומנה': foster_name,
-                'כתובת': address,
-                'גודל הבית': house_size,
-                'פרטי קשר': contact_info,
-                'חצר': backyard,
-                'קרוב לגן כלבים': near_dog_park,
-                'חברי בית': house_members,
-                'זמינות בבית': availability_at_home,
-                'ידידותי לילדים': children_friendly,
-                'ידידותי לכלבים': animal_friendly,
-                'קיבולת מקסימלית': max_capacity,
-                'מותר בנכס': allowed_at_property,
-                'אלרגיות': allergies,
-                'נייד': is_mobile,
-                'רמת אנרגיה': energy_level,
-                'אומנויות קודמות': past_fosters,
-                'ניסיון קודם': past_experience,
-                'מסמכים': documents
-            }
-            foster_home_df = foster_home_df.append(new_foster_home, ignore_index=True)
-            foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
-            st.success('הבית אומנה נשמר בהצלחה!')
-
-    elif selected == "ערוך מסמך":
-        st.title('מסמכים')
-
-        # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
-
-        # if foster_home_id:
-        #     st.subheader(f'מסמכים של {foster_home_id}')
-
-        #     files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
-        #     if files:
-        #         st.write('קבצים שיש במערכת ')
-        #         for file_name in files:
-        #             st.write(file_name)
-        #             with open(os.path.join(FILES_DIR, file_name), "rb") as file:
-        #                 btn = st.download_button(
-        #                     label=f"הורד {file_name}",
-        #                     data=file,
-        #                     file_name=file_name,
-        #                     mime='application/octet-stream'
-        #                 )
-        #             if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
-        #                 delete_file(file_name)
-
-        #     uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
-        #     if uploaded_file is not None:
-        #         if uploaded_file.name:
-        #             save_file(foster_home_id, uploaded_file)
-        #         else:
-        #             st.error('אין שם לקובץ ')
+    with col2:
+        if st.button("רענן"):
+            st.cache_data.clear()
+            st.success("המידע עודכן!")
+    
+    data = fetch_data()
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
+    
+    # applications_file_path = 'Data/AdoptionApplication.csv'
+    # if not os.path.exists(applications_file_path):
+    #     st.error("The applications file does not exist.")
+    #     st.stop()
 
-show_foster_homes_page()
+    # applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
 
+    # Define Hebrew column names for adopters
+    # hebrew_columns_applications = {
+    #     'ApplictionID': 'מזהה בקשה',
+    #     'ApplicantName': 'שם מבקש',
+    #     'dogID': 'מזהה כלב',
+    #     'AdopterID': 'מזהה מאמץ',
+    #     'applicationDate': 'תאריך בקשה',
+    #     'status': 'סטטוס בקשה',
+    #     'messageContect': 'תוכן בקשה',
+    #     'SourcePlatform': 'מאיפה הגעת אלינו',
+    # }
+
+    # # adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
+    # applic_df_hebrew = applications_df.rename(columns=dict(
+    #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
+
+    if selected == "כל הטבלה":
+        # Filters
+        with st.expander("סינון:"):
+            col1, col2 = st.columns(2)
+            with col1:
+                filter_date = st.date_input("תאריך:", value=None)
+            with col2:
+                filter_name = st.text_input("שם:")
+
+        # Apply filters only if inputs are provided
+        if filter_date is not None:
+            data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
+        if filter_name:
+            data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
+
+        st.dataframe(data)
+
+        
+    if selected == "טבלה עם ציון":
+        dogs_df = pd.read_csv('Data/Dogs.csv')
+        status = st.selectbox(
+        "Select Adoption Status",
+        ["כל הטבלה", "לא מאומצים", "מאומצים"]
+    )
+
+    # Filter DataFrame based on selected adoption status
+    if status == "לא מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
+    elif status == "מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
+    else:
+        filtered_df = dogs_df
+
+    
+    st.title('Dog-Adopter Matching System')
+    st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
+    for i, dog in filtered_df.iterrows():
+        cols = st.columns([1, 2, 2, 2, 1])
+        cols[0].text(dog['DogID'])
+        cols[1].text(dog['Name'])
+        cols[2].text(dog['Breed'])
+        cols[3].text(dog['Age'])
+        if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
+            st.session_state['selected_dog_id'] =dog['DogID']
+            selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
+            scores = []
+            for j, applicant in applications_df.iterrows():
+                score = score_adopter(selected_dog, applicant)
+                scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+            scores_df = pd.DataFrame(scores)
+            st.session_state['scores_df'] = scores_df
+            st.switch_page("pages/DogsProfile.py")
+    # Display the dog table and let the manager select a dog
+    # st.dataframe(filtered_df)
+    
+
+    # st.header('Select a Dog')
+    # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
+
+    # Get selected dog details
+    # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
+
+
+
+
+    # if st.button('View Dog Profile'):
+    #     # Navigate to the DogProfile page
+    #     st.session_state['selected_dog_id'] = selected_dog_id
+
+
+        
+    #     # st.experimental_rerun()
+
+    # Display selected dog information
+    # st.subheader('Selected Dog Information')
+    # st.write(selected_dog)
+
+
+
+    # # Calculate and display scores for each adopter for the selected dog
+    # st.subheader('Adopter Scores for Selected Dog')
+
+    #     # Create a DataFrame with the scores
+    # scores_df = pd.DataFrame(scores)
+
+    #     # Display the scores DataFrame
+    # #st.dataframe(scores_df)
+
+
+
+    
+    #scores_df = pd.DataFrame(scores)
+    #st.dataframe(scores_df)
+
+
+
+
+
+def score_adopter(dog, applicant):
+    score = 0
+    multi = 0
+    # if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
+    #     multi = 1
+    # if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
+    #     score +=10
+    # if dog['Children_Friendly'] and applicant
+    
+    # if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
+    #     score += 20
+    # if dog['EnergyLevel'] >1 and applicant["Active"]:
+    #     score +=20
+    
+
+    # if dog['AnimalFriendly'] and applicant['Animal Friendly']:
+    #     score += 15
+
+    #if dog["HealthStatus"] == 'טוב' and applicant['Healthy']:
+        #score +=10
+
+    #if dog["HealthStatus"] == 'חייב יחס' and applicant['Needs Attention']:
+        #score +=10
+    
+    #if dog['Children_Friendly'] and applicant['Children_Friendly']:
+        #score += 15
+            
+    #if dog['Spayed'] == "TRUE" and applicant['Spayed']:
+        #score += 5
+
+    return score
+    
+
+
+show_application_page()
