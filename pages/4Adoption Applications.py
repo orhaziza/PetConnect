@@ -1,49 +1,19 @@
-
 import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+from streamlit_gsheets import GSheetsConnection
 
-st.session_state['list'] = False
-items_file_path = "Data/Shopping List.csv"
-items_df = pd.read_csv(items_file_path, encoding='utf-8')
-dogs_file_path = "Data/Dogs.csv"
-dog_df = pd.read_csv(dogs_file_path, encoding='utf-8')
-dog_df = dog_df[dog_df['AdoptionStatus'] == 0]
-hebrew_columns_items = {
-    'Product Category': 'קטגוריה',
-    'Product ID': 'מזהה מוצר',
-    'Product Name': 'שם מוצר',
-    'Product Size': 'גודל',
-    'Product Size Unit': 'יחידות מידה',
-    'Age': 'גיל הכלב',
-    'Breed': 'גזע הכלב',
-    'Gender': 'מין הכלב',
-    'Dog Size': 'גודל הכלב',
-    'EnergyLevel': 'רמת האנרגיה',
-    'PottyTrained': 'מחונך לצרכים',
-    'Product Photo': 'תמונה',
-    'Description': 'תיאור'}
-
-items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
-items_df = items_df.iloc[:, ::-1]
+st.set_page_config(page_title='Applications', layout='wide')
     
-def show_shopping_list_page():
+def show_application_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-    st.set_page_config(page_title='Shopping List', layout='wide')
-    with st.container():
-        col4, col1, col2 = st.columns([1, 10, 1])
-        with col1:
-            st.markdown("<h1 style='text-align: center;'>רשימת קניות</h1>", unsafe_allow_html=True)
-        with col2:
-            st.image("Data/Logo.png", width=100)
-
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-    # Custom CSS to center-align the option menu
+        # Custom CSS to center-align the option menu
     st.markdown(
         """
         <style>
@@ -59,10 +29,16 @@ def show_shopping_list_page():
         .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
             font-family: 'Rubik', sans-serif !important;
             direction: rtl !important;
-            text-align: center !important;
-
         }
 
+        /* Specific adjustments for option_menu */
+        .nav-link, .nav-link span {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+        .option-menu-container {
+        font-family: 'Roboto', sans-serif;
+        }
         .stButton > button {
         color: #ffffff; /* White text for buttons */
         background-color: #30475E; /* Dark blue color for buttons */
@@ -128,73 +104,201 @@ def show_shopping_list_page():
             """,
             unsafe_allow_html=True
         )
+    
+
+    # the logo and title
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>בקשות אימוץ</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
+
+
     # Define the menu options
     selected = option_menu(
         menu_title="",  # Required
-        options=["צור רשימה לכלב", "הוסף מוצר"],  # Added new option for the table with scores
+        options=["כל הבקשות", "בקשות עם ציון"],  # Added new option for the table with scores
         icons=["file", "search", "file", "upload", "table"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
-        )
-    if selected == "צור רשימה לכלב":
-        col3, col1, col2, col4 = st.columns([0.5, 4.5, 1, 0.5])
-        with col1:
-            st.markdown(
-                """
-                <style>
-                [data-baseweb="select"] {
-                    margin-top: -40px;
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-            dog = st.selectbox(label='',options=dog_df['Name'].unique(),index=None, placeholder="בחר כלב")
-        with col2:
-            if st.button("צור רשימה"):
-                if dog!=None:
-                    st.session_state['list']=True
-                    st.session_state['choice']=True
-                else:
-                    st.session_state['choice']=False
-            
-    if st.session_state['list']:
-        create_list(dog)
-    if not st.session_state['choice']:
-        st.warning("לא נבחר כלב!")
+    )
 
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
+    @st.cache_data()
+    def fetch_data():
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
 
-    if selected == "הוסף מוצר":
-        st.write("not yet")
+    col1, col2, col3= st.columns([1.5, 1, 1])
+
+    with col2:
+        if st.button("רענן"):
+            st.cache_data.clear()
+            st.success("המידע עודכן!")
+    
+    data = fetch_data()
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
-        st.switch_page("Home.py")
         st.experimental_rerun()
+    
+    # applications_file_path = 'Data/AdoptionApplication.csv'
+    # if not os.path.exists(applications_file_path):
+    #     st.error("The applications file does not exist.")
+    #     st.stop()
 
-def create_list(dog):
-    df = dog_df.loc[dog_df['Name'] == dog].reset_index()
-    categories = items_df['קטגוריה'].unique()
-    sl = items_df.iloc[:0,:].copy()
-    flag = False
-    if not (df["Size"][0]=='XS' or df["Size"][0]=='S' or df["Size"][0]=='M' or df["Size"][0]=='L' or df["Size"][0]=='XL'):
-        st.warning('Dog has NO size!')
-        st.stop
-        flag = True
-    for c in categories:
-        if c=="גורים":
-            if df["Age"][0]<12:
-                category_products = items_df[items_df['קטגוריה'] == c]
-                sl = pd.concat([sl, category_products], ignore_index=True) 
-        else:    
-            if not flag:
-                category_products = items_df[items_df['קטגוריה'] == c]
-                sl = pd.concat([sl, category_products[category_products['גודל הכלב'] == df["Size"][0]]], ignore_index=True) 
+    # applications_df = pd.read_csv(applications_file_path, encoding='utf-8')
+
+    # Define Hebrew column names for adopters
+    # hebrew_columns_applications = {
+    #     'ApplictionID': 'מזהה בקשה',
+    #     'ApplicantName': 'שם מבקש',
+    #     'dogID': 'מזהה כלב',
+    #     'AdopterID': 'מזהה מאמץ',
+    #     'applicationDate': 'תאריך בקשה',
+    #     'status': 'סטטוס בקשה',
+    #     'messageContect': 'תוכן בקשה',
+    #     'SourcePlatform': 'מאיפה הגעת אלינו',
+    # }
+
+    # # adopter_df_hebrew = adopter_df.rename(columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
+    # applic_df_hebrew = applications_df.rename(columns=dict(
+    #     zip(applications_df.columns, [hebrew_columns_applications.get(col, col) for col in applications_df.columns])))
+
+    if selected == "כל הבקשות":
+        # Filters
+        with st.expander("סינון:"):
+            col1, col2 = st.columns(2)
+            with col1:
+                filter_date = st.date_input("תאריך:", value=None)
+            with col2:
+                filter_name = st.text_input("שם:")
+
+        # Apply filters only if inputs are provided
+        if filter_date is not None:
+            data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
+        if filter_name:
+            data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
+
+        st.dataframe(data)
+
+        
+    if selected == "בקשות עם ציון":
+        dogs_df = pd.read_csv('Data/Dogs.csv')
+        status = st.selectbox(
+        "Select Adoption Status",
+        ["כל הבקשות", "לא מאומצים", "מאומצים"]
+    )
+
+    # Filter DataFrame based on selected adoption status
+    if status == "לא מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
+    elif status == "מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
+    else:
+        filtered_df = dogs_df
+
     
-    sl['new_column'] = True
-    sl = st.data_editor(sl)
+    st.title('Dog-Adopter Matching System')
+    st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
+    for i, dog in filtered_df.iterrows():
+        cols = st.columns([1, 2, 2, 2, 1])
+        cols[0].text(dog['DogID'])
+        cols[1].text(dog['Name'])
+        cols[2].text(dog['Breed'])
+        cols[3].text(dog['Age'])
+        if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
+            st.session_state['selected_dog_id'] =dog['DogID']
+            selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
+            scores = []
+            for j, applicant in applications_df.iterrows():
+                score = score_adopter(selected_dog, applicant)
+                scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+            scores_df = pd.DataFrame(scores)
+            st.session_state['scores_df'] = scores_df
+            st.switch_page("pages/DogsProfile.py")
+    # Display the dog table and let the manager select a dog
+    # st.dataframe(filtered_df)
     
-show_shopping_list_page()
+
+    # st.header('Select a Dog')
+    # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
+
+    # Get selected dog details
+    # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
+
+
+
+
+    # if st.button('View Dog Profile'):
+    #     # Navigate to the DogProfile page
+    #     st.session_state['selected_dog_id'] = selected_dog_id
+
+
+        
+    #     # st.experimental_rerun()
+
+    # Display selected dog information
+    # st.subheader('Selected Dog Information')
+    # st.write(selected_dog)
+
+
+
+    # # Calculate and display scores for each adopter for the selected dog
+    # st.subheader('Adopter Scores for Selected Dog')
+
+    #     # Create a DataFrame with the scores
+    # scores_df = pd.DataFrame(scores)
+
+    #     # Display the scores DataFrame
+    # #st.dataframe(scores_df)
+
+
+
+    
+    #scores_df = pd.DataFrame(scores)
+    #st.dataframe(scores_df)
+
+
+
+
+
+def score_adopter(dog, applicant):
+    score = 0
+    multi = 0
+    # if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
+    #     multi = 1
+    # if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
+    #     score +=10
+    # if dog['Children_Friendly'] and applicant
+    
+    # if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
+    #     score += 20
+    # if dog['EnergyLevel'] >1 and applicant["Active"]:
+    #     score +=20
+    
+
+    # if dog['AnimalFriendly'] and applicant['Animal Friendly']:
+    #     score += 15
+
+    #if dog["HealthStatus"] == 'טוב' and applicant['Healthy']:
+        #score +=10
+
+    #if dog["HealthStatus"] == 'חייב יחס' and applicant['Needs Attention']:
+        #score +=10
+    
+    #if dog['Children_Friendly'] and applicant['Children_Friendly']:
+        #score += 15
+            
+    #if dog['Spayed'] == "TRUE" and applicant['Spayed']:
+        #score += 5
+
+    return score
+    
+
+
+show_application_page()
