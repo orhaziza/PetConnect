@@ -223,7 +223,7 @@ def show_dogs_page():
     selected = option_menu(
         menu_title="",  # Required
         # options=["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],  # Required
-        options=["כל הטבלה","מצא כלב","הוסף כלב","ערוך תמונה","מצא בית אומנה"]  # Required
+        options=["כל הטבלה","מצא כלב","הוסף כלב","ערוך תמונה","מצא בית אומנה"] , # Required
         icons=["search","upload", "file", "search","file"],  # Optional
         menu_icon="menu",  # Optional
         default_index=3,  # Optional
