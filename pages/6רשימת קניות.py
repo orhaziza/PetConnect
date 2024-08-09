@@ -134,7 +134,7 @@ def show_shopping_list_page():
     # Define the menu options
     selected = option_menu(
         menu_title="",  # Required
-        options=["צור רשימה לכלב", "הוסף מוצר"],  # Added new option for the table with scores
+        options=["הוסף מוצר", "צור רשימה לכלב"],  # Added new option for the table with scores
         icons=["file", "search"],  # Optional
         menu_icon="menu",  # Optional
         default_index=1,  # Optional
