@@ -62,9 +62,6 @@ def show_adopters_page():
         """
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-        body {
-            font-family: 'Rubik', sans-serif;
-        }
         .custom-font {
                 font-family: 'Rubik', sans-serif;
                 text-align: center;
