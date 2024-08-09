@@ -11,10 +11,20 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
     
-    /* Apply Rubik font globally and enforce RTL layout */
-    * {
+    /* Apply RTL and Rubik font to all text elements and images */
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, ins, kbd, q, s, samp, small,
+    strike, strong, sub, sup, tt, var, b, u, i,
+    dl, dt, dd, ol, ul, li, label, legend,
+    article, aside, figcaption, header, hgroup,
+    nav, output, ruby, section, summary, time,
+    mark, button, input, select, textarea, img, 
+    .stMarkdown, .stText, .stHeader, .stSubheader, 
+    .stTitle, .stCaption, .stImage {
+        direction: rtl;
+        text-align: right;
         font-family: 'Rubik', sans-serif !important;
-        direction: rtl !important;
     }
 
     /* Specific adjustments for DataFrame content */
