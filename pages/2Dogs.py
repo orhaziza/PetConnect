@@ -50,6 +50,77 @@ def show_dogs_page():
         with col2:
             st.image("Data/Logo.png", width=120)
 
+    # Custom CSS to center-align the option menu
+    st.markdown(
+        """
+        <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+    .stButton > button {
+        color: #ffffff; /* White text for buttons */
+        background-color: #30475E; /* Dark blue color for buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    .stButton > button.logout {
+        background-color: #F05454; /* Red color for logout button */
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .stButton > button.logout:hover {
+        background-color: #C74444; /* Darker red on hover */
+        transform: scale(1.05);
+    }
+    .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .icon-button img {
+        margin-right: 5px;
+    }
+    .option-menu-container {
+        display: flex;
+        justify-content: center;
+    }
+    .dataframe-container {
+        background-color: #ffffff; /* White background for dataframe */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+    .file-upload-container {
+        background-color: #ffffff; /* White background for file upload */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .stDownloadButton > button {
+        color: #ffffff; /* White text for download buttons */
+        background-color: #30475E; /* Dark blue color for download buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stDownloadButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    </style>
+
+        """,
+        unsafe_allow_html=True
+    )
 
     # Creating Dataframe from csv
     dogs_file_path = "Data/Dogs.csv"
