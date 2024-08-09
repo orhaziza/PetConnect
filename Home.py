@@ -8,15 +8,6 @@ import hashlib
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
 
-
-con1 = st.container()
-with con1:
-    col1, col2 = st.columns([6,1])
-    with col1:
-        st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
-    with col2:
-        st.image("Data/Logo.png", width=120)
-
 # Function to hash the password using SHA-256
 def hash_password(password):
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
@@ -42,7 +33,14 @@ def login(username, password):
 
 # Function to show the login form and handle the login process
 def show_login_page():    
-    st.subheader("Please log in to access the system.")
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([6,1])
+        with col1:
+            st.markdown("<h1 style='text-align: right;'>PetConnectברוך הבא ל</h1>", unsafe_allow_html=True)
+            st.subheader("Please log in to access the system.")
+        with col2:
+            st.image("Data/Logo.png", width=120)
 
     # User input for login
     username = st.text_input("Username")
@@ -139,13 +137,6 @@ def show_home_page():
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
     
-    with st.container():
-        col1, col2, col3 = st.columns([1.5, 0.75, 1])
-        with col2:
-            if st.button("רענן"):
-                st.cache_data.clear()
-                st.success("‏המידע עודכן בהצלחה")
-    
     df = fetch_data()
     
     # Clean up the column names
@@ -183,12 +174,24 @@ def show_home_page():
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
     recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
-    # Set the title and subtitle
-    st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
+
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
     
+    with st.container():
+        col1, col2, col3 = st.columns([1.5, 0.75, 1])
+        with col2:
+            if st.button("רענן"):
+                st.cache_data.clear()
+                st.success("‏המידע עודכן בהצלחה")
     # Display the number of records
+    
     if len(recent_df) > 0:
-        st.markdown(f"<h2 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
         
         # Display each record as text
         for i in range(len(recent_df)):
@@ -209,6 +212,8 @@ def show_home_page():
 
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
+
+
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
