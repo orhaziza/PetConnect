@@ -181,92 +181,52 @@ def show_application_page():
         
     if selected == "טבלה עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
-        status = st.selectbox(
-        "Select Adoption Status",
-        ["כל הטבלה", "לא מאומצים", "מאומצים"]
-    )
-
-    # Filter DataFrame based on selected adoption status
-    if status == "לא מאומצים":
-        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
-    elif status == "מאומצים":
-        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
-    else:
-        filtered_df = dogs_df
-
-    
-    st.title('Dog-Adopter Matching System')
-    st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
-    for i, dog in filtered_df.iterrows():
-        cols = st.columns([1, 2, 2, 2, 1])
-        cols[0].text(dog['DogID'])
-        cols[1].text(dog['Name'])
-        cols[2].text(dog['Breed'])
-        cols[3].text(dog['Age'])
-        if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
-            st.session_state['selected_dog_id'] =dog['DogID']
-            selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
-            scores = []
-            for j, applicant in applications_df.iterrows():
-                score = score_adopter(selected_dog, applicant)
-                scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
-            scores_df = pd.DataFrame(scores)
-            st.session_state['scores_df'] = scores_df
-            st.switch_page("pages/DogsProfile.py")
-    # Display the dog table and let the manager select a dog
-    # st.dataframe(filtered_df)
-    
-
-    # st.header('Select a Dog')
-    # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
-
-    # Get selected dog details
-    # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
-
-
-
-
-    # if st.button('View Dog Profile'):
-    #     # Navigate to the DogProfile page
-    #     st.session_state['selected_dog_id'] = selected_dog_id
-
-
         
-    #     # st.experimental_rerun()
+        # Select a dog
+        st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
+        dog_selection = st.selectbox("Select a Dog", dogs_df["Name"])
 
-    # Display selected dog information
-    # st.subheader('Selected Dog Information')
-    # st.write(selected_dog)
+        # Filter the selected dog's data
+        selected_dog = dogs_df[dogs_df["Name"] == dog_selection].iloc[0]
+
+        # Calculate scores for all applicants for the selected dog
+        scores = []
+        for i, applicant in data.iterrows():
+            score = score_adopter(selected_dog, applicant)
+            scores.append({
+                'Application ID': applicant['מספר בקשה'],
+                'Applicant Name': applicant['שם פרטי ושם משפחה '],
+                'Score': score
+            })
+
+        # Convert the scores into a DataFrame and display it
+        scores_df = pd.DataFrame(scores)
+        st.dataframe(scores_df)
 
 
-
-    # # Calculate and display scores for each adopter for the selected dog
-    # st.subheader('Adopter Scores for Selected Dog')
-
-    #     # Create a DataFrame with the scores
-    # scores_df = pd.DataFrame(scores)
-
-    #     # Display the scores DataFrame
-    # #st.dataframe(scores_df)
-
-
-
-    
-    #scores_df = pd.DataFrame(scores)
-    #st.dataframe(scores_df)
 
 
 
 
 
 def score_adopter(dog, applicant):
-    score = 0
+    score = 30
     multi = 0
-    # if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
-    #     multi = 1
-    # if dog['Children_Friendly'] and applicant["מספר הנפשות הגרות בבית"]> 0:
-    #     score +=10
-    # if dog['Children_Friendly'] and applicant
+    if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
+        multi = 1
+    if dog['Children_Friendly'] == FALSE and applicant["מספר הנפשות הגרות בבית"]> 0:
+        score -=10
+    if dog['Children_Friendly'] == FALSE and applicant["גילאי ילדים במידה ויש"] != "בית ללא ילדים":
+        score -=10
+
+    if applicant["?האם אימצת אצלנו בעבר"] == "כן":
+        score +=10
+
+    if applicant["האם יש גינה (מגודרת) בבית?"] == "כן":
+        score +=10
+    if dog['AnimalFriendly'] == FALSE and applicant["האם יש בעלי חיים נוספים בבית?"] == "כן":
+        score -=10
+        
     
     # if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
     #     score += 20
@@ -289,7 +249,7 @@ def score_adopter(dog, applicant):
     #if dog['Spayed'] == "TRUE" and applicant['Spayed']:
         #score += 5
 
-    return score
+    return score * multi
     
 
 
