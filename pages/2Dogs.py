@@ -46,73 +46,94 @@ def show_dogs_page():
     st.markdown(
         """
         <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-    
-    .stButton > button {
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+        
+        /* Apply Rubik font globally and enforce RTL layout */
+        * {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+
+        /* Specific adjustments for DataFrame content */
+        .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+
+        /* Specific adjustments for option_menu */
+        .nav-link, .nav-link span {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+        .option-menu-container {
+        font-family: 'Roboto', sans-serif;
+        }
+        .stButton > button {
         color: #ffffff; /* White text for buttons */
         background-color: #30475E; /* Dark blue color for buttons */
         border-radius: 5px;
         padding: 10px 20px;
         transition: background-color 0.3s, transform 0.3s;
         font-size: 1em;
-    }
-    .stButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    .stButton > button.logout {
-        background-color: #F05454; /* Red color for logout button */
-        border-radius: 5px;
-        transition: background-color 0.3s, transform 0.3s;
-        padding: 10px 20px;
-        font-size: 1em;
-    }
-    .stButton > button.logout:hover {
-        background-color: #C74444; /* Darker red on hover */
-        transform: scale(1.05);
-    }
-    .icon-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .icon-button img {
-        margin-right: 5px;
-    }
-    .option-menu-container {
-        display: flex;
-        justify-content: center;
-    }
-    .dataframe-container {
-        background-color: #ffffff; /* White background for dataframe */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-    }
-    .file-upload-container {
-        background-color: #ffffff; /* White background for file upload */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
-    }
-    .stDownloadButton > button {
-        color: #ffffff; /* White text for download buttons */
-        background-color: #30475E; /* Dark blue color for download buttons */
-        border-radius: 5px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        font-size: 1em;
-    }
-    .stDownloadButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    </style>
+        }
+        .stButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        .stButton > button.logout {
+            background-color: #F05454; /* Red color for logout button */
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .stButton > button.logout:hover {
+            background-color: #C74444; /* Darker red on hover */
+            transform: scale(1.05);
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button img {
+            margin-right: 5px;
+        }
+        .option-menu-container {
+            display: flex;
+            justify-content: center;
+        }
+        .dataframe-container {
+            background-color: #ffffff; /* White background for dataframe */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        .file-upload-container {
+            background-color: #ffffff; /* White background for file upload */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .stDownloadButton > button {
+            color: #ffffff; /* White text for download buttons */
+            background-color: #30475E; /* Dark blue color for download buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stDownloadButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        </style>
 
-        """,
-        unsafe_allow_html=True
-    )
+            """,
+            unsafe_allow_html=True
+        )
+
 
     # Container for the logo and title
     with st.container():
@@ -200,7 +221,7 @@ def show_dogs_page():
 
     
     selected = option_menu(
-        menu_title="כלבים",  # Required
+        menu_title="",  # Required
         options=["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],  # Required
         icons=["file", "search", "file", "upload", "search"],  # Optional
         menu_icon="menu",  # Optional
@@ -239,28 +260,25 @@ def show_dogs_page():
             st.success("Changes saved successfully!")
 
     if selected == "מצא כלב":
-        ## st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
-
-
-
+        # st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
         # Create search filters in columns
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            breed = st.selectbox('גזע', options=[''] + list(dog_df['breed'].unique()))
+            breed = st.selectbox('זן', options=[''] + list(dog_df["Breed"].unique()))
         with col2:
-            age = st.slider('גיל', min_value=0, max_value=int(dog_df['age'].max()), value=(0, int(dog_df['age'].max())))
+            age = st.slider('גיל', min_value=0, max_value=int(dog_df['Age'].max()), value=(0, int(dog_df['Age'].max())))
         with col3:
-            size = st.selectbox('גודל', options=[''] + list(dog_df['size'].unique()))
+            size = st.selectbox('גודל', options=[''] + list(dog_df['Size'].unique()))
         with col4:
-            gender = st.selectbox('מין', options=[''] + list(dog_df['gender'].unique()))
+            gender = st.selectbox('מין', options=[''] + list(dog_df['Gender'].unique()))
 
         # Apply search filters
         filtered_df = dog_df_hebrew[
-            (dog_df['breed'].isin([breed]) if breed else True) &
-            (dog_df['age'] >= age[0]) & (dog_df['age'] <= age[1]) &
-            (dog_df['size'].isin([size]) if size else True) &
-            (dog_df['gender'].isin([gender]) if gender else True)
+            (dog_df['Breed'].isin([breed]) if breed else True) &
+            (dog_df['Age'] >= age[0]) & (dog_df['Age'] <= age[1]) &
+            (dog_df['Size'].isin([size]) if size else True) &
+            (dog_df['Gender'].isin([gender]) if gender else True)
             ]
 
         st.write(filtered_df)
