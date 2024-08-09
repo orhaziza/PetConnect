@@ -136,7 +136,7 @@ def show_login_page():
     password = st.text_input("סיסמה", type="password")
     con1 = st.container()
     with con1:
-        col1, col2 = st.columns([9,1])
+        col1, col2 = st.columns([8,1])
         with col2:
             # Login button
             if st.button("Login", use_container_width=True):
