@@ -118,10 +118,10 @@ def show_application_page():
     # Define the menu options
     selected = option_menu(
         menu_title="",  # Required
-        options=["כל הבקשות", "בקשות עם ציון"],  # Added new option for the table with scores
-        icons=["file", "search", "file", "upload", "table"],  # Optional
+        options=["בקשות עם ציון", "כל הבקשות"],  # Added new option for the table with scores
+        icons=["search", "file"],  # Optional
         menu_icon="menu",  # Optional
-        default_index=0,  # Optional
+        default_index=1,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
     )
 
