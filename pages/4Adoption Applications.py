@@ -214,19 +214,20 @@ def score_adopter(dog, applicant):
     multi = 0
     if dog['Name'] == applicant['בנוגע לאיזה מהכלבים שלנו פניתם 🐕']:
         multi = 1
-    if dog['Children_Friendly'] == FALSE and applicant["מספר הנפשות הגרות בבית"]> 0:
-        score -=10
-    if dog['Children_Friendly'] == FALSE and applicant["גילאי ילדים במידה ויש"] != "בית ללא ילדים":
-        score -=10
+    if dog['Children_Friendly'] == False and applicant["מספר הנפשות הגרות בבית"] > 0:
+        score -= 10
+    if dog['Children_Friendly'] == False and applicant["גילאי ילדים במידה ויש"] != "בית ללא ילדים":
+        score -= 10
 
     if applicant["?האם אימצת אצלנו בעבר"] == "כן":
-        score +=10
+        score += 10
 
     if applicant["האם יש גינה (מגודרת) בבית?"] == "כן":
-        score +=10
-    if dog['AnimalFriendly'] == FALSE and applicant["האם יש בעלי חיים נוספים בבית?"] == "כן":
-        score -=10
-        
+        score += 10
+    if dog['AnimalFriendly'] == False and applicant["האם יש בעלי חיים נוספים בבית?"] == "כן":
+        score -= 10
+
+    return score * multi
     
     # if dog['EnergyLevel'] <=1 and applicant["Calm"] == 1:
     #     score += 20
