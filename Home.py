@@ -136,10 +136,10 @@ def show_login_page():
     password = st.text_input("סיסמה", type="password")
     con1 = st.container()
     with con1:
-        col1, col2 = st.columns([10,1])
+        col1, col2 = st.columns([9,1])
         with col2:
             # Login button
-            if st.button("Login"):
+            if st.button("Login", use_container_width=True):
                 if login(username, password):
                     st.session_state['logged_in'] = True
                     st.session_state['username'] = username
