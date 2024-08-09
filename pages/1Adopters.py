@@ -305,7 +305,7 @@ def show_adopters_page():
         adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
         if adopter_id:
-            st.subheader(f'מסמכים של {adopter_id}')
+            st.subheader(f'מסמכיםghghgfh של {adopter_id}')
 
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
