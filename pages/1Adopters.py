@@ -53,15 +53,22 @@ adopter_df_hebrew = load_adopters_data()
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
+    
+    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+        st.error("לא ניתן לגשת לעמוד ללא התחברות")
+        st.stop()
 
     st.markdown(
         """
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+        body {
+            font-family: 'Rubik', sans-serif;
+        }
         .custom-font {
-                    font-family: 'Rubik', sans-serif;
-                    text-align: center;
-                }
+                font-family: 'Rubik', sans-serif;
+                text-align: center;
+            }
         .stButton > button {
             color: #ffffff; /* White text for buttons */
             background-color: #30475E; /* Dark blue color for buttons */
@@ -123,14 +130,10 @@ def show_adopters_page():
             transform: scale(1.05);
         }
         </style>
-    
+
             """,
             unsafe_allow_html=True
-    )
-    
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות")
-        st.stop()
+        )
 
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
