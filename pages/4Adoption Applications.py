@@ -194,7 +194,7 @@ def show_application_page():
         for i, applicant in data.iterrows():
             score = score_adopter(selected_dog, applicant)
             scores.append({
-                'Application ID': applicant['מספר בקשה'],
+                'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
                 'Score': score
             })
