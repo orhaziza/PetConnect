@@ -4,39 +4,6 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 # Set up the page configuration at the top
-st.markdown(
-    """
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-
-    /* Apply font globally to the body */
-    body {
-        font-family: 'Rubik', sans-serif;
-    }
-
-    /* Apply font to Streamlit specific components */
-    .css-1v0mbdj {  /* Apply to headers */
-        font-family: 'Rubik', sans-serif;
-    }
-    .css-1c0q5d9 {  /* Apply to text elements */
-        font-family: 'Rubik', sans-serif;
-    }
-    .css-12ttj6m {  /* Apply to buttons */
-        font-family: 'Rubik', sans-serif;
-    }
-    .css-1okx5es {  /* Apply to selectbox */
-        font-family: 'Rubik', sans-serif;
-    }
-    .css-1e4u5hz {  /* Apply to radio buttons */
-        font-family: 'Rubik', sans-serif;
-    }
-    .css-1hyh6pf {  /* Apply to other components */
-        font-family: 'Rubik', sans-serif;
-    }
-    </style>
-    """, 
-    unsafe_allow_html=True
-)
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
@@ -168,19 +135,6 @@ def show_adopters_page():
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
-            st.markdown(
-                """
-                <style>
-                @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-            
-                .custom-font {
-                    font-family: 'Rubik', sans-serif;
-                    text-align: center;
-                }
-                </style>
-                """, 
-                unsafe_allow_html=True
-            )
             st.markdown('<h1 class="custom-font">מאמצים</h1>', unsafe_allow_html=True)
         with col2:
             st.image("Data/Logo.png", width=100)
