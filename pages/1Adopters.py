@@ -57,23 +57,11 @@ def show_adopters_page():
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    st.markdown(
-            """
-            <style>
-            @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-    
-            .custom-font {
-                font-family: 'Rubik', sans-serif;
-                text-align: center;
-            }
-            </style>
-            """, 
-            unsafe_allow_html=True
-        )
+
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
-            st.markdown("<h1 style='text-align: center;'>מאמצים</h1>", unsafe_allow_html=True)
+            st.markdown('<h1 class="custom-font">מאמצים</h1>', unsafe_allow_html=True)
         with col2:
             st.image("Data/Logo.png", width=100)
 
@@ -127,8 +115,11 @@ def show_adopters_page():
     st.markdown(
         """
         <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-    
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+    .custom-font {
+                font-family: 'Rubik', sans-serif;
+                text-align: center;
+            }
     .stButton > button {
         color: #ffffff; /* White text for buttons */
         background-color: #30475E; /* Dark blue color for buttons */
