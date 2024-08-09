@@ -188,10 +188,10 @@ def show_foster_homes_page():
     # Create the option menu inside a div with the custom class
     selected = option_menu(
         menu_title="",  # Required
-        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
-        icons=["file", "search", "file", "upload"],  # Optional
+        options=["ערוך מסמך","הוסף בית אומנה","מצא בית אומנה","כל הטבלה"],  # Required
+        icons=["upload", "file", "search", "file"],  # Optional
         menu_icon="menu",  # Optional
-        default_index=0,  # Optional
+        default_index=3,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
     )
 
