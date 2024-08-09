@@ -135,9 +135,9 @@ def show_shopping_list_page():
     selected = option_menu(
         menu_title="",  # Required
         options=["צור רשימה לכלב", "הוסף מוצר"],  # Added new option for the table with scores
-        icons=["file", "search", "file", "upload", "table"],  # Optional
+        icons=["file", "search"],  # Optional
         menu_icon="menu",  # Optional
-        default_index=0,  # Optional
+        default_index=1,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
         )
     if selected == "צור רשימה לכלב":
