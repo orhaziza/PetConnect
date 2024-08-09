@@ -24,15 +24,85 @@ def show_foster_homes_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     st.set_page_config(page_title='Foster Homes', layout='wide')
-    con1 = st.container()
-    with con1:
-        col1, col2 = st.columns([4, 1])  # Adjust column ratios as needed
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
-            st.markdown('<h1 class="rtl">Foster Homes</h1>', unsafe_allow_html=True)
+            st.markdown("<h1 style='text-align: center;'>בתי אומנה</h1>", unsafe_allow_html=True)
         with col2:
             st.image("Data/Logo.png", width=100)
 
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+        # Custom CSS to center-align the option menu
+    st.markdown(
+        """
+        <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+    .stButton > button {
+        color: #ffffff; /* White text for buttons */
+        background-color: #30475E; /* Dark blue color for buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    .stButton > button.logout {
+        background-color: #F05454; /* Red color for logout button */
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .stButton > button.logout:hover {
+        background-color: #C74444; /* Darker red on hover */
+        transform: scale(1.05);
+    }
+    .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .icon-button img {
+        margin-right: 5px;
+    }
+    .option-menu-container {
+        display: flex;
+        justify-content: center;
+    }
+    .dataframe-container {
+        background-color: #ffffff; /* White background for dataframe */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+    .file-upload-container {
+        background-color: #ffffff; /* White background for file upload */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .stDownloadButton > button {
+        color: #ffffff; /* White text for download buttons */
+        background-color: #30475E; /* Dark blue color for download buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stDownloadButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    </style>
 
+        """,
+        unsafe_allow_html=True
+    )
    
 
         
@@ -109,7 +179,7 @@ def show_foster_homes_page():
     # Create the option menu inside a div with the custom class
     selected = option_menu(
         menu_title="בתים לאומנה",  # Required
-        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"],  # Required
+        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
@@ -199,7 +269,7 @@ def show_foster_homes_page():
             foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
 
-    elif selected == "מסמכים":
+    elif selected == "ערוך מסמך":
         st.title('מסמכים')
 
         # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
