@@ -219,7 +219,7 @@ def score_adopter(dog, applicant):
     if dog['Children_Friendly'] == False and applicant["גילאי ילדים במידה ויש"] != "בית ללא ילדים":
         score -= 10
 
-    if applicant["?האם אימצת אצלנו בעבר"] == "כן":
+    if applicant["האם אימצת אצלנו בעבר?"] == "כן":
         score += 10
 
     if applicant["האם יש גינה (מגודרת) בבית?"] == "כן":
