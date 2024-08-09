@@ -239,7 +239,7 @@ def show_dogs_page():
             st.success("Changes saved successfully!")
 
     if selected == "מצא כלב":
-        st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
+        ## st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
 
 
 
