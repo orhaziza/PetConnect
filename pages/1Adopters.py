@@ -86,7 +86,7 @@ adopter_df_hebrew = load_adopters_data()
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
-        # Custom CSS to center-align the option menu
+
     st.markdown(
         """
         <style>
@@ -168,6 +168,19 @@ def show_adopters_page():
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
+            st.markdown(
+                """
+                <style>
+                @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+            
+                .custom-font {
+                    font-family: 'Rubik', sans-serif;
+                    text-align: center;
+                }
+                </style>
+                """, 
+                unsafe_allow_html=True
+            )
             st.markdown('<h1 class="custom-font">מאמצים</h1>', unsafe_allow_html=True)
         with col2:
             st.image("Data/Logo.png", width=100)
