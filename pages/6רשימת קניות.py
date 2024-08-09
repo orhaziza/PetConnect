@@ -41,6 +41,9 @@ def show_shopping_list_page():
             st.markdown("<h1 style='text-align: center;'>רשימת קניות</h1>", unsafe_allow_html=True)
         with col2:
             st.image("Data/Logo.png", width=100)
+    
+    
+    st.session_state['choice']=True
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
     # Custom CSS to center-align the option menu
