@@ -134,15 +134,18 @@ def show_login_page():
     # User input for login
     username = st.text_input("שם משתמש")
     password = st.text_input("סיסמה", type="password")
-
-    # Login button
-    if st.button("Login"):
-        if login(username, password):
-            st.session_state['logged_in'] = True
-            st.session_state['username'] = username
-            st.experimental_rerun()  # Refresh the page to update the content
-        else:
-            st.error("Invalid username or password")
+    con1 = st.container()
+    with con1:
+        col1, col2 = st.columns([6,1])
+        with col1:
+            # Login button
+            if st.button("Login"):
+                if login(username, password):
+                    st.session_state['logged_in'] = True
+                    st.session_state['username'] = username
+                    st.experimental_rerun()  # Refresh the page to update the content
+                else:
+                    st.error("Invalid username or password")
 
 # Function to show the home page
 def show_home_page():
