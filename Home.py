@@ -127,13 +127,13 @@ def show_login_page():
         col1, col2 = st.columns([6,1])
         with col1:
             st.markdown("<h1 style='text-align: right;'>ברוך הבא לPetConnect</h1>", unsafe_allow_html=True)
-            st.subheader("Please log in to access the system.")
+            st.subheader("אנא התחבר למערכת")
         with col2:
             st.image("Data/Logo.png", width=120)
 
     # User input for login
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username = st.text_input("שם משתמש")
+    password = st.text_input("סיסמה", type="password")
 
     # Login button
     if st.button("Login"):
