@@ -41,17 +41,8 @@ def show_dogs_page():
         st.stop()
 
     st.set_page_config(page_title='Dogs', layout='wide')
-    
-    # Container for the logo and title
-    con1 = st.container()
-    with con1:
-        col1, col2 = st.columns([5, 1])
-        with col1:
-            st.title("Dogs Page")
-        with col2:
-            st.image("Data/Logo.png", width=120)
-
-    # Custom CSS to center-align the option menu
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+        # Custom CSS to center-align the option menu
     st.markdown(
         """
         <style>
@@ -122,6 +113,14 @@ def show_dogs_page():
         """,
         unsafe_allow_html=True
     )
+
+    # Container for the logo and title
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>כלבים</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
 
     # Creating Dataframe from csv
     dogs_file_path = "Data/Dogs.csv"
