@@ -41,6 +41,7 @@ def show_dogs_page():
         st.stop()
 
     st.set_page_config(page_title='Dogs', layout='wide')
+    
     # Container for the logo and title
     con1 = st.container()
     with con1:
