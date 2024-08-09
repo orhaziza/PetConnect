@@ -272,32 +272,32 @@ def show_foster_homes_page():
     elif selected == "מסמכים":
         st.title('מסמכים')
 
-        # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
+        foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
 
-        # if foster_home_id:
-        #     st.subheader(f'מסמכים של {foster_home_id}')
+        if foster_home_id:
+            st.subheader(f'מסמכים של {foster_home_id}')
 
-        #     files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
-        #     if files:
-        #         st.write('קבצים שיש במערכת ')
-        #         for file_name in files:
-        #             st.write(file_name)
-        #             with open(os.path.join(FILES_DIR, file_name), "rb") as file:
-        #                 btn = st.download_button(
-        #                     label=f"הורד {file_name}",
-        #                     data=file,
-        #                     file_name=file_name,
-        #                     mime='application/octet-stream'
-        #                 )
-        #             if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
-        #                 delete_file(file_name)
+            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
+            if files:
+                st.write('קבצים שיש במערכת ')
+                for file_name in files:
+                    st.write(file_name)
+                    with open(os.path.join(FILES_DIR, file_name), "rb") as file:
+                        btn = st.download_button(
+                            label=f"הורד {file_name}",
+                            data=file,
+                            file_name=file_name,
+                            mime='application/octet-stream'
+                        )
+                    if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
+                        delete_file(file_name)
 
-        #     uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
-        #     if uploaded_file is not None:
-        #         if uploaded_file.name:
-        #             save_file(foster_home_id, uploaded_file)
-        #         else:
-        #             st.error('אין שם לקובץ ')
+            uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
+            if uploaded_file is not None:
+                if uploaded_file.name:
+                    save_file(foster_home_id, uploaded_file)
+                else:
+                    st.error('אין שם לקובץ ')
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
