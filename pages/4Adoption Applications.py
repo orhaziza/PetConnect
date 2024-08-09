@@ -8,18 +8,82 @@ from streamlit_gsheets import GSheetsConnection
 st.set_page_config(page_title='Applications', layout='wide')
     
 def show_application_page():
-    # the logo and title
-    con1 = st.container()
-    with con1:
-        col1, col2 = st.columns([5, 1])
-        with col1:
-            st.title("Applications")
-        with col2:
-            st.image("Data/Logo.png", width=120)
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+        # Custom CSS to center-align the option menu
+    st.markdown(
+        """
+        <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+    .stButton > button {
+        color: #ffffff; /* White text for buttons */
+        background-color: #30475E; /* Dark blue color for buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    .stButton > button.logout {
+        background-color: #F05454; /* Red color for logout button */
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .stButton > button.logout:hover {
+        background-color: #C74444; /* Darker red on hover */
+        transform: scale(1.05);
+    }
+    .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .icon-button img {
+        margin-right: 5px;
+    }
+    .option-menu-container {
+        display: flex;
+        justify-content: center;
+    }
+    .dataframe-container {
+        background-color: #ffffff; /* White background for dataframe */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+    .file-upload-container {
+        background-color: #ffffff; /* White background for file upload */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .stDownloadButton > button {
+        color: #ffffff; /* White text for download buttons */
+        background-color: #30475E; /* Dark blue color for download buttons */
+        border-radius: 5px;
+        padding: 10px 20px;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 1em;
+    }
+    .stDownloadButton > button:hover {
+        background-color: #25394C; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+    </style>
+
+        """,
+        unsafe_allow_html=True
+    )
     st.markdown(
         """
         <style>
@@ -31,6 +95,14 @@ def show_application_page():
         """,
         unsafe_allow_html=True
     )
+    # the logo and title
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>בקשות אימוץ</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
+
 
     # Define the menu options
     selected = option_menu(
@@ -49,16 +121,22 @@ def show_application_page():
 
     @st.cache_data()
     def fetch_data():
-        conn = st.experimental_connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
         return conn.read(spreadsheet=url)
-        
-    if st.button("Clear Cache"):
-        st.cache_data.clear()
-        st.success("המידע עודכן!")
+
+    col1, col2, col3= st.columns([1.5, 1, 1])
+
+    with col2:
+        if st.button("רענן"):
+            st.cache_data.clear()
+            st.success("המידע עודכן!")
     
     data = fetch_data()
 
-
+    # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
     
     # applications_file_path = 'Data/AdoptionApplication.csv'
     # if not os.path.exists(applications_file_path):
@@ -108,78 +186,75 @@ def show_application_page():
         ["כל הטבלה", "לא מאומצים", "מאומצים"]
     )
 
-# Filter DataFrame based on selected adoption status
-        if status == "לא מאומצים":
-            filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
-        elif status == "מאומצים":
-            filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
-        else:
-            filtered_df = dogs_df
+    # Filter DataFrame based on selected adoption status
+    if status == "לא מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 0]
+    elif status == "מאומצים":
+        filtered_df = dogs_df[dogs_df['AdoptionStatus'] == 1]
+    else:
+        filtered_df = dogs_df
 
-        
-        st.title('Dog-Adopter Matching System')
-        st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
-        for i, dog in filtered_df.iterrows():
-            cols = st.columns([1, 2, 2, 2, 1])
-            cols[0].text(dog['DogID'])
-            cols[1].text(dog['Name'])
-            cols[2].text(dog['Breed'])
-            cols[3].text(dog['Age'])
-            if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
-                st.session_state['selected_dog_id'] =dog['DogID']
-                selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
-                scores = []
-                for j, applicant in applications_df.iterrows():
-                    score = score_adopter(selected_dog, applicant)
-                    scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
-                scores_df = pd.DataFrame(scores)
-                st.session_state['scores_df'] = scores_df
-                st.switch_page("pages/DogsProfile.py")
-        # Display the dog table and let the manager select a dog
-        # st.dataframe(filtered_df)
-      
+    
+    st.title('Dog-Adopter Matching System')
+    st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
+    for i, dog in filtered_df.iterrows():
+        cols = st.columns([1, 2, 2, 2, 1])
+        cols[0].text(dog['DogID'])
+        cols[1].text(dog['Name'])
+        cols[2].text(dog['Breed'])
+        cols[3].text(dog['Age'])
+        if cols[4].button('Show Profile', key=f"select_{dog['DogID']}"):
+            st.session_state['selected_dog_id'] =dog['DogID']
+            selected_dog = dogs_df[dogs_df['DogID'] == dog['DogID']].iloc[0]
+            scores = []
+            for j, applicant in applications_df.iterrows():
+                score = score_adopter(selected_dog, applicant)
+                scores.append({'Application ID': applicant['ApplictionID'], 'Applicant Name': applicant['ApplicantName'], 'Score': score})
+            scores_df = pd.DataFrame(scores)
+            st.session_state['scores_df'] = scores_df
+            st.switch_page("pages/DogsProfile.py")
+    # Display the dog table and let the manager select a dog
+    # st.dataframe(filtered_df)
+    
 
-        # st.header('Select a Dog')
-        # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
+    # st.header('Select a Dog')
+    # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
 
-        # Get selected dog details
-        # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
-
-
-
-
-        # if st.button('View Dog Profile'):
-        #     # Navigate to the DogProfile page
-        #     st.session_state['selected_dog_id'] = selected_dog_id
-
-
-            
-        #     # st.experimental_rerun()
-
-        # Display selected dog information
-        # st.subheader('Selected Dog Information')
-        # st.write(selected_dog)
+    # Get selected dog details
+    # selected_dog = dogs_df[dogs_df['DogID'] == selected_dog_id].iloc[0]
 
 
 
-        # # Calculate and display scores for each adopter for the selected dog
-        # st.subheader('Adopter Scores for Selected Dog')
 
-        #     # Create a DataFrame with the scores
-        # scores_df = pd.DataFrame(scores)
-
-        #     # Display the scores DataFrame
-        # #st.dataframe(scores_df)
-   
+    # if st.button('View Dog Profile'):
+    #     # Navigate to the DogProfile page
+    #     st.session_state['selected_dog_id'] = selected_dog_id
 
 
         
-        #scores_df = pd.DataFrame(scores)
-        #st.dataframe(scores_df)
+    #     # st.experimental_rerun()
+
+    # Display selected dog information
+    # st.subheader('Selected Dog Information')
+    # st.write(selected_dog)
 
 
-        
-        
+
+    # # Calculate and display scores for each adopter for the selected dog
+    # st.subheader('Adopter Scores for Selected Dog')
+
+    #     # Create a DataFrame with the scores
+    # scores_df = pd.DataFrame(scores)
+
+    #     # Display the scores DataFrame
+    # #st.dataframe(scores_df)
+
+
+
+    
+    #scores_df = pd.DataFrame(scores)
+    #st.dataframe(scores_df)
+
 
 
 
