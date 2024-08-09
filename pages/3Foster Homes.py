@@ -36,73 +36,93 @@ def show_foster_homes_page():
     st.markdown(
         """
         <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-    
-    .stButton > button {
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+        
+        /* Apply Rubik font globally and enforce RTL layout */
+        * {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+
+        /* Specific adjustments for DataFrame content */
+        .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+
+        /* Specific adjustments for option_menu */
+        .nav-link, .nav-link span {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
+        }
+        .option-menu-container {
+        font-family: 'Roboto', sans-serif;
+        }
+        .stButton > button {
         color: #ffffff; /* White text for buttons */
         background-color: #30475E; /* Dark blue color for buttons */
         border-radius: 5px;
         padding: 10px 20px;
         transition: background-color 0.3s, transform 0.3s;
         font-size: 1em;
-    }
-    .stButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    .stButton > button.logout {
-        background-color: #F05454; /* Red color for logout button */
-        border-radius: 5px;
-        transition: background-color 0.3s, transform 0.3s;
-        padding: 10px 20px;
-        font-size: 1em;
-    }
-    .stButton > button.logout:hover {
-        background-color: #C74444; /* Darker red on hover */
-        transform: scale(1.05);
-    }
-    .icon-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .icon-button img {
-        margin-right: 5px;
-    }
-    .option-menu-container {
-        display: flex;
-        justify-content: center;
-    }
-    .dataframe-container {
-        background-color: #ffffff; /* White background for dataframe */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-    }
-    .file-upload-container {
-        background-color: #ffffff; /* White background for file upload */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
-    }
-    .stDownloadButton > button {
-        color: #ffffff; /* White text for download buttons */
-        background-color: #30475E; /* Dark blue color for download buttons */
-        border-radius: 5px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        font-size: 1em;
-    }
-    .stDownloadButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    </style>
+        }
+        .stButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        .stButton > button.logout {
+            background-color: #F05454; /* Red color for logout button */
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .stButton > button.logout:hover {
+            background-color: #C74444; /* Darker red on hover */
+            transform: scale(1.05);
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button img {
+            margin-right: 5px;
+        }
+        .option-menu-container {
+            display: flex;
+            justify-content: center;
+        }
+        .dataframe-container {
+            background-color: #ffffff; /* White background for dataframe */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        .file-upload-container {
+            background-color: #ffffff; /* White background for file upload */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .stDownloadButton > button {
+            color: #ffffff; /* White text for download buttons */
+            background-color: #30475E; /* Dark blue color for download buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stDownloadButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        </style>
 
-        """,
-        unsafe_allow_html=True
-    )
+            """,
+            unsafe_allow_html=True
+        )
    
 
         
@@ -142,18 +162,7 @@ def show_foster_homes_page():
     # with st.sidebar:
     #     selected = option_menu("בתים לבית אומנה", ["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
 
-    st.markdown(
-        """
-        <style>
-        .option-menu-container {
-            display: flex;
-            justify-content: center;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    # Use st.columns to create four equally sized columns
+    # # Use st.columns to create four equally sized columns
     # col1, col2, col3, col4 = st.columns(4)
 
     # # Button 1 in the first column
@@ -178,15 +187,12 @@ def show_foster_homes_page():
 
     # Create the option menu inside a div with the custom class
     selected = option_menu(
-        menu_title="בתים לאומנה",  # Required
-        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "מסמכים"],  # Required
+        menu_title="",  # Required
+        options=["כל הטבלה", "מצא בית אומנה", "הוסף בית אומנה", "ערוך מסמך"],  # Required
         icons=["file", "search", "file", "upload"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
-        styles={
-            "container": {"class": "option-menu-container"}
-        }
     )
 
     # Translate column names
@@ -269,35 +275,35 @@ def show_foster_homes_page():
             foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
 
-    elif selected == "מסמכים":
+    elif selected == "ערוך מסמך":
         st.title('מסמכים')
 
-        foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
+        # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
 
-        if foster_home_id:
-            st.subheader(f'מסמכים של {foster_home_id}')
+        # if foster_home_id:
+        #     st.subheader(f'מסמכים של {foster_home_id}')
 
-            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
-            if files:
-                st.write('קבצים שיש במערכת ')
-                for file_name in files:
-                    st.write(file_name)
-                    with open(os.path.join(FILES_DIR, file_name), "rb") as file:
-                        btn = st.download_button(
-                            label=f"הורד {file_name}",
-                            data=file,
-                            file_name=file_name,
-                            mime='application/octet-stream'
-                        )
-                    if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
-                        delete_file(file_name)
+        #     files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
+        #     if files:
+        #         st.write('קבצים שיש במערכת ')
+        #         for file_name in files:
+        #             st.write(file_name)
+        #             with open(os.path.join(FILES_DIR, file_name), "rb") as file:
+        #                 btn = st.download_button(
+        #                     label=f"הורד {file_name}",
+        #                     data=file,
+        #                     file_name=file_name,
+        #                     mime='application/octet-stream'
+        #                 )
+        #             if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
+        #                 delete_file(file_name)
 
-            uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
-            if uploaded_file is not None:
-                if uploaded_file.name:
-                    save_file(foster_home_id, uploaded_file)
-                else:
-                    st.error('אין שם לקובץ ')
+        #     uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
+        #     if uploaded_file is not None:
+        #         if uploaded_file.name:
+        #             save_file(foster_home_id, uploaded_file)
+        #         else:
+        #             st.error('אין שם לקובץ ')
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
