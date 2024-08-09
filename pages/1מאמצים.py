@@ -149,6 +149,7 @@ def show_adopters_page():
             unsafe_allow_html=True
         )
 
+
     with st.container():
         col1, col2, col3 = st.columns([1, 10, 1])
         with col2:
