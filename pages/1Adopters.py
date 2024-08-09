@@ -53,6 +53,80 @@ adopter_df_hebrew = load_adopters_data()
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
+        # Custom CSS to center-align the option menu
+    st.markdown(
+        """
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+        .custom-font {
+                    font-family: 'Rubik', sans-serif;
+                    text-align: center;
+                }
+        .stButton > button {
+            color: #ffffff; /* White text for buttons */
+            background-color: #30475E; /* Dark blue color for buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        .stButton > button.logout {
+            background-color: #F05454; /* Red color for logout button */
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        .stButton > button.logout:hover {
+            background-color: #C74444; /* Darker red on hover */
+            transform: scale(1.05);
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button img {
+            margin-right: 5px;
+        }
+        .option-menu-container {
+            display: flex;
+            justify-content: center;
+        }
+        .dataframe-container {
+            background-color: #ffffff; /* White background for dataframe */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        .file-upload-container {
+            background-color: #ffffff; /* White background for file upload */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .stDownloadButton > button {
+            color: #ffffff; /* White text for download buttons */
+            background-color: #30475E; /* Dark blue color for download buttons */
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+        }
+        .stDownloadButton > button:hover {
+            background-color: #25394C; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        </style>
+    
+            """,
+            unsafe_allow_html=True
+    )
     
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
@@ -111,80 +185,6 @@ def show_adopters_page():
     # with st.sidebar:
     #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
     
-    # Custom CSS to center-align the option menu
-    st.markdown(
-        """
-        <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-    .custom-font {
-                font-family: 'Rubik', sans-serif;
-                text-align: center;
-            }
-    .stButton > button {
-        color: #ffffff; /* White text for buttons */
-        background-color: #30475E; /* Dark blue color for buttons */
-        border-radius: 5px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        font-size: 1em;
-    }
-    .stButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    .stButton > button.logout {
-        background-color: #F05454; /* Red color for logout button */
-        border-radius: 5px;
-        transition: background-color 0.3s, transform 0.3s;
-        padding: 10px 20px;
-        font-size: 1em;
-    }
-    .stButton > button.logout:hover {
-        background-color: #C74444; /* Darker red on hover */
-        transform: scale(1.05);
-    }
-    .icon-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .icon-button img {
-        margin-right: 5px;
-    }
-    .option-menu-container {
-        display: flex;
-        justify-content: center;
-    }
-    .dataframe-container {
-        background-color: #ffffff; /* White background for dataframe */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-    }
-    .file-upload-container {
-        background-color: #ffffff; /* White background for file upload */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
-    }
-    .stDownloadButton > button {
-        color: #ffffff; /* White text for download buttons */
-        background-color: #30475E; /* Dark blue color for download buttons */
-        border-radius: 5px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        font-size: 1em;
-    }
-    .stDownloadButton > button:hover {
-        background-color: #25394C; /* Darker blue on hover */
-        transform: scale(1.05);
-    }
-    </style>
-
-        """,
-        unsafe_allow_html=True
-    )
 
     # Define the menu options
     selected = option_menu(
