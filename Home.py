@@ -137,7 +137,7 @@ def show_login_page():
     con1 = st.container()
     with con1:
         col1, col2 = st.columns([6,1])
-        with col1:
+        with col2:
             # Login button
             if st.button("Login"):
                 if login(username, password):
