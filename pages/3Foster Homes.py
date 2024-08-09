@@ -269,7 +269,7 @@ def show_foster_homes_page():
             foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
             st.success('הבית אומנה נשמר בהצלחה!')
 
-    elif selected == "ערוך מסמך":
+    elif selected == "מסמכים":
         st.title('מסמכים')
 
         # foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
