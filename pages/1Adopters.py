@@ -58,6 +58,14 @@ def show_adopters_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
+    with st.container():
+        col4, col1, col2 = st.columns([1, 10, 1])
+        with col1:
+            st.markdown("<h1 style='text-align: center;'>מאמצים</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
+
+    
     # Load adopter data
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
@@ -305,7 +313,7 @@ def show_adopters_page():
         adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
         if adopter_id:
-            st.subheader(f'מסמכיםghghgfh של {adopter_id}')
+            st.subheader(f'מסמכים של {adopter_id}')
 
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
