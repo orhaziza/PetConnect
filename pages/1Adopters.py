@@ -62,69 +62,26 @@ def show_adopters_page():
         """
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-        .custom-font {
-                font-family: 'Rubik', sans-serif;
-                text-align: center;
-            }
-        .stButton > button {
-            color: #ffffff; /* White text for buttons */
-            background-color: #30475E; /* Dark blue color for buttons */
-            border-radius: 5px;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.3s;
-            font-size: 1em;
+        
+        /* Apply Rubik font globally and enforce RTL layout */
+        * {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
         }
-        .stButton > button:hover {
-            background-color: #25394C; /* Darker blue on hover */
-            transform: scale(1.05);
+
+        /* Specific adjustments for DataFrame content */
+        .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
         }
-        .stButton > button.logout {
-            background-color: #F05454; /* Red color for logout button */
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
-        .stButton > button.logout:hover {
-            background-color: #C74444; /* Darker red on hover */
-            transform: scale(1.05);
-        }
-        .icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .icon-button img {
-            margin-right: 5px;
+
+        /* Specific adjustments for option_menu */
+        .nav-link, .nav-link span {
+            font-family: 'Rubik', sans-serif !important;
+            direction: rtl !important;
         }
         .option-menu-container {
-            display: flex;
-            justify-content: center;
-        }
-        .dataframe-container {
-            background-color: #ffffff; /* White background for dataframe */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-        .file-upload-container {
-            background-color: #ffffff; /* White background for file upload */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .stDownloadButton > button {
-            color: #ffffff; /* White text for download buttons */
-            background-color: #30475E; /* Dark blue color for download buttons */
-            border-radius: 5px;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.3s;
-            font-size: 1em;
-        }
-        .stDownloadButton > button:hover {
-            background-color: #25394C; /* Darker blue on hover */
-            transform: scale(1.05);
+        font-family: 'Roboto', sans-serif;
         }
         </style>
 
@@ -133,10 +90,10 @@ def show_adopters_page():
         )
 
     with st.container():
-        col4, col1, col2 = st.columns([1, 10, 1])
-        with col1:
-            st.markdown('<h1 class="custom-font">מאמצים</h1>', unsafe_allow_html=True)
+        col1, col2, col3 = st.columns([1, 10, 1])
         with col2:
+            st.markdown('<h1 style="text-align: center";>מאמצים</h1>', unsafe_allow_html=True)
+        with col1:
             st.image("Data/Logo.png", width=100)
 
     
@@ -186,18 +143,14 @@ def show_adopters_page():
     #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
     
 
-    # Define the menu options
     selected = option_menu(
-        menu_title="מאמצים",  # Required
-        options=["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"],  # Required
-        icons=["file", "search", "file", "upload"],  # Optional
+        menu_title="",  # Required
+        options=["ערוך מסמך","הוסף מאמץ", "מצא מאמץ","כל הטבלה"],  # Required
+        icons=["upload",  "file","search", "file"],  # Optional
         menu_icon="menu",  # Optional
         default_index=0,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
-        styles={
-            "container": {"class": "option-menu-container"}
-        }
-    )
+        )
 
     # Translate column names
     adopter_df_hebrew = adopter_df.rename(
