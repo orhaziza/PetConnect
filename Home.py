@@ -5,7 +5,7 @@ import datetime as dt
 import hashlib
 
 # Set up the page configuration
-st.set_page_config(page_title='פט קונקghgט', layout='wide', page_icon='Data/Logo.png')
+st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
 
 # Function to hash the password using SHA-256
