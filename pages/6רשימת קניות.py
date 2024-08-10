@@ -31,20 +31,22 @@ items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_it
 items_df = items_df.iloc[:, ::-1]
     
 def show_shopping_list_page():
+    st.set_page_config(page_title='Shopping List', layout='wide')
+    
+    background.add_bg_from_local('./static/background3.png')
+    background.load_css('styles.css')
+    
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-    st.set_page_config(page_title='Shopping List', layout='wide')
+    background.insert_logo("רשימת קניות")
 
-    
     st.session_state['choice']=True
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
-    background.add_bg_from_local('./static/background3.png')
-    background.load_css('styles.css')
-    background.insert_logo("רשימת קניות")
+    
 
 
     # Define the menu options
