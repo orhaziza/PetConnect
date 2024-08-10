@@ -9,10 +9,11 @@ from streamlit_gsheets import GSheetsConnection
 import altair as alt
 import background
 
-
 data_url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
 def show_data_analysis_page():
+    st.set_page_config(page_title='Data Analysis', layout='wide')
+
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
 
@@ -20,8 +21,6 @@ def show_data_analysis_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
     
-    st.set_page_config(page_title='Data Analysis', layout='wide')
-
     with st.container():
         col1, col2 = st.columns([15, 1])
         with col1:
