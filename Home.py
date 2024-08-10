@@ -138,7 +138,7 @@ def show_home_page():
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
             
             st.markdown(f"""
-            <div style='text-align: right;'>
+            <div style='text-align: right; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 10px;'>
                 <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
                 <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
                 <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
