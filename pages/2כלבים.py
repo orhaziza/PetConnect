@@ -161,18 +161,19 @@ def show_dogs_page():
     # Button to save changes
 
     if selected == "כל הטבלה":
+        flag = False
         edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
-        col1, col2 = st.columns[8,1]
-        with col1:
+        col1, col2 = st.columns([6, 1])
+        with col2:
             if st.button("Save"):
                 # Rename columns back to English for saving
                 edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
                 # Save the edited dataframe to the CSV file
                 edited_df.to_csv(file_path, index=False, encoding='utf-8')
-                flag = true
-        with col2:
+                flag = True
+        with col1:
             if flag:
-                st.success("!השינויים נשמרו בהצלחה")
+                st.success("השינויים נשמרו בהצלחה!")
 
     if selected == "מצא כלב":
         # st.subheader('<div style="direction: rtl;">מצא כלב</div>', unsafe_allow_html=True)
