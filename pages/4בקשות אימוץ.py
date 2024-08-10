@@ -30,6 +30,7 @@ def show_application_page():
         menu_icon="menu",  # Optional
         default_index=1,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
+        styles=background.styles,
     )
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
