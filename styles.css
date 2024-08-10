@@ -1,7 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
 
 /* Apply Rubik font globally and enforce RTL layout */
-* {
+body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea {
+    font-family: 'Rubik', sans-serif !important;
+    direction: rtl !important;
+}
+
+.stSlider {
+    direction: ltr; /* Reset direction if necessary */
+    text-align: left; /* Adjust text alignment if necessary */
+}
+.stSlider > label{
     font-family: 'Rubik', sans-serif !important;
     direction: rtl !important;
 }
@@ -9,17 +18,9 @@
 /* Specific adjustments for DataFrame content */
 .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
     font-family: 'Rubik', sans-serif !important;
-    direction: rtl !important;
+    text-align: center !important;
 }
 
-/* Specific adjustments for option_menu */
-.nav-link, .nav-link span {
-    font-family: 'Rubik', sans-serif !important;
-    direction: rtl !important;
-}
-.option-menu-container {
-font-family: 'Roboto', sans-serif;
-}
 .stButton > button {
 color: #ffffff; /* White text for buttons */
 background-color: #30475E; /* Dark blue color for buttons */
@@ -51,10 +52,7 @@ font-size: 1em;
 .icon-button img {
     margin-right: 5px;
 }
-.option-menu-container {
-    display: flex;
-    justify-content: center;
-}
+
 .dataframe-container {
     background-color: #ffffff; /* White background for dataframe */
     border-radius: 10px;
