@@ -50,6 +50,7 @@ def show_login_page():
     # User input for login
     username = st.text_input("שם משתמש")
     password = st.text_input("סיסמה", type="password")
+    flag = False
     con1 = st.container()
     with con1:
         col1, col2 = st.columns([8,1])
@@ -61,7 +62,10 @@ def show_login_page():
                     st.session_state['username'] = username
                     st.experimental_rerun()  # Refresh the page to update the content
                 else:
-                    st.error("Invalid username or password")
+                    flag = True
+    if flag:
+        st.error("Invalid username or password")
+                    
 
 # Function to show the home page
 def show_home_page():
