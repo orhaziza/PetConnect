@@ -136,6 +136,7 @@ def show_dogs_page():
         menu_icon="menu",  # Optional
         default_index=4,  # Optional
         orientation="horizontal"  # To place the menu in the center horizontally
+        styles=background.styles,
     )
 
     images_folder = "DogsPhotos"
