@@ -49,5 +49,5 @@ styles = {
     "container": {"b": "0px !important", "padding": "0!important", "align-items": "stretch", "background-color": "#fafafa"},
     "icon": {"color": "black"}, 
     "nav-link": {"text-align": "right", "margin":"0px", "--hover-color": "#eee"},
-    "nav-link-selected": {"background-color": "#d9dde8", "font-weight": "normal", "color": "black", },
+    "nav-link-selected": {"background-color": "#d1d7ea", "font-weight": "normal", "color": "black", },
 }
