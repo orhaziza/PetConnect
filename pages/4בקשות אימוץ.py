@@ -10,15 +10,15 @@ import background
 st.set_page_config(page_title='Applications', layout='wide')
     
 def show_application_page():
+    background.add_bg_from_local('./static/background3.png')
+    background.load_css('styles.css')
+    
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
     
-    
-    background.add_bg_from_local('./static/background3.png')
-    background.load_css('styles.css')
     background.insert_logo("בקשות אימוץ")
     
 
