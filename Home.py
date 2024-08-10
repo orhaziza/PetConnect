@@ -9,7 +9,7 @@ import background
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
 
-background.add_bg_from_local('./static/background3.png')
+background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
 
 
