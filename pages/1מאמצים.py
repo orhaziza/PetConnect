@@ -54,16 +54,15 @@ adopter_df_hebrew = load_adopters_data()
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
-    
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-        st.error("לא ניתן לגשת לעמוד ללא התחברות")
-        st.stop()
-
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
     background.insert_logo("מאמצים")
 
     
+    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+        st.error("לא ניתן לגשת לעמוד ללא התחברות")
+        st.stop()
+
     # Load adopter data
     adopter_file_path = "Data/Adopters.csv"
     if not os.path.exists(adopter_file_path):
