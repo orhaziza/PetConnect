@@ -3,7 +3,8 @@ import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
-# Set up the page configuration at the top
+import background
+
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
@@ -58,103 +59,9 @@ def show_adopters_page():
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
-    st.markdown(
-        """
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
-        
-        /* Apply Rubik font globally and enforce RTL layout */
-        * {
-            font-family: 'Rubik', sans-serif !important;
-            direction: rtl !important;
-        }
-
-        /* Specific adjustments for DataFrame content */
-        .stDataFrame div, .stTable div, .dataframe th, .dataframe td {
-            font-family: 'Rubik', sans-serif !important;
-            direction: rtl !important;
-        }
-
-        /* Specific adjustments for option_menu */
-        .nav-link, .nav-link span {
-            font-family: 'Rubik', sans-serif !important;
-            direction: rtl !important;
-        }
-        .option-menu-container {
-        font-family: 'Roboto', sans-serif;
-        }
-        .stButton > button {
-        color: #ffffff; /* White text for buttons */
-        background-color: #30475E; /* Dark blue color for buttons */
-        border-radius: 5px;
-        padding: 10px 20px;
-        transition: background-color 0.3s, transform 0.3s;
-        font-size: 1em;
-        }
-        .stButton > button:hover {
-            background-color: #25394C; /* Darker blue on hover */
-            transform: scale(1.05);
-        }
-        .stButton > button.logout {
-            background-color: #F05454; /* Red color for logout button */
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
-        .stButton > button.logout:hover {
-            background-color: #C74444; /* Darker red on hover */
-            transform: scale(1.05);
-        }
-        .icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .icon-button img {
-            margin-right: 5px;
-        }
-        .option-menu-container {
-            display: flex;
-            justify-content: center;
-        }
-        .dataframe-container {
-            background-color: #ffffff; /* White background for dataframe */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-        .file-upload-container {
-            background-color: #ffffff; /* White background for file upload */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .stDownloadButton > button {
-            color: #ffffff; /* White text for download buttons */
-            background-color: #30475E; /* Dark blue color for download buttons */
-            border-radius: 5px;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.3s;
-            font-size: 1em;
-        }
-        .stDownloadButton > button:hover {
-            background-color: #25394C; /* Darker blue on hover */
-            transform: scale(1.05);
-        }
-        </style>
-
-            """,
-            unsafe_allow_html=True
-        )
-
-    with st.container():
-        col4, col1, col2 = st.columns([1, 10, 1])
-        with col1:
-            st.markdown("<h1 style='text-align: center;'>מאמצים</h1>", unsafe_allow_html=True)
-        with col2:
-            st.image("Data/Logo.png", width=100)
+    background.add_bg_from_local('./static/background3.png')
+    background.load_css('styles.css')
+    background.insert_logo("מאמצים")
 
     
     # Load adopter data
@@ -359,5 +266,6 @@ def show_adopters_page():
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
         st.experimental_rerun()
+
 
 show_adopters_page()
