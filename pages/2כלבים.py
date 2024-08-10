@@ -163,7 +163,7 @@ def show_dogs_page():
     if selected == "כל הטבלה":
         flag = False
         edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
-        col1, col2 = st.columns([6, 1])
+        col1, col2 = st.columns([8, 1])
         with col2:
             if st.button("Save"):
                 # Rename columns back to English for saving
