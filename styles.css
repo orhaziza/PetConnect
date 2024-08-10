@@ -81,6 +81,6 @@ font-size: 1em;
     transform: scale(1.05);
 }
 [data-testid="stSidebar"] {
-    background-color: #d9dde8; /* Background color of the sidebar */
+    background-color: #d1d7ea; /* Background color of the sidebar */
     color: #ffffff; /*rgb(213, 219, 231)olor of the sidebar */
 }
