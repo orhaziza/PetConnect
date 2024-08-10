@@ -21,18 +21,17 @@ def delete_file(file_name):
     st.success(f'קובץ {file_name} נמחק בהצלחה!')
 
 def show_foster_homes_page():
+    st.set_page_config(page_title='Foster Homes', layout='wide')
+    background.add_bg_from_local('./static/background3.png')
+    background.load_css('styles.css')
+    
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
-    st.set_page_config(page_title='Foster Homes', layout='wide')
 
-
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-    
-    background.add_bg_from_local('./static/background3.png')
-    background.load_css('styles.css')
     background.insert_logo("בתי אומנה")
 
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
         
     # Load foster home data
     foster_home_file_path = "Data/FosterHome.csv"
