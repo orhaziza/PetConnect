@@ -13,6 +13,8 @@ import background
 data_url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
 
 def show_data_analysis_page():
+    background.add_bg_from_local('./static/background3.png')
+    
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
@@ -35,7 +37,6 @@ def show_data_analysis_page():
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
         # Custom CSS to center-align the option menu
     
-    background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
 
    
