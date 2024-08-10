@@ -55,6 +55,7 @@ def show_shopping_list_page():
         menu_icon="menu",  # Optional
         default_index=1,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
+        styles=background.styles,
         )
     if selected == "צור רשימה לכלב":
         col3, col1, col2, col4 = st.columns([0.5, 4.5, 1, 0.5])
