@@ -6,7 +6,8 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
 
-st.session_state['list'] = False
+st.set_page_config(page_title='Shopping List', layout='wide')
+
 items_file_path = "Data/Shopping List.csv"
 items_df = pd.read_csv(items_file_path, encoding='utf-8')
 dogs_file_path = "Data/Dogs.csv"
@@ -29,24 +30,22 @@ hebrew_columns_items = {
 
 items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
 items_df = items_df.iloc[:, ::-1]
-    
-def show_shopping_list_page():
-    st.set_page_config(page_title='Shopping List', layout='wide')
-    
+
+
+def show_shopping_list_page():    
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
-    
+    # Sidebar logout button
+    if st.sidebar.button("Log Out"):
+        st.session_state['logged_in'] = False
+        st.experimental_rerun()
+
+
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
 
     background.insert_logo("רשימת קניות")
-
-    st.session_state['choice']=True
-
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-
-    
 
 
     # Define the menu options
@@ -59,64 +58,92 @@ def show_shopping_list_page():
         orientation="horizontal",  # To place the menu in the center horizontally
         styles=background.styles,
         )
+    
     if selected == "צור רשימה לכלב":
         col3, col1, col2, col4 = st.columns([0.5, 4.5, 1, 0.5])
+        
         with col1:
-            st.markdown(
-                """
-                <style>
-                [data-baseweb="select"] {
-                    margin-top: -40px;
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-            dog = st.selectbox(label='',options=dog_df['Name'].unique(),index=None, placeholder="בחר כלב")
+            st.session_state['dog'] = st.selectbox(label='',options=dog_df['Name'].unique(),index=None, placeholder = "בחר כלב")
         with col2:
             if st.button("צור רשימה"):
-                if dog!=None:
-                    st.session_state['list']=True
-                    st.session_state['choice']=True
+                if st.session_state['dog'] != None:
+                    st.session_state["step"] = 1
                 else:
-                    st.session_state['choice']=False
+                    st.session_state["step"] = -1
+                    st.session_state["shopping list"] = None
+                    
             
-    if st.session_state['list']:
-        create_list(dog)
-    if not st.session_state['choice']:
-        st.warning("לא נבחר כלב!")
-
-
-
-    if selected == "הוסף מוצר":
+    elif selected == "הוסף מוצר":
         st.write("not yet")
-
-    # Sidebar logout button
-    if st.sidebar.button("Log Out"):
-        st.session_state['logged_in'] = False
-        st.switch_page("Home.py")
-        st.experimental_rerun()
 
 def create_list(dog):
     df = dog_df.loc[dog_df['Name'] == dog].reset_index()
     categories = items_df['קטגוריה'].unique()
     sl = items_df.iloc[:0,:].copy()
-    flag = False
     if not (df["Size"][0]=='XS' or df["Size"][0]=='S' or df["Size"][0]=='M' or df["Size"][0]=='L' or df["Size"][0]=='XL'):
-        st.warning('Dog has NO size!')
-        st.stop
-        flag = True
+        st.warning('Dog has NO size!')    
     for c in categories:
         if c=="גורים":
             if df["Age"][0]<12:
                 category_products = items_df[items_df['קטגוריה'] == c]
                 sl = pd.concat([sl, category_products], ignore_index=True) 
         else:    
-            if not flag:
-                category_products = items_df[items_df['קטגוריה'] == c]
-                sl = pd.concat([sl, category_products[category_products['גודל הכלב'] == df["Size"][0]]], ignore_index=True) 
-    
-    sl['new_column'] = True
-    sl = st.data_editor(sl)
-    
-show_shopping_list_page()
+            category_products = items_df[items_df['קטגוריה'] == c]
+            sl = pd.concat([sl, category_products[category_products['גודל הכלב'] == df["Size"][0]]], ignore_index=True) 
+
+    sl['keep'] = True
+    st.session_state["shopping list"] = sl
+    st.session_state["step"] = 2
+
+
+def present_list():
+    if not st.session_state["shopping list"].empty:
+        sl = st.data_editor(st.session_state["shopping list"])
+    col1, col2,col3 =  st.columns([1, 8, 1])
+    with col3:
+        if not st.session_state["shopping list"].empty:
+            with col1:
+                if st.button("הורד רשימה"):
+                    st.write("downloading")
+        if st.button("נקה"):
+            st.session_state["step"] = 0
+            st.session_state["shopping list"] = None
+            st.session_state["dog"] = None
+            placeholder3.empty()
+
+
+if "step" not in st.session_state:
+    st.session_state["step"] = 0
+
+show_shopping_list_page()    
+placeholder1 = st.empty()
+placeholder2 = st.empty()
+placeholder3 = st.empty()
+
+
+if st.session_state['step'] == -1 :
+    st.session_state["step"] = 0
+    st.warning("לא נבחר כלב!")
+
+if st.session_state['step'] == 1 :
+    with placeholder2.container():
+        create_list(st.session_state['dog'])
+
+if st.session_state['step'] == 2 :
+    with placeholder3.container():
+        present_list()
+
+if st.session_state['step'] == 0:
+    placeholder1.empty()
+    placeholder2.empty()
+    placeholder3.empty()
+
+
+
+
+
+
+
+
+
+
