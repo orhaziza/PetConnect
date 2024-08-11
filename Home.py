@@ -150,11 +150,11 @@ def show_home_page():
 """, unsafe_allow_html=True)
 
     # Create a container with columns for button alignment
-        col1, col2, col3 = st.columns([0.2, 1, 0.2])  # Adjust the ratios as needed
-        with col1:
-            if st.button(f"סמן כראיתי"):
-                st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
-                st.experimental_rerun()  # Optionally rerun to immediately reflect the update
+            col1, col2, col3 = st.columns([0.2, 1, 0.2])  # Adjust the ratios as needed
+            with col1:
+                if st.button(f"סמן כראיתי"):
+                    st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
+                    st.experimental_rerun()  # Optionally rerun to immediately reflect the update
 
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
