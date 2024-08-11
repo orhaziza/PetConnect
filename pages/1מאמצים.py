@@ -230,6 +230,37 @@ def show_adopters_page():
             st.balloons()
 
     elif selected == "ערוך מסמך":
+        # st.title('מסמכים')
+
+        # # Select adopter
+        # adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
+
+        # if adopter_id:
+        #     st.subheader(f'מסמכים של {adopter_id}')
+
+        #     # List existing files
+        #     files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
+        #     if files:
+        #         st.write('קבצים שיש במערכת ')
+        #         for file_name in files:
+        #             st.write(file_name)
+        #             with open(os.path.join(FILES_DIR, file_name), "rb") as file:
+        #                 btn = st.download_button(
+        #                     label=f"הורד {file_name}",
+        #                     data=file,
+        #                     file_name=file_name,
+        #                     mime='application/octet-stream'
+        #                 )
+        #             if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
+        #                 delete_file(file_name)
+
+        #     # Upload new file
+        #     uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
+        #     if uploaded_file is not None:
+        #         if uploaded_file.name:
+        #             save_file(adopter_id, uploaded_file)
+        #         else:
+        #             st.error('אין שם לקובץ ')
         st.title('מסמכים')
 
         # Select adopter
@@ -237,7 +268,7 @@ def show_adopters_page():
 
         if adopter_id:
             st.subheader(f'מסמכים של {adopter_id}')
-
+    
             # List existing files
             files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
@@ -254,13 +285,16 @@ def show_adopters_page():
                     if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
                         delete_file(file_name)
 
-            # Upload new file
+            # File upload section
             uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
+
             if uploaded_file is not None:
                 if uploaded_file.name:
-                    save_file(adopter_id, uploaded_file)
+                    if st.button('העלה את הקובץ'):
+                        save_file(adopter_id, uploaded_file)
                 else:
                     st.error('אין שם לקובץ ')
+
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
