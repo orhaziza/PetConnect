@@ -107,8 +107,7 @@ def show_adopters_page():
     # # Define the menu options
     # with st.sidebar:
     #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-    if st.button('רענן את העמוד'):
-        st.experimental_rerun()
+
 
     selected = option_menu(
         menu_title="",  # Required
@@ -123,7 +122,8 @@ def show_adopters_page():
     # Translate column names
     adopter_df_hebrew = adopter_df.rename(
         columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
-
+    if st.button('רענן את העמוד'):
+        st.experimental_rerun()
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         st.dataframe(adopter_df_hebrew)
