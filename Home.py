@@ -140,20 +140,23 @@ def show_home_page():
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
-            if st.button(f"סמן כראיתי"):
-                st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
-                st.experimental_rerun()  # Optionally rerun to immediately reflect the update
-        st.markdown(f"""
-        <div style='text-align: right; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 10px;'>
-        <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
-        <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
-        <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
-        <p><b>מספר הטלפון:</b> {formatted_phone_number}</p>
-        <p style='text-align: center;'>{st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])}</p>
-        </div>
-        <hr>
-        """, unsafe_allow_html=True)
+            st.markdown(f"""
+<div style='text-align: right; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 10px;'>
+    <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
+    <p><b>כלב:</b> {recent_df.iloc[i]['Which dog are you interested in?']}</p>
+    <p><b>מידע נוסף:</b> {recent_df.iloc[i]['Additional information']}</p>
+    <p><b>מספר הטלפון:</b> {formatted_phone_number}</p>
+</div>
+""", unsafe_allow_html=True)
 
+    # Create a container with columns for button alignment
+        col1, col2, col3 = st.columns([0.2, 1, 0.2])  # Adjust the ratios as needed
+        with col1:
+            if st.button(f"סמן כראיתי {recent_df.iloc[i]['Record ID']}", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
+            st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
+            st.experimental_rerun()  # Optionally rerun to immediately reflect the update
+
+        st.markdown("<hr>", unsafe_allow_html=True)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
