@@ -129,8 +129,8 @@ def show_adopters_page():
     dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
 
     # Verify the column names
-    st.write("Adopter columns:", adopter_df_hebrew.columns.tolist())
-    st.write("Dog columns:", dog_df_hebrew.columns.tolist())
+    # st.write("Adopter columns:", adopter_df_hebrew.columns.tolist())
+    # st.write("Dog columns:", dog_df_hebrew.columns.tolist())
 
     # Check if the necessary columns exist before merging
     if 'שבב כלב' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
@@ -145,9 +145,10 @@ def show_adopters_page():
         st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
-        st.warning('תכניס לפחות קרטריון אחד')
+        elif selected == "מצא מאמץ":
+            st.warning('תכניס לפחות קרטריון אחד')
 
-        # Ensure columns are treated as strings
+         # Ensure columns are treated as strings
         merged_df['שבב כלב'] = merged_df['שבב כלב'].astype(str)
         merged_df['מזהה מאמץ'] = merged_df['מזהה מאמץ'].astype(str)
         merged_df['שם מאמץ'] = merged_df['שם מאמץ'].astype(str)
@@ -164,29 +165,31 @@ def show_adopters_page():
         with col4:
             dog_name = st.text_input('שם כלב')  # New input for dog's name
 
-        # Initialize filter conditions
-        conditions = pd.Series([True] * len(merged_df))  # Start with all True
+        # Add a search button
+        if st.button('Search'):
+            # Initialize filter conditions
+            conditions = pd.Series([True] * len(merged_df))  # Start with all True
 
-        # Apply each filter if a criterion is provided
-        if dog_chipID:
-            conditions &= merged_df['שבב כלב'].str.contains(dog_chipID, na=False, case=False)
+            # Apply each filter if a criterion is provided
+            if dog_chipID:
+                conditions &= merged_df['שבב כלב'].str.contains(dog_chipID, na=False, case=False)
 
-        if adopter_id:
-            conditions &= merged_df['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)
+            if adopter_id:
+                conditions &= merged_df['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)
 
-        if adopter_name:
-            conditions &= merged_df['שם מאמץ'].str.contains(adopter_name, na=False, case=False)
+            if adopter_name:
+                conditions &= merged_df['שם מאמץ'].str.contains(adopter_name, na=False, case=False)
 
-        if dog_name:
-            conditions &= merged_df['Name'].str.contains(dog_name, na=False, case=False)  # Filter by dog's name
+            if dog_name:
+                conditions &= merged_df['Name'].str.contains(dog_name, na=False, case=False)  # Filter by dog's name
 
-        # Apply the combined conditions to filter the DataFrame
-        filtered_adopters = merged_df[conditions]
+            # Apply the combined conditions to filter the DataFrame
+            filtered_adopters = merged_df[conditions]
 
-        if not filtered_adopters.empty:
-            st.dataframe(filtered_adopters)
-        else:
-            st.warning('אין תוצאות למסננים שהיזנת!')
+            if not filtered_adopters.empty:
+                st.dataframe(filtered_adopters)
+            else:
+                st.warning('אין תוצאות למסננים שהיזנת!')
     elif selected == "הוסף מאמץ":
         st.subheader('הוסף מאמץ')
 
