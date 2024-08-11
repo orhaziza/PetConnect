@@ -293,6 +293,7 @@ def show_adopters_page():
                 if uploaded_file.name:
                     if st.button('העלה את הקובץ'):
                         save_file(adopter_id, uploaded_file)
+                        st.experimental_rerun()
                 else:
                     st.error('אין שם לקובץ ')
 
