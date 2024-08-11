@@ -210,46 +210,56 @@ def show_dogs_page():
         with st.form(key='insert_form'):
             DogID = st.text_input('מזהה כלב')
             name = st.text_input('שם')
+            date_of_birth = st.date_input('תאריך לידה')
             age = st.number_input('גיל', min_value=0, max_value=100, step=1)
-            breed = st.text_input('גזע')
+            breed = st.text_input('זן')
+            weight = st.number_input('משקל', min_value=0.0, max_value=100.0, step=0.1)
             size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
             gender = st.selectbox('מין', ['זכר', 'נקבה'])
             rescueDate = st.date_input('תאריך חילוץ')
-            vaccine_1 = st.checkbox('חיסון כלבת')
-            vaccine_2 = st.checkbox('חיסון משושה')
-            isSpay = st.checkbox('מעוקר')
-            childrenFirendly = st.checkbox('ידידותי לילדים')
-            animalFirendly = st.checkbox('ידידותי לכלבים')
-            healthStatus = st.text_input('מצב הכלב')
-            energylevel = st.selectbox('רמת האנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
-            photographStatus = st.selectbox('סטטוס הצילום', ['ממתין לצילום', 'צילום הושלם'])
-            adoptionStatus = st.selectbox('סטטוס אימוץ', ['זמין לאימוץ', 'נאסף'])
+            rabies_done = st.checkbox('חיסון כלבת')
+            hexagonal_1 = st.checkbox('חיסון משושה 1')
+            hexagonal_2 = st.checkbox('חיסון משושה 2')
+            hexagonal_3 = st.checkbox('חיסון משושה 3')
+            spayed = st.checkbox('מעוקר')
+            de_worm = st.checkbox('טיפול נגד תולעים')
+            children_friendly = st.checkbox('ידידותי לילדים')
+            animal_friendly = st.checkbox('ידידותי לכלבים')
+            health_status = st.text_input('מצב הכלב')
+            energy_level = st.selectbox('רמת האנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
+            photograph_status = st.selectbox('סטטוס הצילום', ['ממתין לצילום', 'צילום הושלם'])
+            adoption_status = st.selectbox('סטטוס אימוץ', ['זמין לאימוץ', 'נאסף'])
             adopterID = st.text_input('מזהה מאמץ')
-            pottyTrained = st.checkbox('מחונך לצרכים')
+            potty_trained = st.checkbox('מחונך לצרכים')
 
             submit_button = st.form_submit_button(label='הוסף כלב')
 
         if submit_button:
             new_dog = {
-                'DogID': DogID,
-                'name': name,
-                'age': age,
-                'breed': breed,
-                'size': size,
-                'gender': gender,
-                'rescueDate': rescueDate.strftime('%Y-%m-%d'),
-                'vaccine_1': vaccine_1,
-                'vaccine_2': vaccine_2,
-                'isSpay': isSpay,
-                'childrenFirendly': childrenFirendly,
-                'animalFirendly': animalFirendly,
-                'healthStatus': healthStatus,
-                'energylevel': energylevel,
-                'photographStatus': photographStatus,
-                'adoptionStatus': adoptionStatus,
-                'adopterID': adopterID,
-                'pottyTrained': pottyTrained,
-            }
+            'DogID': DogID,
+            'Name': name,
+            'DateOfBirth': date_of_birth.strftime('%Y-%m-%d'),
+            'Age': age,
+            'Breed': breed,
+            'Weight': weight,
+            'Size': size,
+            'Gender': gender,
+            'RescueDate': rescueDate.strftime('%Y-%m-%d'),
+            'Rabies_Done': rabies_done,
+            'Hexagonal_1': hexagonal_1,
+            'Hexagonal_2': hexagonal_2,
+            'Hexagonal_3': hexagonal_3,
+            'Spayed': spayed,
+            'De-worm': de_worm,
+            'Children_Friendly': children_friendly,
+            'AnimalFriendly': animal_friendly,
+            'HealthStatus': health_status,
+            'EnergyLevel': energy_level,
+            'PhotographStatus': photograph_status,
+            'AdoptionStatus': adoption_status,
+            'AdopterID': adopterID,
+            'PottyTrained': potty_trained,
+        }
             dog_df = dog_df.append(new_dog, ignore_index=True)
             dog_df.to_csv(file_path, index=False, encoding='Windows-1255')
             st.success('הכלב הוסף בהצלחה!')
