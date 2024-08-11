@@ -217,12 +217,12 @@ def show_dogs_page():
             size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
             gender = st.selectbox('מין', ['זכר', 'נקבה'])
             rescueDate = st.date_input('תאריך חילוץ')
-            rabies_done = st.checkbox('חיסון כלבת')
-            hexagonal_1 = st.checkbox('חיסון משושה 1')
-            hexagonal_2 = st.checkbox('חיסון משושה 2')
-            hexagonal_3 = st.checkbox('חיסון משושה 3')
+            rabies_date = st.date_input('תאריך חיסון כלבת')
+            hexagonal_1_date = st.date_input('תאריך חיסון משושה 1')
+            hexagonal_2_date = st.date_input('תאריך חיסון משושה 2')
+            hexagonal_3_date = st.date_input('תאריך חיסון משושה 3')
+            de_worm_date = st.date_input('תאריך טיפול נגד תולעים')
             spayed = st.checkbox('מעוקר')
-            de_worm = st.checkbox('טיפול נגד תולעים')
             children_friendly = st.checkbox('ידידותי לילדים')
             animal_friendly = st.checkbox('ידידותי לכלבים')
             health_status = st.text_input('מצב הכלב')
@@ -245,12 +245,12 @@ def show_dogs_page():
             'Size': size,
             'Gender': gender,
             'RescueDate': rescueDate.strftime('%Y-%m-%d'),
-            'Rabies_Done': rabies_done,
-            'Hexagonal_1': hexagonal_1,
-            'Hexagonal_2': hexagonal_2,
-            'Hexagonal_3': hexagonal_3,
+            'Rabies_Done': rabies_date.strftime('%Y-%m-%d'),
+            'Hexagonal_1': hexagonal_1_date.strftime('%Y-%m-%d'),
+            'Hexagonal_2': hexagonal_2_date.strftime('%Y-%m-%d'),
+            'Hexagonal_3': hexagonal_3_date.strftime('%Y-%m-%d'),
+            'De-worm': de_worm_date.strftime('%Y-%m-%d'),
             'Spayed': spayed,
-            'De-worm': de_worm,
             'Children_Friendly': children_friendly,
             'AnimalFriendly': animal_friendly,
             'HealthStatus': health_status,
