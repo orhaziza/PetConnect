@@ -145,8 +145,7 @@ def show_adopters_page():
         st.dataframe(adopter_df_hebrew)
 
     elif selected == "מצא מאמץ":
-        elif selected == "מצא מאמץ":
-            st.warning('תכניס לפחות קרטריון אחד')
+        st.warning('תכניס לפחות קרטריון אחד')
 
          # Ensure columns are treated as strings
         merged_df['שבב כלב'] = merged_df['שבב כלב'].astype(str)
