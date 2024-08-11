@@ -1,10 +1,13 @@
-
+import matplotlib.pyplot as plt
+from io import BytesIO
 import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
+import base64
+import dataframe_image as dfi
 
 st.set_page_config(page_title='Shopping List', layout='wide')
 
@@ -68,12 +71,16 @@ def show_shopping_list_page():
             if st.button("צור רשימה"):
                 if st.session_state['dog'] != None:
                     st.session_state["step"] = 1
+                    st.session_state["shopping list"] = None
+                    st.session_state["short list"] = None
                 else:
                     st.session_state["step"] = -1
                     st.session_state["shopping list"] = None
+                    st.session_state["short list"] = None
                     
             
     elif selected == "הוסף מוצר":
+        st.session_state["step"] = 0
         st.write("not yet")
 
 def create_list(dog):
@@ -91,26 +98,59 @@ def create_list(dog):
             category_products = items_df[items_df['קטגוריה'] == c]
             sl = pd.concat([sl, category_products[category_products['גודל הכלב'] == df["Size"][0]]], ignore_index=True) 
 
-    sl['keep'] = True
+    sl['סמן'] = True
     st.session_state["shopping list"] = sl
     st.session_state["step"] = 2
 
 
 def present_list():
+    sl = st.data_editor(st.session_state["shopping list"])
+    st.session_state["download"] = False
+
+    col1, col2 ,col3, col4=  st.columns([1, 2, 8, 2])
     if not st.session_state["shopping list"].empty:
-        sl = st.data_editor(st.session_state["shopping list"])
-    col1, col2,col3 =  st.columns([1, 8, 1])
-    with col3:
-        if not st.session_state["shopping list"].empty:
-            with col1:
-                if st.button("הורד רשימה"):
-                    st.write("downloading")
+        with col1:
+            if st.button("Download"):
+                st.session_state["short list"] = (
+                    sl[sl['סמן'] == True]
+                    .loc[:, ["שם מוצר", "תיאור"]]
+                    .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "/workspaces/PetConnect/Data/Products")})
+                )
+                ## st.download_button("הורד כתמונה", html_to_image(st.session_state["short list"].to_html(escape=False)),"רשימת קניות.png")
+       
+    with col4:
         if st.button("נקה"):
             st.session_state["step"] = 0
             st.session_state["shopping list"] = None
+            st.session_state["short list"] = None
             st.session_state["dog"] = None
             placeholder3.empty()
+    st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
 
+
+def add_image_paths(df, images_path):
+    image_column = []
+    for product in df['שם מוצר']:
+        image_filename = f"{product}.jpg"
+        image_filepath = os.path.join(images_path, image_filename)
+        
+        if os.path.exists(image_filepath):
+            image_column.append(f'<img src="data:image/jpg;base64,{base64.b64encode(open(image_filepath, "rb").read()).decode()}">')
+        else:
+            image_column.append('No Image')  # Handle missing images
+    return image_column
+
+
+def html_to_image(html_content):
+    fig, ax = plt.subplots(figsize=(8, 3))  # Adjust figsize as needed
+    ax.axis('off')
+    ax.text(0.5, 0.5, html_content, va='center', ha='center', wrap=True)
+    buf = BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=300)
+    plt.close(fig)
+    buf.seek(0)
+    return buf
+###############################################################################
 
 if "step" not in st.session_state:
     st.session_state["step"] = 0
@@ -137,13 +177,3 @@ if st.session_state['step'] == 0:
     placeholder1.empty()
     placeholder2.empty()
     placeholder3.empty()
-
-
-
-
-
-
-
-
-
-
