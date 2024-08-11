@@ -124,8 +124,21 @@ def show_adopters_page():
         columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
     dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
 
-# Merge adopter and dog data on a common key (like AdopterID or dog_chipID)
-    merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='dog_chipID', right_on='DogID')
+    # Merge adopter and dog data on a common key (like AdopterID or dog_chipID)
+    # Load adopter and dog data
+    adopter_df_hebrew = pd.read_csv('Data/Adopters.csv')  # Replace with your actual data source
+    dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
+
+    # Verify the column names
+    st.write("Adopter columns:", adopter_df_hebrew.columns.tolist())
+    st.write("Dog columns:", dog_df_hebrew.columns.tolist())
+
+    # Check if the necessary columns exist before merging
+    if 'dog_chipID' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
+        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='dog_chipID', right_on='DogID')
+    else:
+        st.error("The necessary columns for merging are missing.")
+        st.stop()  
     if st.button('רענן את העמוד'):
         st.experimental_rerun()
     # Display different pages based on selected option
