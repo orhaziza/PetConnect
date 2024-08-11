@@ -139,7 +139,7 @@ def show_home_page():
 # Display each record as text
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
-            formatted_phone_number = f"{phone_number[:2]}-{phone_number[2:]}"
+            formatted_phone_number = f"{phone_number[:3]}-{phone_number[3:]}"
             st.markdown(f"""
 <div style='text-align: right; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 10px;'>
     <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
