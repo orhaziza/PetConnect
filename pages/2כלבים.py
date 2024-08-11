@@ -176,13 +176,23 @@ def show_dogs_page():
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            breed = st.selectbox('זן', options=[''] + list(dog_df["Breed"].unique()))
+        # Filter out NaN values from Breed options
+            breed_options = dog_df["Breed"].dropna().unique()
+            breed = st.selectbox('זן', options=[''] + list(breed_options))
+
         with col2:
+        # Handle the age filter (assuming no NaN values for Age)
             age = st.slider('גיל', min_value=0, max_value=int(dog_df['Age'].max()), value=(0, int(dog_df['Age'].max())))
+
         with col3:
-            size = st.selectbox('גודל', options=[''] + list(dog_df['Size'].unique()))
+        # Filter out NaN values from Size options
+            size_options = dog_df["Size"].dropna().unique()
+            size = st.selectbox('גודל', options=[''] + list(size_options))
+
         with col4:
-            gender = st.selectbox('מין', options=[''] + list(dog_df['Gender'].unique()))
+        # Filter out NaN values from Gender options
+            gender_options = dog_df["Gender"].dropna().unique()
+            gender = st.selectbox('מין', options=[''] + list(gender_options))
 
         # Apply search filters
         filtered_df = dog_df_hebrew[
