@@ -142,9 +142,8 @@ def show_home_page():
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
             
             if st.button(f"סמן כראיתי {recent_df.iloc[i]['Record ID']}", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
-    st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
-    st.experimental_rerun()  # Optionally rerun to immediately reflect the update
-
+                st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
+                st.experimental_rerun()  # Optionally rerun to immediately reflect the update
     st.markdown(f"""
     <div style='text-align: right; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: white; border-radius: 10px;'>
     <p><b>שם:</b> {recent_df.iloc[i]['Full Name']}</p>
