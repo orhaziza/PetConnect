@@ -142,7 +142,7 @@ def show_adopters_page():
         st.experimental_rerun()
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        st.dataframe(adopter_df_hebrew)
+        st.dataframe(merged_df)
 
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
