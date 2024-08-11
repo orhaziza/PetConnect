@@ -142,8 +142,22 @@ def show_adopters_page():
         st.experimental_rerun()
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        st.dataframe(merged_df)
 
+        # Select only the adopter columns and the 'Name' column from the dogs table
+        selected_columns = list(adopter_df_hebrew.columns) + ['Name']
+    
+        # Check if the 'Name' column exists after merging
+        if 'Name' in merged_df.columns:
+            merged_df = merged_df[selected_columns]
+        
+            # Move the 'Name' column to the second position
+            cols = merged_df.columns.tolist()
+            cols.insert(1, cols.pop(cols.index('Name')))  # Move 'Name' to the second position
+            merged_df = merged_df[cols]
+        else:
+            st.warning("'Name' column not found in the merged table.")
+    
+        st.dataframe(merged_df)
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
 
