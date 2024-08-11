@@ -126,7 +126,6 @@ def show_adopters_page():
 
     # Merge adopter and dog data on a common key (like AdopterID or dog_chipID)
     # Load adopter and dog data
-    adopter_df_hebrew = pd.read_csv('Data/Adopters.csv')  # Replace with your actual data source
     dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
 
     # Verify the column names
