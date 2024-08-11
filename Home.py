@@ -155,8 +155,8 @@ def show_home_page():
     <hr>
     """, unsafe_allow_html=True)
 
-    else:
-        st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
+        else:
+            st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
 
 
 
