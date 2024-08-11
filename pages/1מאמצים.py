@@ -133,8 +133,8 @@ def show_adopters_page():
     st.write("Dog columns:", dog_df_hebrew.columns.tolist())
 
     # Check if the necessary columns exist before merging
-    if 'dog_chipID' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
-        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='dog_chipID', right_on='DogID')
+    if 'שבב כלב' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
+        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='שבב כלב', right_on='DogID')
     else:
         st.error("The necessary columns for merging are missing.")
         st.stop()  
