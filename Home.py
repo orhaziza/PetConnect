@@ -140,7 +140,7 @@ def show_home_page():
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
-            if st.button(f"סמן כראיתי {recent_df.iloc[i]['Record ID']}", key=f"seen_{recent_df.iloc[i]['Record ID']}"):
+            if st.button(f"סמן כראיתי"):
                 st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
                 st.experimental_rerun()  # Optionally rerun to immediately reflect the update
         st.markdown(f"""
