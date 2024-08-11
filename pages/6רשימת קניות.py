@@ -7,7 +7,6 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
 import base64
-import dataframe_image as dfi
 
 st.set_page_config(page_title='Shopping List', layout='wide')
 
