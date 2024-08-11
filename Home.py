@@ -155,10 +155,6 @@ def show_home_page():
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
                     st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
-
-    st.markdown("<hr>", unsafe_allow_html=True)
-
-
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
