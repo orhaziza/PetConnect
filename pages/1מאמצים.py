@@ -107,7 +107,8 @@ def show_adopters_page():
     # # Define the menu options
     # with st.sidebar:
     #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-    
+    if st.button('רענן את העמוד'):
+        st.experimental_rerun()
 
     selected = option_menu(
         menu_title="",  # Required
