@@ -217,7 +217,7 @@ def show_dogs_page():
             size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
             gender = st.selectbox('מין', ['זכר', 'נקבה'])
             rescueDate = st.date_input('תאריך חילוץ')
-            rabies_date = st.date_input('תאריך חיסון כלבת')
+            rabies_date = st.date_input('תאריך חיסון כלבת', value = None)
             hexagonal_1_date = st.date_input('תאריך חיסון משושה 1', value = None)
             hexagonal_2_date = st.date_input('תאריך חיסון משושה 2', value = None)
             hexagonal_3_date = st.date_input('תאריך חיסון משושה 3', value = None)
