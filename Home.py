@@ -136,7 +136,7 @@ def show_home_page():
     if len(recent_df) > 0:
         st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
         
-        # Display each record as text
+# Display each record as text
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"0{phone_number[:2]}-{phone_number[2:]}"
@@ -152,9 +152,12 @@ def show_home_page():
     # Create a container with columns for button alignment
             col1, col2, col3 = st.columns([0.2, 1, 0.2])  # Adjust the ratios as needed
             with col1:
-                if st.button(f"סמן כראיתי"):
+                if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
                     st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
+
+    st.markdown("<hr>", unsafe_allow_html=True)
+
 
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
