@@ -126,7 +126,7 @@ def show_home_page():
             st.image("Data/Logo.png", width=100)
     
     with st.container():
-        col1, col2, col3 = st.columns([1.5, 0.75, 1])
+        col1, col2, col3 = st.columns([1.5, 2, 1])
         with col2:
             if st.button("רענן"):
                 st.cache_data.clear()
