@@ -251,29 +251,29 @@ def show_adopters_page():
                 edited_df = st.experimental_data_editor(filtered_adopters)
 
                 # Add a save button to save the changes
-                if st.button('שמור שינויים'):
-                    try:
-                        # Extract the relevant changes for the adopter_df_hebrew
-                        edited_adopter_df = edited_df[adopter_df_hebrew.columns].copy()
-                        edited_dog_name_df = edited_df[['שבב כלב', 'Name']].copy()
+        if st.button('שמור שינויים'):
+            try:
+                # Extract the relevant changes for the adopter_df_hebrew
+                edited_adopter_df = edited_df[adopter_df_hebrew.columns].copy()
+                edited_dog_name_df = edited_df[['שבב כלב', 'Name']].copy()
 
-                        # Update the original adopter_df_hebrew DataFrame
-                        adopter_df_hebrew.update(edited_adopter_df)
+                # Update the original adopter_df_hebrew DataFrame
+                adopter_df_hebrew.update(edited_adopter_df)
 
-                        # If there are changes to the dog names, update the dog_df_hebrew
-                        if not edited_dog_name_df.empty:
-                            for index, row in edited_dog_name_df.iterrows():
-                                dog_chipID = row['שבב כלב']
-                                dog_name = row['Name']
-                                dog_df_hebrew.loc[dog_df_hebrew['DogID'] == dog_chipID, 'Name'] = dog_name
+                # If there are changes to the dog names, update the dog_df_hebrew
+                if not edited_dog_name_df.empty:
+                    for index, row in edited_dog_name_df.iterrows():
+                        dog_chipID = row['שבב כלב']
+                        dog_name = row['Name']
+                        dog_df_hebrew.loc[dog_df_hebrew['DogID'] == dog_chipID, 'Name'] = dog_name
 
-                        # Save the updated DataFrames to their respective CSV files
-                        adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
-                        dog_df_hebrew.to_csv('Data/Dogs.csv', index=False, encoding='utf-8')
+                # Save the updated DataFrames to their respective CSV files
+                adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
+                dog_df_hebrew.to_csv('Data/Dogs.csv', index=False, encoding='utf-8')
 
-                        st.success('Changes saved successfully!')
-                    except Exception as e:
-                        st.error(f'Error saving changes: {e}')
+                st.success('מידע עודכן בהצלחה!')
+            except Exception as e:
+                st.error(f'Error saving changes: {e}')
             else:
                 st.warning('אין תוצאות למסננים שהיזנת!')
         # st.warning('תכניס לפחות קרטריון אחד')
