@@ -180,7 +180,7 @@ def show_adopters_page():
                 adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
                 dog_df_hebrew.to_csv('Data/Dogs.csv', index=False, encoding='utf-8')
 
-                st.success('Changes saved successfully!')
+                st.success('מידע עודכן בהצלחה!')
             except Exception as e:
                 st.error(f'Error saving changes: {e}')
 
