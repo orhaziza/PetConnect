@@ -216,11 +216,6 @@ def show_dogs_page():
             DogID = st.text_input('מזהה כלב')
             name = st.text_input('שם')
             date_of_birth = st.date_input('תאריך לידה')
-            if date_of_birth:
-                age = calculate_age_in_months(date_of_birth)
-            else:
-                age = 0
-            st.write(f"גיל: {age} חודשים")
             breed = st.text_input('זן')
             weight = st.number_input('משקל', min_value=0.0, max_value=100.0, step=0.1)
             size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
@@ -244,6 +239,7 @@ def show_dogs_page():
             submit_button = st.form_submit_button(label='הוסף כלב')
 
         if submit_button:
+            age = calculate_age_in_months(date_of_birth) if date_of_birth else 0
             new_dog = {
             'DogID': DogID,
             'Name': name,
