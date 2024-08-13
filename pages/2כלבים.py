@@ -36,7 +36,12 @@ def show_flash_animation():
     """
     # Display the flash animation
     st.markdown(flash_animation_html, unsafe_allow_html=True)
-        
+
+def calculate_age_in_months(birth_date):
+    today = datetime.today()
+    age_in_months = (today.year - birth_date.year) * 12 + today.month - birth_date.month
+    return age_in_months
+    
 def show_dogs_page():
     st.set_page_config(page_title='Dogs', layout='wide')
 
@@ -211,6 +216,10 @@ def show_dogs_page():
             DogID = st.text_input('מזהה כלב')
             name = st.text_input('שם')
             date_of_birth = st.date_input('תאריך לידה')
+            if date_of_birth:
+                age = calculate_age_in_months(date_of_birth)
+            else:
+                age = 0
             age = st.number_input('גיל', min_value=0, max_value=100, step=1)
             breed = st.text_input('זן')
             weight = st.number_input('משקל', min_value=0.0, max_value=100.0, step=0.1)
