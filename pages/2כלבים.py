@@ -220,7 +220,7 @@ def show_dogs_page():
                 age = calculate_age_in_months(date_of_birth)
             else:
                 age = 0
-            age = st.number_input('גיל', min_value=0, max_value=100, step=1)
+            st.write(f"גיל: {age} חודשים")
             breed = st.text_input('זן')
             weight = st.number_input('משקל', min_value=0.0, max_value=100.0, step=0.1)
             size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
