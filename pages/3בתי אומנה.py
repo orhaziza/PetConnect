@@ -219,7 +219,7 @@ def show_foster_homes_page():
                 st.balloons()
                 st.print("XXXX")
                 # Ensure the file is added to Git
-                os.system(f'git add {csv_file_path}')
+                os.system(f'git add {Data/FosterHome.csv}')
                 os.system('git commit -m "Update foster home data with a new entry"')
                 os.system('git push')
                 
