@@ -210,7 +210,7 @@ def show_dogs_page():
         st.write(filtered_df)
 
     if selected == "הוסף כלב":
-        form_url = https://docs.google.com/forms/d/e/1FAIpQLSecU0gDCfBbNCuPO2YVzRuMdJJEvklHZbOjJEyWnLBxK_5vLA/viewform
+        form_url = "https://docs.google.com/forms/d/e/1FAIpQLSecU0gDCfBbNCuPO2YVzRuMdJJEvklHZbOjJEyWnLBxK_5vLA/viewform"
         st.markdown(f'<iframe src="{form_url}" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>', unsafe_allow_html=True)
 
 
