@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from streamlit_gsheets import GSheetsConnection
 import datetime as dt
 import hashlib
 import background
@@ -9,8 +8,10 @@ import background
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
+
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
+
 
 # Function to hash the password using SHA-256
 def hash_password(password):
@@ -34,12 +35,6 @@ def login(username, password):
         if check_password(password, stored_password):
             return True
     return False
-
-# Function to update the "Seen" status in the Google Sheet
-def update_seen_status(record_id, sheet):
-    # Find the correct row in the sheet and update the 'Seen' column
-    cell = sheet.find(str(record_id))  # Find the record by Record ID
-    sheet.update_cell(cell.row, sheet.find('Seen').col, '1')  # Update the 'Seen' column
 
 # Function to show the login form and handle the login process
 def show_login_page():    
@@ -70,19 +65,22 @@ def show_login_page():
                     flag = True
     if flag:
         st.error("Invalid username or password")
+                    
 
 # Function to show the home page
 def show_home_page():
-    # Google Sheets setup
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name('path_to_your_credentials.json', scope)
-    client = gspread.authorize(creds)
-    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing").sheet1
+    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+        # Custom CSS to center-align the option menu
     
-    df = pd.DataFrame(sheet.get_all_records())
+    @st.cache_data()
+    def fetch_data():
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        return conn.read(spreadsheet=url)
     
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
+    
+    df = fetch_data()
     
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
@@ -103,8 +101,7 @@ def show_home_page():
         'ניסיון עם בעלי חיים?': 'Experience with animals?',
         'האם יש בעלי חיים נוספים בבית': 'Do you have other pets?',
         'זמינות': 'Availability',
-        'במידה ויש, אילו?': 'If any, which?',
-        'Record ID': 'Record ID'
+        'במידה ויש, אילו?': 'If any, which?'
     }
 
     # Rename the columns in the DataFrame
@@ -118,8 +115,9 @@ def show_home_page():
     
     # Filter the DataFrame to include only records from the past two days and unseen records
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[(df['Timestamp'] >= two_days_ago) & (df['Seen'].isnull())]
+    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
+
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
@@ -131,12 +129,14 @@ def show_home_page():
         col1, col2, col3 = st.columns([1.5, 2, 1])
         with col2:
             if st.button("רענן"):
-                st.experimental_rerun()
+                st.cache_data.clear()
+                st.success("‏המידע עודכן בהצלחה")
+    # Display the number of records
     
     if len(recent_df) > 0:
         st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
         
-        # Display each record as text
+# Display each record as text
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"{phone_number[:3]}-{phone_number[3:]}"
@@ -149,14 +149,17 @@ def show_home_page():
 </div>
 """, unsafe_allow_html=True)
 
+    # Create a container with columns for button alignment
             col1, col2, col3 = st.columns([1, 0.2, 0.2])  # Adjust the ratios as needed
             with col1:
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
-                    update_seen_status(recent_df.iloc[i]['Record ID'], sheet)
+                    st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
+
+
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
