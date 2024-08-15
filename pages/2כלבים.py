@@ -266,7 +266,7 @@ def show_dogs_page():
             'PottyTrained': potty_trained,
         }
             dog_df = dog_df.append(new_dog, ignore_index=True)
-            dog_df.to_csv(file_path, index=False, encoding='Windows-1255')
+            dog_df.to_csv(file_path, index=False, encoding='utf-8')
             st.success('הכלב הוסף בהצלחה!')
 
 
