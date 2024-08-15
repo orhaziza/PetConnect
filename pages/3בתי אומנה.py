@@ -138,28 +138,44 @@ def show_foster_homes_page():
     elif selected == "הוסף בית אומנה":
         st.subheader('הוסף בית אומנה')
 
-        foster_home_id = st.text_input('מזהה בית אומנה')
-        foster_name = st.text_input('שם בית אומנה')
-        address = st.text_area('כתובת')
-        house_size = st.selectbox('גודל הבית', ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else [])
-        contact_info = st.text_input('פרטי קשר')
-        backyard = st.selectbox('חצר', ['True', 'False'] + list(foster_home_df_hebrew['חצר'].unique()) if 'חצר' in foster_home_df_hebrew.columns else [])
-        near_dog_park = st.selectbox('קרוב לגן כלבים', ['True', 'False'] + list(foster_home_df_hebrew['קרוב לגן כלבים'].unique()) if 'קרוב לגן כלבים' in foster_home_df_hebrew.columns else [])
-        house_members = st.text_input('חברי בית')
-        availability_at_home = st.selectbox('זמינות בבית', [''] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else [])
-        children_friendly = st.selectbox('ידידותי לילדים', ['True', 'False'] + list(foster_home_df_hebrew['ידידותי לילדים'].unique()) if 'ידידותי לילדים' in foster_home_df_hebrew.columns else [])
-        animal_friendly = st.selectbox('ידידותי לכלבים', ['True', 'False'] + list(foster_home_df_hebrew['ידידותי לכלבים'].unique()) if 'ידידותי לכלבים' in foster_home_df_hebrew.columns else [])
-        max_capacity = st.number_input('קיבולת מקסימלית', min_value=0)
-        allowed_at_property = st.selectbox('מותר בנכס', ['True', 'False'] + list(foster_home_df_hebrew['מותר בנכס'].unique()) if 'מותר בנכס' in foster_home_df_hebrew.columns else [])
-        allergies = st.text_area('אלרגיות')
-        is_mobile = st.checkbox('נייד')
-        energy_level = st.slider('רמת אנרגיה', min_value=1, max_value=5)
-        past_fosters = st.text_area('אומנויות קודמות')
-        past_experience = st.text_area('ניסיון קודם')
-        documents = st.text_area('מסמכים')
+        # Input fields with matching data types
+        foster_home_id = st.number_input('מזהה בית אומנה', min_value=0, format="%d")  # int64
+        foster_name = st.text_input('שם בית אומנה')  # object
+        address = st.text_area('כתובת')  # object
+    
+        house_size_options = ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else []
+        house_size = st.selectbox('גודל הבית', house_size_options)  # object
+    
+        contact_info = st.number_input('פרטי קשר', min_value=0, format="%d")  # int64
+    
+        backyard = st.checkbox('חצר', value=False)  # bool
+        near_dog_park = st.checkbox('קרוב לגן כלבים', value=False)  # bool
+    
+        house_members = st.number_input('חברי בית', min_value=0, format="%d")  # int64
+    
+        availability_at_home_options = [''] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else []
+        availability_at_home = st.selectbox('זמינות בבית', availability_at_home_options)  # object
+    
+        children_friendly = st.checkbox('ידידותי לילדים', value=False)  # bool
+        animal_friendly = st.checkbox('ידידותי לכלבים', value=False)  # bool
+    
+        max_capacity = st.number_input('קיבולת מקסימלית', min_value=0, format="%d")  # int64
+    
+        allowed_at_property = st.checkbox('מותר בנכס', value=False)  # bool
+        
+        allergies = st.checkbox('אלרגיות', value=False)  # bool
+    
+        is_mobile = st.checkbox('נייד', value=False)  # bool
+    
+        energy_level = st.slider('רמת אנרגיה', min_value=1, max_value=5)  # object but needs conversion to int
+    
+        past_fosters = st.checkbox('אומנויות קודמות', value=False)  # bool
+        past_experience = st.checkbox('ניסיון קודם', value=False)  # bool
+    
+        documents = st.text_area('מסמכים')  # float64, consider changing to object
 
+        # When the user clicks save, store the data in the DataFrame
         if st.button('שמור בית אומנה'):
-            # Save foster home data to CSV or database
             new_foster_home = {
                 'מזהה בית אומנה': foster_home_id,
                 'שם בית אומנה': foster_name,
@@ -167,23 +183,32 @@ def show_foster_homes_page():
                 'גודל הבית': house_size,
                 'פרטי קשר': contact_info,
                 'חצר': backyard,
-                'קרוב לגן כלבים': near_dog_park,
+                'NearDogPark': near_dog_park,
                 'חברי בית': house_members,
                 'זמינות בבית': availability_at_home,
                 'ידידותי לילדים': children_friendly,
                 'ידידותי לכלבים': animal_friendly,
                 'קיבולת מקסימלית': max_capacity,
-                'מותר בנכס': allowed_at_property,
-                'אלרגיות': allergies,
+                'AllowedAtProperty': allowed_at_property,
+                'Allergies': allergies,
                 'נייד': is_mobile,
-                'רמת אנרגיה': energy_level,
-                'אומנויות קודמות': past_fosters,
-                'ניסיון קודם': past_experience,
-                'מסמכים': documents
+                'רמת אנרגיה': str(energy_level),  # Convert to string if kept as object
+                'PastFosters': past_fosters,
+                'PastExperience': past_experience,
+                'Documents': documents  # May need conversion depending on original data type
             }
-            foster_home_df = foster_home_df.append(new_foster_home, ignore_index=True)
-            foster_home_df.to_csv(foster_home_file_path, index=False, encoding='utf-8')
-            st.success('הבית אומנה נשמר בהצלחה!')
+
+            # Create a new DataFrame from the input
+            new_foster_home_df = pd.DataFrame([new_foster_home])
+
+            # Append the new data to the existing DataFrame
+            foster_home_df_hebrew = pd.concat([foster_home_df_hebrew, new_foster_home_df], ignore_index=True)
+
+            # Save to CSV or the desired file
+            foster_home_df_hebrew.to_csv('foster_home_data.csv', index=False, encoding='utf-8')
+        
+            st.success('בית אומנה חדש נשמר בהצלחה!')
+            st.balloons()
 
     elif selected == "ערוך מסמך":
         st.title('מסמכים')
