@@ -210,8 +210,64 @@ def show_dogs_page():
         st.write(filtered_df)
 
     if selected == "הוסף כלב":
-        form_url = "https://docs.google.com/forms/d/e/1FAIpQLSecU0gDCfBbNCuPO2YVzRuMdJJEvklHZbOjJEyWnLBxK_5vLA/viewform"
-        st.markdown(f'<iframe src="{form_url}" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>', unsafe_allow_html=True)
+        st.subheader('הוסף כלב חדש')
+
+        with st.form(key='insert_form'):
+            DogID = st.text_input('מזהה כלב')
+            name = st.text_input('שם')
+            date_of_birth = st.date_input('תאריך לידה')
+            breed = st.text_input('זן')
+            weight = st.number_input('משקל', min_value=0.0, max_value=100.0, step=0.1)
+            size = st.selectbox('גודל', ['קטן', 'בינוני', 'גדול'])
+            gender = st.selectbox('מין', ['זכר', 'נקבה'])
+            rescueDate = st.date_input('תאריך חילוץ')
+            rabies_date = st.date_input('תאריך חיסון כלבת', value = None)
+            hexagonal_1_date = st.date_input('תאריך חיסון משושה 1', value = None)
+            hexagonal_2_date = st.date_input('תאריך חיסון משושה 2', value = None)
+            hexagonal_3_date = st.date_input('תאריך חיסון משושה 3', value = None)
+            de_worm_date = st.date_input('תאריך טיפול נגד תולעים', value = None)
+            spayed = st.checkbox('מעוקר')
+            children_friendly = st.checkbox('ידידותי לילדים')
+            animal_friendly = st.checkbox('ידידותי לכלבים')
+            health_status = st.text_input('מצב הכלב')
+            energy_level = st.selectbox('רמת האנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
+            photograph_status = st.selectbox('סטטוס הצילום', ['ממתין לצילום', 'צילום הושלם'])
+            adoption_status = st.selectbox('סטטוס אימוץ', ['זמין לאימוץ', 'נאסף'])
+            adopterID = st.text_input('מזהה מאמץ')
+            potty_trained = st.checkbox('מחונך לצרכים')
+
+            submit_button = st.form_submit_button(label='הוסף כלב')
+
+        if submit_button:
+            age = calculate_age_in_months(date_of_birth) if date_of_birth else 0
+            new_dog = {
+            'DogID': DogID,
+            'Name': name,
+            'DateOfBirth': date_of_birth.strftime('%Y-%m-%d'),
+            'Age': age,
+            'Breed': breed,
+            'Weight': weight,
+            'Size': size,
+            'Gender': gender,
+            'RescueDate': rescueDate.strftime('%Y-%m-%d'),
+            'Rabies_Done': rabies_date.strftime('%Y-%m-%d') if rabies_date else np.nan,
+            'Hexagonal_1': hexagonal_1_date.strftime('%Y-%m-%d') if hexagonal_1_date else np.nan,
+            'Hexagonal_2': hexagonal_2_date.strftime('%Y-%m-%d') if hexagonal_2_date else np.nan,
+            'Hexagonal_3': hexagonal_3_date.strftime('%Y-%m-%d') if hexagonal_3_date else np.nan,
+            'De-worm': de_worm_date.strftime('%Y-%m-%d') if de_worm_date else np.nan,
+            'Spayed': spayed,
+            'Children_Friendly': children_friendly,
+            'AnimalFriendly': animal_friendly,
+            'HealthStatus': health_status,
+            'EnergyLevel': energy_level,
+            'PhotographStatus': photograph_status,
+            'AdoptionStatus': adoption_status,
+            'AdopterID': adopterID,
+            'PottyTrained': potty_trained,
+        }
+            dog_df = dog_df.append(new_dog, ignore_index=True)
+            dog_df.to_csv(file_path, index=False, encoding='Windows-1255')
+            st.success('הכלב הוסף בהצלחה!')
 
 
     if selected == "ערוך תמונה":
