@@ -217,7 +217,7 @@ def show_foster_homes_page():
                 foster_home_df_hebrew = save_foster_home_to_csv(foster_home_df_hebrew, new_foster_home_df, csv_file_path)
                 st.success('בית אומנה חדש נשמר בהצלחה!')
                 st.balloons()
-                print("XXXX")
+                st.print("XXXX")
                 # Ensure the file is added to Git
                 os.system(f'git add {csv_file_path}')
                 os.system('git commit -m "Update foster home data with a new entry"')
