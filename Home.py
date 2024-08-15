@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from streamlit_gsheets import GSheetsConnection
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 import datetime as dt
 import hashlib
 import background
@@ -34,6 +35,12 @@ def login(username, password):
             return True
     return False
 
+# Function to update the "Seen" status in the Google Sheet
+def update_seen_status(record_id, sheet):
+    # Find the correct row in the sheet and update the 'Seen' column
+    cell = sheet.find(str(record_id))  # Find the record by Record ID
+    sheet.update_cell(cell.row, sheet.find('Seen').col, '1')  # Update the 'Seen' column
+
 # Function to show the login form and handle the login process
 def show_login_page():    
     con1 = st.container()
@@ -63,27 +70,19 @@ def show_login_page():
                     flag = True
     if flag:
         st.error("Invalid username or password")
-                    
-# Function to update the "Seen" status in the Google Sheet
-def update_seen_status(record_id, url):
-    conn = st.connection("gsheets", type=GSheetsConnection)
-    df = conn.read(spreadsheet=url)
-    df.loc[df.index == record_id, 'Seen'] = 1  # Update the 'Seen' column
-    conn.write(df, spreadsheet=url)  # Write the updated DataFrame back to the Google Sheet
 
 # Function to show the home page
 def show_home_page():
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+    # Google Sheets setup
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('path_to_your_credentials.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing").sheet1
     
-    @st.cache_data()
-    def fetch_data():
-        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        return conn.read(spreadsheet=url)
+    df = pd.DataFrame(sheet.get_all_records())
     
     if 'seen_records' not in st.session_state:
         st.session_state['seen_records'] = []
-    
-    df = fetch_data()
     
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
@@ -104,7 +103,8 @@ def show_home_page():
         'ניסיון עם בעלי חיים?': 'Experience with animals?',
         'האם יש בעלי חיים נוספים בבית': 'Do you have other pets?',
         'זמינות': 'Availability',
-        'במידה ויש, אילו?': 'If any, which?'
+        'במידה ויש, אילו?': 'If any, which?',
+        'Record ID': 'Record ID'
     }
 
     # Rename the columns in the DataFrame
@@ -131,8 +131,7 @@ def show_home_page():
         col1, col2, col3 = st.columns([1.5, 2, 1])
         with col2:
             if st.button("רענן"):
-                st.cache_data.clear()
-                st.success("‏המידע עודכן בהצלחה")
+                st.experimental_rerun()
     
     if len(recent_df) > 0:
         st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
@@ -153,7 +152,7 @@ def show_home_page():
             col1, col2, col3 = st.columns([1, 0.2, 0.2])  # Adjust the ratios as needed
             with col1:
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
-                    update_seen_status(recent_df.iloc[i]['Record ID'], url)
+                    update_seen_status(recent_df.iloc[i]['Record ID'], sheet)
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
