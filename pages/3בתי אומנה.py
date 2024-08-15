@@ -20,11 +20,20 @@ def save_foster_home_to_csv(foster_home_df_hebrew, new_foster_home_df, csv_file_
     # Append the new data to the existing DataFrame
     updated_df = pd.concat([foster_home_df_hebrew, new_foster_home_df], ignore_index=True)
 
-    # Save to CSV or the desired file
+    # Debug: Print the DataFrame before saving
+    st.write("Updated DataFrame:")
+    st.write(updated_df)
+
+    # Save to CSV
     updated_df.to_csv(csv_file_path, index=False, encoding='utf-8')
 
-    return updated_df
+    # Debug: Check if the file was saved correctly
+    if os.path.exists(csv_file_path):
+        st.success(f"File saved successfully to {csv_file_path}.")
+    else:
+        st.error(f"Failed to save the file to {csv_file_path}.")
 
+    return updated_df
 def delete_file(file_name):
     os.remove(os.path.join(FILES_DIR, file_name))
     st.success(f'קובץ {file_name} נמחק בהצלחה!')
