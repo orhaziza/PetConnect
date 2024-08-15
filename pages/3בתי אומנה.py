@@ -185,25 +185,25 @@ def show_foster_homes_page():
         # When the user clicks save, store the data in the DataFrame
         if st.button('שמור בית אומנה'):
             new_foster_home = {
-                'מזהה בית אומנה': foster_home_id,
-                'שם בית אומנה': foster_name,
-                'כתובת': address,
-                'גודל הבית': house_size,
-                'פרטי קשר': contact_info,
-                'חצר': backyard,
-                'NearDogPark': near_dog_park,
-                'חברי בית': house_members,
-                'זמינות בבית': availability_at_home,
-                'ידידותי לילדים': children_friendly,
-                'ידידותי לכלבים': animal_friendly,
-                'קיבולת מקסימלית': max_capacity,
-                'AllowedAtProperty': allowed_at_property,
-                'Allergies': allergies,
-                'נייד': is_mobile,
-                'רמת אנרגיה': str(energy_level),  # Convert to string if kept as object
-                'PastFosters': past_fosters,
-                'PastExperience': past_experience,
-                'Documents': documents  # May need conversion depending on original data type
+                'מזהה בית אומנה': FosterHomeID	,
+                'שם בית אומנה': FosterName,
+                'כתובת': Address,
+                'גודל הבית': HouseSize,
+                'פרטי קשר': Contactinfomation,
+                'חצר': Backyard,
+                'NearDogPark': NearDogPark,
+                'חברי בית': HouseMembers,
+                'זמינות בבית': AvailabilityAtHome,
+                'ידידותי לילדים': ChildrenFriendly,
+                'ידידותי לכלבים': AnimalFriendly,
+                'קיבולת מקסימלית': MaximumCapacity,
+                'AllowedAtProperty': AllowedAtProperty,
+                'Allergies': Allergies,
+                'נייד': IsMobile,
+                'רמת אנרגיה': str(EnergyLevel),  # Convert to string if kept as object
+                'PastFosters': PastFosters,
+                'PastExperience': PastExperience,
+                'Documents': Documents  # May need conversion depending on original data type
             }
 
             # Create a new DataFrame from the input
