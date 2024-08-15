@@ -137,8 +137,8 @@ def show_dogs_page():
     selected = option_menu(
         menu_title="",  # Required
         # options=["כל הטבלה", "מצא כלב", "הוסף כלב", "ערוך תמונה", "מצא בית אומנה"],  # Required
-        options=["מצא בית אומנה","ערוך תמונה","הוסף כלב","מצא כלב","כל הטבלה"] , # Required
-        icons=["search","upload", "file", "search","file"],  # Optional
+        options=["הוסף כלב","מצא כלב","כל הטבלה"] , # Required
+        icons=["search","upload", "file"],  # Optional
         menu_icon="menu",  # Optional
         default_index=4,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
@@ -268,78 +268,6 @@ def show_dogs_page():
             dog_df = dog_df.append(new_dog, ignore_index=True)
             dog_df.to_csv(file_path, index=False, encoding='utf-8')
             st.success('הכלב הוסף בהצלחה!')
-
-
-    if selected == "ערוך תמונה":
-        st.header('הוספת תמונה לכלבים ללא תמונה')
-
-        # Filter dogs without images
-        dogs_without_images = dog_df[
-            ~dog_df['DogID'].astype(str).apply(lambda x: os.path.exists(os.path.join(images_folder, f"{x}.png")))]
-
-        if not dogs_without_images.empty:
-            st.write('כלבים ללא תמונות:')
-            st.dataframe(
-                dogs_without_images.rename(columns=dict(zip(dogs_without_images.columns, hebrew_column_names))))
-
-            # Dropdown menu to select a dog to upload an image for
-            selected_dog_name_for_image = st.selectbox('בחר כלב להוספת תמונה', dogs_without_images['name'].tolist())
-            selected_dog_id_for_image = \
-            dogs_without_images[dogs_without_images['name'] == selected_dog_name_for_image]['DogID'].iloc[0]
-
-            uploaded_file_for_dog = st.file_uploader("png הכנס תמונה של הכלב עם סיומת", type="png")
-
-            if st.button('הוסף תמונה'):
-                if uploaded_file_for_dog is not None:
-                    image_path_for_dog = os.path.join(images_folder, f"{selected_dog_id_for_image}.png")
-                    with open(image_path_for_dog, "wb") as f:
-                        f.write(uploaded_file_for_dog.getvalue())
-                    show_flash_animation()    
-                    st.success(f'תמונה לכלב {selected_dog_name_for_image} הוספה בהצלחה!')
-                       
-
-        else:
-            st.write('לכל הכלבים במסד הנתונים קיימת תמונה')
-
-
-    elif selected == "מצא בית אומנה":
-        # Search functionality for foster homes
-        st.subheader('מצא בית אומנה')
-
-        # Create search filters for foster homes
-        col1, col2, col3, col4 = st.columns(4)
-
-        with col1:
-            foster_name = st.text_input('שם בית אומנה')
-            children_friendly = st.checkbox('ידידותי לילדים')
-            animal_friendly = st.checkbox('ידידותי לכלבים')
-        with col2:
-            house_size = st.selectbox('גודל הבית', ['קטן', 'בינוני', 'גדול'])
-            backyard = st.selectbox('חצר', ['כן', 'לא'])
-            near_dog_park = st.selectbox('קרוב לגן כלבים', ['כן', 'לא'])
-        with col3:
-            house_members = st.slider('חברי בית', min_value=1, max_value=10, step=1)
-            availability_at_home = st.selectbox('זמינות בבית', ['מלאה', 'חלקית'])
-        with col4:
-            maximum_capacity = st.number_input('קיבולת מקסימלית', min_value=1, max_value=100, step=1)
-            allergies = st.text_input('אלרגיות')
-
-        # Apply search filters for foster homes
-        # Apply search filters for foster homes
-        filtered_foster_homes = foster_home_df_hebrew[
-            (foster_home_df_hebrew['שם בית אומנה'].str.contains(foster_name, na=False, case=False)) &
-            (foster_home_df_hebrew['ידידותי לילדים'] == children_friendly) &
-            (foster_home_df_hebrew['ידידותי לכלבים'] == animal_friendly) &
-            (foster_home_df_hebrew['גודל הבית'] == house_size) &
-            (foster_home_df_hebrew['חצר'] == backyard) &
-            (foster_home_df_hebrew['קרוב לגן כלבים'] == near_dog_park) &
-            (foster_home_df_hebrew['חברי בית'] == house_members) &
-            (foster_home_df_hebrew['זמינות בבית'] == availability_at_home) &
-            (foster_home_df_hebrew['קיבולת מקסימלית'] >= maximum_capacity) &
-            (foster_home_df_hebrew['אלרגיות'].str.contains(allergies, na=False, case=False))
-            ]
-
-        st.dataframe(filtered_foster_homes)
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
