@@ -156,40 +156,40 @@ def show_foster_homes_page():
     elif selected == "הוסף בית אומנה":
         st.subheader('הוסף בית אומנה')
         # Input fields with matching data types
-        foster_home_id = st.number_input('מזהה בית אומנה', min_value=0, format="%d")  # int64
-        foster_name = st.text_input('שם בית אומנה')  # object
-        address = st.text_area('כתובת')  # object
+        FosterHomeID = st.number_input('מזהה בית אומנה', min_value=0, format="%d")  # int64
+        FosterName = st.text_input('שם בית אומנה')  # object
+        Address = st.text_area('כתובת')  # object
     
         house_size_options = ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else []
-        house_size = st.selectbox('גודל הבית', house_size_options)  # object
+        HouseSize = st.selectbox('גודל הבית', house_size_options)  # object
     
-        contact_info = st.number_input('פרטי קשר', min_value=0, format="%d")  # int64
+        Contactinfomation = st.number_input('פרטי קשר', min_value=0, format="%d")  # int64
     
-        backyard = st.checkbox('חצר', value=False)  # bool
-        near_dog_park = st.checkbox('קרוב לגן כלבים', value=False)  # bool
+        Backyard = st.checkbox('חצר', value=False)  # bool
+        NearDogPark = st.checkbox('קרוב לגן כלבים', value=False)  # bool
     
-        house_members = st.number_input('חברי בית', min_value=0, format="%d")  # int64
+        HouseMembers = st.number_input('חברי בית', min_value=0, format="%d")  # int64
     
-        availability_at_home_options = [''] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else []
-        availability_at_home = st.selectbox('זמינות בבית', availability_at_home_options)  # object
+        availability_at_home_options = ['כל היום, צהוריים'] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else []
+        AvailabilityAtHome = st.selectbox('זמינות בבית', availability_at_home_options)  # object
     
-        children_friendly = st.checkbox('ידידותי לילדים', value=False)  # bool
-        animal_friendly = st.checkbox('ידידותי לכלבים', value=False)  # bool
+        ChildrenFriendly = st.checkbox('ידידותי לילדים', value=False)  # bool
+        AnimalFriendly = st.checkbox('ידידותי לכלבים', value=False)  # bool
     
-        max_capacity = st.number_input('קיבולת מקסימלית', min_value=0, format="%d")  # int64
+        MaximumCapacity = st.number_input('קיבולת מקסימלית', min_value=0, format="%d")  # int64
     
-        allowed_at_property = st.checkbox('מותר בנכס', value=False)  # bool
+        AllowedAtProperty = st.checkbox('מותר בנכס', value=False)  # bool
         
-        allergies = st.checkbox('אלרגיות', value=False)  # bool
+        Allergies = st.checkbox('אלרגיות', value=False)  # bool
     
-        is_mobile = st.checkbox('נייד', value=False)  # bool
+        IsMobile = st.checkbox('נייד', value=False)  # bool
     
-        energy_level = st.slider('רמת אנרגיה', min_value=1, max_value=5)  # object but needs conversion to int
+        EnergyLevel = st.slider('רמת אנרגיה', min_value=1, max_value=5)  # object but needs conversion to int
     
-        past_fosters = st.checkbox('אומנויות קודמות', value=False)  # bool
-        past_experience = st.checkbox('ניסיון קודם', value=False)  # bool
+        PastFosters = st.checkbox('אומנויות קודמות', value=False)  # bool
+        PastExperience = st.checkbox('ניסיון קודם', value=False)  # bool
     
-        documents = st.text_area('מסמכים')  # float64, consider changing to object
+        Documents = st.text_area('מסמכים')  # float64, consider changing to object
 
         # When the user clicks save, store the data in the DataFrame
         if st.button('שמור בית אומנה'):
