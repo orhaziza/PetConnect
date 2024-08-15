@@ -11,7 +11,6 @@ st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
 
-
 # Function to hash the password using SHA-256
 def hash_password(password):
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
@@ -152,13 +151,17 @@ def show_home_page():
             col1, col2, col3 = st.columns([1, 0.2, 0.2])  # Adjust the ratios as needed
             with col1:
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
-                    # Update the "Seen" column in the DataFrame
+                    # Calculate the correct row number for Google Sheets
                     record_id = recent_df.iloc[i]['Record ID']
+                    sheet_row = record_id + 2  # Assuming the first row is the header
+                    st.write(f"Updating Seen column for Record ID: {record_id} at Google Sheets row: {sheet_row}")  # Debugging output
+                    
+                    # Update the "Seen" column in the DataFrame
                     df.at[record_id, 'Seen'] = 1
                     
                     # Update the data in Google Sheets
                     conn = st.connection("gsheets", type=GSheetsConnection)
-                    conn.update(sheet_name="Sheet1", cell_range=f'N{record_id+2}:N{record_id+2}', values=[1])  # Assuming 'Seen' is in column N
+                    conn.update(sheet_name="Sheet1", cell_range=f'P{sheet_row}:P{sheet_row}', values=[[1]])  # 'Seen' is in column P
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
         
         st.markdown("<hr>", unsafe_allow_html=True)
