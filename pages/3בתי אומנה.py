@@ -110,6 +110,8 @@ def show_foster_homes_page():
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         st.dataframe(foster_home_df_hebrew)
+        st.write(foster_home_df_hebrew.dtypes)
+
 
     elif selected == "מצא בית אומנה":
         st.subheader('מצא בית אומנה')
