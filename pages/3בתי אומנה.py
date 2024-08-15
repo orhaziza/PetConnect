@@ -16,6 +16,15 @@ def save_file(foster_home_id, uploaded_file):
         f.write(uploaded_file.getbuffer())
     st.success(f'קובץ {uploaded_file.name} נשמר בהצלחה!')
 
+def save_foster_home_to_csv(foster_home_df_hebrew, new_foster_home_df, csv_file_path):
+    # Append the new data to the existing DataFrame
+    updated_df = pd.concat([foster_home_df_hebrew, new_foster_home_df], ignore_index=True)
+
+    # Save to CSV or the desired file
+    updated_df.to_csv(csv_file_path, index=False, encoding='utf-8')
+
+    return updated_df
+
 def delete_file(file_name):
     os.remove(os.path.join(FILES_DIR, file_name))
     st.success(f'קובץ {file_name} נמחק בהצלחה!')
@@ -137,7 +146,6 @@ def show_foster_homes_page():
 
     elif selected == "הוסף בית אומנה":
         st.subheader('הוסף בית אומנה')
-
         # Input fields with matching data types
         foster_home_id = st.number_input('מזהה בית אומנה', min_value=0, format="%d")  # int64
         foster_name = st.text_input('שם בית אומנה')  # object
@@ -201,14 +209,24 @@ def show_foster_homes_page():
             # Create a new DataFrame from the input
             new_foster_home_df = pd.DataFrame([new_foster_home])
 
-            # Append the new data to the existing DataFrame
-            foster_home_df_hebrew = pd.concat([foster_home_df_hebrew, new_foster_home_df], ignore_index=True)
+            # Define the CSV file path (modify this path as needed)
+            csv_file_path = 'foster_home_data.csv'
 
-            # Save to CSV or the desired file
-            foster_home_df_hebrew.to_csv('foster_home_data.csv', index=False, encoding='utf-8')
-        
-            st.success('בית אומנה חדש נשמר בהצלחה!')
-            st.balloons()
+            # Save the new foster home to the CSV
+            try:
+                foster_home_df_hebrew = save_foster_home_to_csv(foster_home_df_hebrew, new_foster_home_df, csv_file_path)
+                st.success('בית אומנה חדש נשמר בהצלחה!')
+                st.balloons()
+
+                # Ensure the file is added to Git
+                os.system(f'git add {csv_file_path}')
+                os.system('git commit -m "Update foster home data with a new entry"')
+                os.system('git push')
+                
+            except Exception as e:
+                st.error(f"Error saving data: {e}")
+
+
 
     elif selected == "ערוך מסמך":
         st.title('מסמכים')
