@@ -8,7 +8,6 @@ import background
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 
-
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
 
@@ -70,7 +69,6 @@ def show_login_page():
 # Function to show the home page
 def show_home_page():
     url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
-        # Custom CSS to center-align the option menu
     
     @st.cache_data()
     def fetch_data():
@@ -101,7 +99,8 @@ def show_home_page():
         'ניסיון עם בעלי חיים?': 'Experience with animals?',
         'האם יש בעלי חיים נוספים בבית': 'Do you have other pets?',
         'זמינות': 'Availability',
-        'במידה ויש, אילו?': 'If any, which?'
+        'במידה ויש, אילו?': 'If any, which?',
+        'Seen': 'Seen'  # Add this column to the mapping if needed
     }
 
     # Rename the columns in the DataFrame
@@ -110,14 +109,16 @@ def show_home_page():
     # Ensure the timestamp column is in datetime format
     df['Timestamp'] = pd.to_datetime(df['Timestamp'], format="%d/%m/%Y %H:%M:%S")
     
-    # Add a unique identifier to each record
-    df['Record ID'] = df.index
-    
-    # Filter the DataFrame to include only records from the past two days and unseen records
-    two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
-    
+    # Filter out seen records
+    unseen_df = df[df['Seen'] != 1]
 
+    # Add a unique identifier to each record
+    unseen_df['Record ID'] = unseen_df.index
+    
+    # Filter the DataFrame to include only records from the past two days
+    two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
+    recent_df = unseen_df[unseen_df['Timestamp'] >= two_days_ago]
+    
     with st.container():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
@@ -136,7 +137,6 @@ def show_home_page():
     if len(recent_df) > 0:
         st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
         
-# Display each record as text
         for i in range(len(recent_df)):
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"{phone_number[:3]}-{phone_number[3:]}"
@@ -149,17 +149,21 @@ def show_home_page():
 </div>
 """, unsafe_allow_html=True)
 
-    # Create a container with columns for button alignment
             col1, col2, col3 = st.columns([1, 0.2, 0.2])  # Adjust the ratios as needed
             with col1:
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
-                    st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
+                    # Update the "Seen" column in the DataFrame
+                    record_id = recent_df.iloc[i]['Record ID']
+                    df.at[record_id, 'Seen'] = 1
+                    
+                    # Update the data in Google Sheets
+                    conn = st.connection("gsheets", type=GSheetsConnection)
+                    conn.update(sheet_name="Sheet1", cell_range=f'N{record_id+2}:N{record_id+2}', values=[1])  # Assuming 'Seen' is in column N
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
+        
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
-
-
 
 # Check if the user is logged in
 if 'logged_in' not in st.session_state:
