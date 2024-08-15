@@ -161,7 +161,7 @@ def show_home_page():
                     
                     # Update the data in Google Sheets
                     conn = st.connection("gsheets", type=GSheetsConnection)
-                    conn.update(sheet_name="Sheet1", cell_range=f'P{sheet_row}:P{sheet_row}', values=[[1]])  # 'Seen' is in column P
+                    conn.update(sheet_name="תגובות לטופס 1", cell_range=f'P{sheet_row}:P{sheet_row}', values=[[1]])  # 'Seen' is in column P
                     st.experimental_rerun()  # Optionally rerun to immediately reflect the update
         
         st.markdown("<hr>", unsafe_allow_html=True)
