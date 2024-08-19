@@ -1,2 +1,11 @@
 FosterHomeID,FosterName,Address,HouseSize,Contactinfomation,Backyard,NearDogPark,HouseMembers,AvailabilityAtHome,ChildrenFriendly,AnimalFriendly,MaximumCapacity,AllowedAtProperty,Allergies,IsMobile,EnergyLevel,PastFosters,PastExperience,Documents
-318280641,אור חזיזה,חנקין 8,קטן,0524456244,TRUE,TRUE,1,ערב,TRUE,TRUE,1,TRUE,FALSE,FALSE,גבוהה,TRUE,TRUE,null
+318280642,אילן כהן,הכרמל 12,בינוני,0523345678,FALSE,TRUE,3,בוקר,TRUE,FALSE,2,TRUE,FALSE,FALSE,בינונית,FALSE,TRUE,null
+318280643,שרית לוי,הרצל 5,גדול,0521234567,TRUE,FALSE,4,צהריים,FALSE,TRUE,3,TRUE,TRUE,TRUE,נמוכה,TRUE,FALSE,null
+318280644,מיכאל שחר,הגפן 18,בינוני,0529876543,FALSE,FALSE,2,לילה,TRUE,TRUE,4,FALSE,FALSE,FALSE,בינונית,TRUE,TRUE,null
+318280645,דניאל אבוטבול,העצמאות 22,קטן,0524567890,TRUE,TRUE,2,בוקר,FALSE,FALSE,2,TRUE,TRUE,FALSE,גבוהה,FALSE,FALSE,null
+318280646,ליאורה רבינוביץ,החרמון 7,גדול,0527654321,FALSE,FALSE,3,ערב,TRUE,FALSE,4,FALSE,FALSE,TRUE,בינונית,TRUE,FALSE,null
+318280647,אברהם סופר,הרמב"ם 19,בינוני,0528765432,FALSE,TRUE,2,לילה,FALSE,TRUE,3,TRUE,FALSE,FALSE,נמוכה,TRUE,TRUE,null
+318280648,נועה כץ,הבנים 2,קטן,0523456789,TRUE,FALSE,1,צהריים,FALSE,TRUE,1,FALSE,TRUE,FALSE,גבוהה,FALSE,TRUE,null
+318280649,יעל סגל,הנגב 13,גדול,0524321765,FALSE,TRUE,4,בוקר,TRUE,FALSE,3,TRUE,FALSE,TRUE,בינונית,TRUE,FALSE,null
+318280650,יובל מרום,החרמון 14,בינוני,0528761234,TRUE,FALSE,3,לילה,FALSE,FALSE,2,FALSE,TRUE,FALSE,גבוהה,FALSE,TRUE,null
+318280651,דורון אוחנה,השלום 21,קטן,0527890123,FALSE,TRUE,1,צהריים,TRUE,TRUE,1,TRUE,FALSE,TRUE,בינונית,TRUE,FALSE,null
