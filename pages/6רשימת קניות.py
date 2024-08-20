@@ -8,6 +8,8 @@ from streamlit_option_menu import option_menu
 import background
 import base64
 import pyppeteer
+import asyncio
+
 
 
 st.set_page_config(page_title='Shopping List', layout='wide')
@@ -246,8 +248,7 @@ async def take_screenshot():
     await browser.close()
 
 def run_screenshot():
-    import asyncio
-    asyncio.get_event_loop().run_until_complete(take_screenshot())
+    asyncio.run(take_screenshot())  # Use asyncio.run instead of manually managing the event loop
 
 # Add a button in Streamlit to trigger the screenshot function
 if st.button('Capture Screenshot'):
