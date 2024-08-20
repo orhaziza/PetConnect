@@ -388,8 +388,7 @@ def show_adopters_page():
             columns=dict(zip(new_adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in new_adopter_df.columns])))
 
             # Concatenate the existing DataFrame with the new entry
-            adopter_df_hebrew = pd.concat([adopter_df_hebrew, new_adopter_df_heb], ignore_index=True)
-            adopter_df_hebrew.to_csv(adopter_file_path, index=False, encoding='utf-8')
+            
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
             st.balloons()
