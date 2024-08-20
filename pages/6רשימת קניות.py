@@ -123,43 +123,6 @@ def html_to_pdf(html_content):
     buf.seek(0)
     return buf
 
-def present_list():
-    sl = st.data_editor(st.session_state["shopping list"])
-    st.session_state["download"] = False
-
-    col1, col2 ,col3, col4=  st.columns([1, 2, 8, 2])
-    if not st.session_state["shopping list"].empty:
-        with col1:
-            if st.button("Download"):
-                st.session_state["short list"] = (
-                    sl[sl['סמן'] == True]
-                    .loc[:, ["שם מוצר", "תיאור"]]
-                    .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "/workspaces/PetConnect/Data/Products")})
-                )
-
-                html_content = st.session_state["short list"].to_html(escape=False)
-
-                # Convert HTML to Image
-                image_buffer = html_to_image(html_content)
-                st.download_button("הורד כתמונה", image_buffer, "רשימת קניות.png", mime="image/png")
-
-                # Convert HTML to PDF
-                pdf_buffer = html_to_pdf(html_content)
-                st.download_button("הורד כ-PDF", pdf_buffer, "רשימת קניות.pdf", mime="application/pdf")
-    
-    with col4:
-        if st.button("נקה"):
-            st.session_state["step"] = 0
-            st.session_state["shopping list"] = None
-            st.session_state["short list"] = None
-            st.session_state["dog"] = None
-            placeholder3.empty()
-    st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
-
-# The rest of your code remains unchanged
-
-
-
 # def present_list():
 #     sl = st.data_editor(st.session_state["shopping list"])
 #     st.session_state["download"] = False
@@ -171,10 +134,19 @@ def present_list():
 #                 st.session_state["short list"] = (
 #                     sl[sl['סמן'] == True]
 #                     .loc[:, ["שם מוצר", "תיאור"]]
-#                     .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "Data/Products")})
+#                     .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "/workspaces/PetConnect/Data/Products")})
 #                 )
-#                 ## st.download_button("הורד כתמונה", html_to_image(st.session_state["short list"].to_html(escape=False)),"רשימת קניות.png")
-       
+
+#                 html_content = st.session_state["short list"].to_html(escape=False)
+
+#                 # Convert HTML to Image
+#                 image_buffer = html_to_image(html_content)
+#                 st.download_button("הורד כתמונה", image_buffer, "רשימת קניות.png", mime="image/png")
+
+#                 # Convert HTML to PDF
+#                 pdf_buffer = html_to_pdf(html_content)
+#                 st.download_button("הורד כ-PDF", pdf_buffer, "רשימת קניות.pdf", mime="application/pdf")
+    
 #     with col4:
 #         if st.button("נקה"):
 #             st.session_state["step"] = 0
@@ -183,6 +155,34 @@ def present_list():
 #             st.session_state["dog"] = None
 #             placeholder3.empty()
 #     st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
+
+# # The rest of your code remains unchanged
+
+
+
+def present_list():
+    sl = st.data_editor(st.session_state["shopping list"])
+    st.session_state["download"] = False
+
+    col1, col2 ,col3, col4=  st.columns([1, 2, 8, 2])
+    if not st.session_state["shopping list"].empty:
+        with col1:
+            if st.button("Download"):
+                st.session_state["short list"] = (
+                    sl[sl['סמן'] == True]
+                    .loc[:, ["שם מוצר", "תיאור"]]
+                    .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "Data/Products")})
+                )
+                ## st.download_button("הורד כתמונה", html_to_image(st.session_state["short list"].to_html(escape=False)),"רשימת קניות.png")
+       
+    with col4:
+        if st.button("נקה"):
+            st.session_state["step"] = 0
+            st.session_state["shopping list"] = None
+            st.session_state["short list"] = None
+            st.session_state["dog"] = None
+            placeholder3.empty()
+    st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
 
 
 def add_image_paths(df, images_path):
