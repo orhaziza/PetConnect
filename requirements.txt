@@ -10,4 +10,5 @@ toml==0.10.2
 st-gsheets-connection==0.0.4
 google-cloud-storage
 fpdf
-pyppeteer
+puppeteer
+asyncio
