@@ -382,6 +382,8 @@ def show_adopters_page():
 
             # Create a DataFrame from the new adopter entry
             new_adopter_df = pd.DataFrame([new_adopter])
+            adopter_df = pd.concat([adopter_df, new_adopter_df], ignore_index=True)
+            adopter_df.to_csv(adopter_file_path, index=False, encoding='utf-8')
             new_adopter_df_heb = new_adopter_df.rename(
             columns=dict(zip(new_adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in new_adopter_df.columns])))
 
