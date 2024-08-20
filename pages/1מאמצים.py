@@ -321,6 +321,8 @@ def show_adopters_page():
         #     else:
         #         st.warning('אין תוצאות למסננים שהיזנת!')
     elif selected == "הוסף מאמץ":
+        st.write(adopter_df_hebrew.columns)
+        st.write(dog_df_hebrew.columns)
         st.subheader('הוסף מאמץ')
 
         # Add adoption form or input fields here
