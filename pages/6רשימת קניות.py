@@ -7,8 +7,6 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
 import base64
-import pyppeteer
-import asyncio
 
 
 
@@ -240,21 +238,21 @@ if st.session_state['step'] == 0:
     placeholder3.empty()
 
 
-async def take_screenshot():
-    browser = await pyppeteer.launch()
-    page = await browser.newPage()
-    await page.goto('http://localhost:8501')  # Assuming your Streamlit app is running locally
-    await page.screenshot({'path': 'screenshot.png', 'fullPage': True})
-    await browser.close()
+# async def take_screenshot():
+#     browser = await pyppeteer.launch()
+#     page = await browser.newPage()
+#     await page.goto('http://localhost:8501')  # Assuming your Streamlit app is running locally
+#     await page.screenshot({'path': 'screenshot.png', 'fullPage': True})
+#     await browser.close()
 
-def run_screenshot():
-    asyncio.run(take_screenshot())  # Use asyncio.run instead of manually managing the event loop
+# def run_screenshot():
+#     asyncio.run(take_screenshot())  # Use asyncio.run instead of manually managing the event loop
 
-# Add a button in Streamlit to trigger the screenshot function
-if st.button('Capture Screenshot'):
-    run_screenshot()
-    with open('screenshot.png', 'rb') as file:
-        st.download_button('Download Screenshot', file, file_name='screenshot.png')
+# # Add a button in Streamlit to trigger the screenshot function
+# if st.button('Capture Screenshot'):
+#     run_screenshot()
+#     with open('screenshot.png', 'rb') as file:
+#         st.download_button('Download Screenshot', file, file_name='screenshot.png')
 
 
 
