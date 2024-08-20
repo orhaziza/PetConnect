@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
+import numpy as np
 
 # Function to display a flash animation
 def show_flash_animation():
