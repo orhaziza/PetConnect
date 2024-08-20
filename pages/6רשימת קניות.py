@@ -113,7 +113,7 @@ def present_list():
                 st.session_state["short list"] = (
                     sl[sl['סמן'] == True]
                     .loc[:, ["שם מוצר", "תיאור"]]
-                    .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "/workspaces/PetConnect/Data/Products")})
+                    .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "Data/Products")})
                 )
                 ## st.download_button("הורד כתמונה", html_to_image(st.session_state["short list"].to_html(escape=False)),"רשימת קניות.png")
        
