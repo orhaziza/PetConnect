@@ -135,6 +135,7 @@ def show_adopters_page():
     # Check if the necessary columns exist before merging
     if 'שבב כלב' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
         merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='שבב כלב', right_on='DogID')
+
     else:
         st.error("The necessary columns for merging are missing.")
         st.stop()  
@@ -142,6 +143,7 @@ def show_adopters_page():
         st.experimental_rerun()
     # Display different pages based on selected option
     if selected == "כל הטבלה":
+        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='שבב כלב', right_on='DogID')
         # Select only the adopter columns and the 'Name' column from the dogs table
         selected_columns = list(adopter_df_hebrew.columns) + ['Name']
 
