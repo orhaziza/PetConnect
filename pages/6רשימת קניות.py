@@ -36,11 +36,8 @@ items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_it
 items_df = items_df.iloc[:, ::-1]
 
 def generate_pdf(html_content):
-    # Path to the wkhtmltopdf executable
-    config = pdfkit.configuration(wkhtmltopdf='Pages/6רשימת קניות.py')
-    
-    # Create a PDF from the HTML content
-    pdf = pdfkit.from_string(html_content, False, configuration=config)
+    pdf = HTML(string=html_content).write_pdf()
+    return pdf
     
     return pdf
 def show_shopping_list_page():    
