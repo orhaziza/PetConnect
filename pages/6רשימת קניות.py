@@ -35,9 +35,13 @@ hebrew_columns_items = {
 items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
 items_df = items_df.iloc[:, ::-1]
 
-def generate_pdf(html_content):
-    pdf = HTML(string=html_content).write_pdf()
-    return pdf
+def generate_pdf(text_content):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.multi_cell(0, 10, text_content)
+    return pdf.output(dest='S').encode('latin1')
+
     
     return pdf
 def show_shopping_list_page():    
