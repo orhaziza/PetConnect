@@ -12,5 +12,5 @@ google-cloud-storage
 fpdf
 pyppeteer
 asyncio
-pdfkit
-pdfkit-binary
+pdfkit==1.0.0
+pdfkit-binary==0.12.6.5
