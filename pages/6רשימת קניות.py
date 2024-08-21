@@ -35,7 +35,14 @@ hebrew_columns_items = {
 items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
 items_df = items_df.iloc[:, ::-1]
 
-
+def generate_pdf(html_content):
+    # Path to the wkhtmltopdf executable
+    config = pdfkit.configuration(wkhtmltopdf='Pages/6רשימת קניות.py')
+    
+    # Create a PDF from the HTML content
+    pdf = pdfkit.from_string(html_content, False, configuration=config)
+    
+    return pdf
 def show_shopping_list_page():    
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
@@ -126,6 +133,19 @@ def present_list():
                 #     file_name="shopping_list.png",
                 #     mime="image/png"
                 # )
+                # Convert the table to HTML with images
+                html_content = st.session_state["short list"].to_html(escape=False)
+                
+                # Generate PDF from the HTML content
+                pdf_data = generate_pdf(html_content)
+                
+                # Provide the download button for the generated PDF
+                st.download_button(
+                    "Download PDF",
+                    data=pdf_data,
+                    file_name="shopping_list.pdf",
+                    mime="application/pdf"
+                )
     with col4:
         if st.button("נקה"):
             st.session_state["step"] = 0
