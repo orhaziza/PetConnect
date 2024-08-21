@@ -14,3 +14,4 @@ pyppeteer
 asyncio
 pdfkit
 weasyprint
+fpdf==2.5.5  # or the latest stable version
