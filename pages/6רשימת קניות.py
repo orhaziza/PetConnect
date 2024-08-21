@@ -195,4 +195,4 @@ if st.session_state['step'] == 2 :
 if st.session_state['step'] == 0:
     placeholder1.empty()
     placeholder2.empty()
-    placeholder3.empty()ה
+    placeholder3.empty()
