@@ -41,9 +41,7 @@ def generate_pdf(text_content):
     pdf.set_font("Arial", size=12)
     pdf.multi_cell(0, 10, text_content)
     return pdf.output(dest='S').encode('latin1')
-
-    
-    return pdf
+ 
 def show_shopping_list_page():    
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
