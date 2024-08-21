@@ -13,3 +13,5 @@ fpdf
 pyppeteer
 asyncio
 pdfkit
+pdfkit-binary
+
