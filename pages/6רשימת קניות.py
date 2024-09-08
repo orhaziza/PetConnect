@@ -8,6 +8,7 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
 import base64
+import imgkit
 
 
 st.set_page_config(page_title='Shopping List', layout='wide')
@@ -110,6 +111,25 @@ def create_list(dog):
     st.session_state["step"] = 2
 
 
+imgkit_config = imgkit.config(wkhtmltoimage=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe')
+
+def save_html_to_image(html_content, output_file="רשימת קניות.png"):
+    # Save HTML content as an image
+    imgkit.from_string(html_content, output_file, config=imgkit_config)
+
+    return output_file
+
+def download_image(file_path):
+    with open(file_path, "rb") as file:
+        btn = st.download_button(
+            label="Download image",
+            data=file,
+            file_name=file_path,
+            mime="image/png"
+        )
+    return btn
+
+
 def present_list():
     sl = st.data_editor(st.session_state["shopping list"])
     st.session_state["download"] = False
@@ -124,27 +144,18 @@ def present_list():
                     .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "Data/Products")})
                 )
                 st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
-                # image_bytes = html_to_image(st.session_state["short list"].to_html(escape=False))
-                # st.image(image_bytes)
-                # st.download_button(
-                #     "Download Shopping List as Image",
-                #     data=image_bytes,
-                #     file_name="shopping_list.png",
-                #     mime="image/png"
-                # )
-                # Convert the table to HTML with images
-                html_content = st.session_state["short list"].to_html(escape=False)
+
+
+                                # Display HTML table
+                html_table = st.session_state["short list"].to_html(escape=False)
+                st.write(html_table, unsafe_allow_html=True)
                 
-                # Generate PDF from the HTML content
-                pdf_data = generate_pdf(html_content)
+                # Save the table as an image
+                image_file = save_html_to_image(html_table)
                 
-                # Provide the download button for the generated PDF
-                st.download_button(
-                    "Download PDF",
-                    data=pdf_data,
-                    file_name="shopping_list.pdf",
-                    mime="application/pdf"
-                )
+                # Provide download option for the image
+                download_image(image_file)
+
     with col4:
         if st.button("נקה"):
             st.session_state["step"] = 0
