@@ -99,8 +99,8 @@ def show_application_page():
         dogs_df = pd.read_csv('Data/Dogs.csv')
         
         # Select a dog
-        st.markdown("<h2>Dog List</h2>", unsafe_allow_html=True)
-        dog_selection = st.selectbox("Select a Dog", dogs_df["Name"])
+        st.markdown("<h2>בקשות אימוץ לפי כלב</h2>", unsafe_allow_html=True)
+        dog_selection = st.selectbox("בחר כלב לחיפוש", dogs_df["Name"])
 
         # Filter the selected dog's data
         selected_dog = dogs_df[dogs_df["Name"] == dog_selection].iloc[0]
