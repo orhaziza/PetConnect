@@ -16,3 +16,4 @@ weasyprint
 gspread
 oauth2client
 imgkit==1.2.3
+wkhtmltoimage==0.12.6
