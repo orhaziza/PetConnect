@@ -14,3 +14,5 @@ pyppeteer
 asyncio
 pdfkit
 weasyprint
+gspread
+oauth2client
