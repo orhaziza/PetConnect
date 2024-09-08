@@ -228,7 +228,7 @@ def show_adopters_page():
             dog_name = st.text_input('שם כלב')  # New input for dog's name
 
         # Add a search button
-        if st.button('Search'):
+        if st.button('חפש'):
             # Initialize filter conditions
             conditions = pd.Series([True] * len(merged_df))  # Start with all True
 
