@@ -54,9 +54,9 @@ def show_login_page():
     con1 = st.container()
     with con1:
         col1, col2 = st.columns([8,1])
-        with col2:
+        with col1:
             # Login button
-            if st.button("Login", use_container_width=True):
+            if st.button("התחבר", use_container_width=True):
                 if login(username, password):
                     st.session_state['logged_in'] = True
                     st.session_state['username'] = username
