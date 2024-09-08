@@ -16,3 +16,4 @@ pdfkit
 weasyprint
 gspread
 oauth2client
+imgkit==1.2.3
