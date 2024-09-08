@@ -168,7 +168,7 @@ def show_dogs_page():
 
     if selected == "כל הטבלה":
         edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
-        if st.button("Save"):
+        if st.button("שמור שינויים"):
             # Rename columns back to English for saving
             edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
             # Save the edited dataframe to the CSV file
