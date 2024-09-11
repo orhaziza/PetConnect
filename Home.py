@@ -11,10 +11,20 @@ from google.oauth2.service_account import Credentials
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
-def test_google_sheet_access():
-    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+# Update credentials with the required scopes
+def get_gspread_client():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=SCOPES)
     client = gspread.authorize(creds)
-    
+    return client
+
+# Test Google Sheet connection
+def test_google_sheet_access():
+    client = get_gspread_client()
     try:
         sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
         worksheet = sheet.worksheet("תגובות לטופס 1")
