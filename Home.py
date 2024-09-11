@@ -14,7 +14,30 @@ st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
 
+def get_gspread_client():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+    client = gspread.authorize(creds)
+    return client
 
+# Open the spreadsheet and worksheet
+def open_google_sheet():
+    client = get_gspread_client()
+    sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
+    worksheet = sheet.worksheet("תגובות לטופס 1")  # Name of the sheet
+    return worksheet
+
+# Function to update the "Seen" column
+def mark_as_seen(record_id):
+    worksheet = open_google_sheet()
+
+    # Locate the row that corresponds to the record_id (Record ID)
+    cell = worksheet.find(str(record_id))  # Assuming Record ID is unique and in one of the columns
+    if cell:
+        # Column P is the 16th column (A=1, P=16), so we update column 16
+        worksheet.update_cell(cell.row, 16, 1)  # Change 'Seen' column to 1 for this record
+        return True
+    return False
+    
 # Function to hash the password using SHA-256
 def hash_password(password):
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
@@ -139,6 +162,7 @@ def show_home_page():
         
 # Display each record as text
         for i in range(len(recent_df)):
+            record_id = recent_df.iloc[i]['Record ID']
             phone_number = str(int(recent_df.iloc[i]['Phone number'])).zfill(10)
             formatted_phone_number = f"{phone_number[:3]}-{phone_number[3:]}"
             st.markdown(f"""
@@ -154,8 +178,12 @@ def show_home_page():
             col1, col2, col3 = st.columns([1, 0.2, 0.2])  # Adjust the ratios as needed
             with col1:
                 if st.button(f"סמן כראיתי", key=f"seen_button_{i}"):  # Assign a unique key for each button
-                    st.session_state['seen_records'].append(recent_df.iloc[i]['Record ID'])
-                    st.experimental_rerun()  # Optionally rerun to immediately reflect the update
+                    success = mark_as_seen(record_id)
+                    if success:
+                        st.session_state['seen_records'].append(record_id)
+                        st.experimental_rerun()  # Rerun the app to reflect the updated seen state
+                    else:
+                        st.error("Could not update the record in Google Sheets.")
         st.markdown("<hr>", unsafe_allow_html=True)
     else:
         st.markdown("<h2 style='text-align: center;'>אין עדכונים חדשים!</h2>", unsafe_allow_html=True)
