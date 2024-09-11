@@ -4,6 +4,8 @@ from streamlit_gsheets import GSheetsConnection
 import datetime as dt
 import hashlib
 import background
+import gspread
+import google.oauth2.service_account import Credentials
 
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
@@ -81,7 +83,10 @@ def show_home_page():
         st.session_state['seen_records'] = []
     
     df = fetch_data()
-    
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+    # Authorize gspread
+    client = gspread.authorize(creds)
+    sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
     # Clean up the column names
     df.columns = [col.strip() for col in df.columns]
     
