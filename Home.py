@@ -5,7 +5,7 @@ import datetime as dt
 import hashlib
 import background
 import gspread
-import google.oauth2.service_account import Credentials
+from google.oauth2.service_account import Credentials
 
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
