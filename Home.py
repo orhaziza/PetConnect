@@ -32,13 +32,16 @@ def open_google_sheet():
 # Function to update the "Seen" column
 def mark_as_seen(record_id):
     worksheet = open_google_sheet()
-
-    # Locate the row that corresponds to the record_id (Record ID)
-    cell = worksheet.find(str(record_id))  # Assuming Record ID is unique and in one of the columns
-    if cell:
-        # Column P is the 16th column (A=1, P=16), so we update column 16
-        worksheet.update_cell(cell.row, 16, 1)  # Change 'Seen' column to 1 for this record
-        return True
+    st.write(f"Trying to mark record as seen: {record_id}")
+    try:
+        cell = worksheet.find(str(record_id))  # Assuming 'Timestamp' or another unique value
+        st.write(f"Found cell: {cell}")
+        if cell:
+            worksheet.update_cell(cell.row, 16, 1)  # Update 'Seen' column (P)
+            st.write(f"Updated cell at row {cell.row}")
+            return True
+    except Exception as e:
+        st.error(f"Error updating Google Sheet: {e}")
     return False
     
 # Function to hash the password using SHA-256
@@ -138,7 +141,7 @@ def show_home_page():
     df['Timestamp'] = pd.to_datetime(df['Timestamp'], format="%d/%m/%Y %H:%M:%S")
     
     # Add a unique identifier to each record
-    df['Record ID'] = df.index
+    df['Record ID'] = df['Timestamp']
     
     # Filter the DataFrame to include only records from the past two days and unseen records
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
