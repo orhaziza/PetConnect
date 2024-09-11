@@ -9,11 +9,20 @@ from google.oauth2.service_account import Credentials
 
 # Set up the page configuration
 st.set_page_config(page_title='פט קונקט', layout='wide', page_icon='Data/Logo.png')
-
-
 background.add_bg_from_local('static/background3.png')
 background.load_css('styles.css')
+def test_google_sheet_access():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+    client = gspread.authorize(creds)
+    
+    try:
+        sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
+        worksheet = sheet.worksheet("תגובות לטופס 1")
+        st.success("Successfully connected to the Google Sheet.")
+    except Exception as e:
+        st.error(f"Failed to connect to Google Sheet: {e}")
 
+test_google_sheet_access()
 def get_gspread_client():
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
     client = gspread.authorize(creds)
