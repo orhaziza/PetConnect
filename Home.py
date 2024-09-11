@@ -32,17 +32,17 @@ def open_google_sheet():
 # Function to update the "Seen" column
 def mark_as_seen(record_id):
     worksheet = open_google_sheet()
-    st.write(f"Trying to mark record as seen: {record_id}")
     try:
-        cell = worksheet.find(str(record_id))  # Assuming 'Timestamp' or another unique value
-        st.write(f"Found cell: {cell}")
+        # Adjust the format of record_id (Timestamp) to match the Google Sheet format
+        formatted_record_id = record_id.strftime('%m/%d/%Y %H:%M:%S')  # Adjust format as necessary
+        cell = worksheet.find(formatted_record_id)  # Search for formatted timestamp
         if cell:
-            worksheet.update_cell(cell.row, 16, 1)  # Update 'Seen' column (P)
-            st.write(f"Updated cell at row {cell.row}")
+            worksheet.update_cell(cell.row, 16, 1)  # Update 'Seen' column in row 'P'
             return True
     except Exception as e:
         st.error(f"Error updating Google Sheet: {e}")
     return False
+
     
 # Function to hash the password using SHA-256
 def hash_password(password):
