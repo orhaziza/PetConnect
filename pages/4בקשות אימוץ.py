@@ -8,6 +8,12 @@ import background
 import gspread
 from google.oauth2.service_account import Credentials
 
+creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+
+# Authorize gspread
+client = gspread.authorize(creds)
+
+sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
 
 st.set_page_config(page_title='Applications', layout='wide')
     
