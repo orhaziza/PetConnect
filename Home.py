@@ -147,7 +147,7 @@ def show_home_page():
     
     # Filter the DataFrame to include only records from the past two days and unseen records
     two_days_ago = dt.datetime.now() - dt.timedelta(days=2)
-    recent_df = df[(df['Timestamp'] >= two_days_ago) & (~df['Record ID'].isin(st.session_state['seen_records']))]
+    recent_df = df[(df['Timestamp'] >= two_days_ago) &  (df['Seen'] != 1) & (~df['Record ID'].isin(st.session_state['seen_records']))]
     
 
     with st.container():
