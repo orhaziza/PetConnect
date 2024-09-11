@@ -5,6 +5,8 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 from streamlit_gsheets import GSheetsConnection
 import background
+import gspread
+from google.oauth2.service_account import Credentials
 
 
 st.set_page_config(page_title='Applications', layout='wide')
