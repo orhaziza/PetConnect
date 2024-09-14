@@ -84,54 +84,7 @@ def load_file(file_name):
         file_bytes = f.read()
     return file_bytes
 
-def filter_data(merged_df, dog_chipID, adopter_id, adopter_name, dog_name):
-    # Initialize filter conditions
-    conditions = pd.Series([True] * len(merged_df))  # Start with all True
 
-    # Apply each filter if a criterion is provided
-    if dog_chipID:
-        conditions &= merged_df['שבב כלב'].str.contains(dog_chipID, na=False, case=False)
-
-    if adopter_id:
-        conditions &= merged_df['מזהה מאמץ'].str.contains(adopter_id, na=False, case=False)
-
-    if adopter_name:
-        conditions &= merged_df['שם מאמץ'].str.contains(adopter_name, na=False, case=False)
-
-    if dog_name:
-        conditions &= merged_df['שם כלב'].str.contains(dog_name, na=False, case=False)  # Filter by dog's name
-
-    # Apply the combined conditions to filter the DataFrame
-    filtered_df = merged_df[conditions]
-
-    return filtered_df
-
-def show_filter_page():
-    # Fetch the data from Google Sheets
-    data = fetch_data()
-
-    # Display input fields for filtering
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        dog_chipID = st.text_input('מזהה שבב כלב')
-    with col2:
-        adopter_id = st.text_input('מזהה מאמץ')
-    with col3:
-        adopter_name = st.text_input('שם מאמץ')
-    with col4:
-        dog_name = st.text_input('שם כלב')  # Input for dog's name
-
-    # Filter data on button click
-    if st.button('חפש'):
-        filtered_df = filter_data(data, dog_chipID, adopter_id, adopter_name, dog_name)
-
-        # Display filtered results
-        if not filtered_df.empty:
-            st.dataframe(filtered_df)
-        else:
-            st.warning('אין תוצאות למסננים שהזנת!')
-            
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
     background.add_bg_from_local('./static/background3.png')
@@ -171,10 +124,10 @@ def show_adopters_page():
 
     selected = option_menu(
         menu_title="",  # Required
-        options=["ערוך מסמך","הוסף מאמץ", "מצא מאמץ","כל הטבלה"],  # Required
-        icons=["upload",  "file","search", "file"],  # Optional
+        options=["ערוך מסמך","הוסף מאמץ","כל הטבלה"],  # Required
+        icons=["upload",  "file", "file"],  # Optional
         menu_icon="menu",  # Optional
-        default_index=3,  # Optional
+        default_index=2,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
         styles=background.styles,
         )
@@ -195,9 +148,6 @@ def show_adopters_page():
         # Add a save button to save the changes
         if st.button('שמור שינויים'):
             update_google_sheet(edited_df)
-    
-    elif selected == "מצא מאמץ":
-        show_filter_page()
                 
     elif selected == "הוסף מאמץ":
         # st.write(adopter_df_hebrew.columns)
