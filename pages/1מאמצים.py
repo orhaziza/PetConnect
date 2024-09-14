@@ -12,6 +12,11 @@ from streamlit_gsheets import GSheetsConnection
 FILES_DIR = 'Data/Adopters/'
 url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
 
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
 def get_gspread_client():
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
     client = gspread.authorize(creds)
