@@ -4,12 +4,18 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
-
+import gspread
+from google.oauth2.service_account import Credentials
+from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
-
+url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
 # Ensure the directory exists
+@st.cache_data()
+def fetch_data():
+    conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+    return conn.read(spreadsheet=url)
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
 # Function to load adopters data
@@ -56,7 +62,7 @@ def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
-    
+    data = fetch_data()
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
@@ -159,7 +165,7 @@ def show_adopters_page():
             st.warning("'Name' column not found in the merged table.")
 
         # Allow editing of the merged DataFrame
-        edited_df = st.experimental_data_editor(merged_df)
+        st.dataframe(data)
 
         # Add a save button to save the changes
         if st.button('שמור שינויים'):
