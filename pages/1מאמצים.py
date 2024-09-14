@@ -84,6 +84,35 @@ def load_file(file_name):
         file_bytes = f.read()
     return file_bytes
 
+def add_adopter_to_google_sheet(new_adopter):
+    worksheet = open_google_sheet()
+    
+    # Append the new adopter data as a new row in the sheet
+    worksheet.append_row([
+        new_adopter['dog_chipID'],
+        new_adopter['AdopterID'],
+        new_adopter['AdopterName'],
+        new_adopter['Second_adopterID'],
+        new_adopter['Second_adopterName'],
+        new_adopter['Floor'],
+        new_adopter['Apartment'],
+        new_adopter['Address_street_number'],
+        new_adopter['Address_street'],
+        new_adopter['Address_city'],
+        new_adopter['adopter_phone_num'],
+        new_adopter['Second_adopter_phone_num'],
+        new_adopter['Adopter_mail'],
+        new_adopter['Second_adopter_mail'],
+        new_adopter['preferences'],
+        new_adopter['LifeStyleInformation'],
+        new_adopter['AdoptionDate'],
+        new_adopter['Documents'],
+        new_adopter['ownership_form'],
+        new_adopter['ownership_transfer'],
+        new_adopter['Payment_type'],
+        new_adopter['Recieipt_Num'],
+        new_adopter['Security_payment']
+    ])  # Add the new adopter's data
 
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
@@ -150,11 +179,8 @@ def show_adopters_page():
             update_google_sheet(edited_df)
                 
     elif selected == "הוסף מאמץ":
-        # st.write(adopter_df_hebrew.columns)
-        # st.write(dog_df_hebrew.columns)
         st.subheader('הוסף מאמץ')
-
-        # Add adoption form or input fields here
+        # Input fields for the adopter form
         dog_chipID = st.text_input('מזהה שבב כלב')
         adopter_id = st.text_input('מזהה מאמץ')
         adopter_name = st.text_input('שם מאמץ')
@@ -179,8 +205,8 @@ def show_adopters_page():
         receipt_num = st.text_input('מספר קבלה')
         security_payment = st.text_input('תשלום ביטחון')
 
+        # Save the new adopter data
         if st.button('שמור מאמץ'):
-            # Save adopter data to CSV or database
             new_adopter = {
                 'dog_chipID': dog_chipID,
                 'AdopterID': adopter_id,
@@ -207,14 +233,13 @@ def show_adopters_page():
                 'Security_payment': security_payment
             }
 
-            # Create a DataFrame from the new adopter entry
-            new_adopter_df = pd.DataFrame([new_adopter])
-            adopter_df = pd.concat([adopter_df, new_adopter_df], ignore_index=True)
-            adopter_df.to_csv(adopter_file_path, index=False, encoding='utf-8')
-            new_adopter_df_heb = new_adopter_df.rename(
-            columns=dict(zip(new_adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in new_adopter_df.columns])))
-
-            # Concatenate the existing DataFrame with the new entry
+            try:
+                # Add the new record to the Google Sheet
+                add_adopter_to_google_sheet(new_adopter)
+                st.success('מאמץ חדש נשמר בהצלחה!')
+                st.balloons()  # Show the balloons animation for success
+            except Exception as e:
+                st.error(f'Error saving adopter: {e}')
             
             st.success('מאמץ חדש נשמר בהצלחה!')
             # Show balloon animation
