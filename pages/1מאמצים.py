@@ -11,15 +11,16 @@ from streamlit_gsheets import GSheetsConnection
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
 url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
-# Ensure the directory exists
+
+
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
     return conn.read(spreadsheet=url)
+    
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
-# Function to load adopters data
-# Function to load adopters data
+    
 def load_adopters_data():
     adopter_file_path = 'Data/Adopters.csv'
     adopters_df = pd.read_csv(adopter_file_path, encoding='utf-8')
@@ -54,28 +55,18 @@ def load_file(file_name):
         file_bytes = f.read()
     return file_bytes
 
-# Load the existing adopters data
-adopter_df_hebrew = load_adopters_data()
 
         
 def show_adopters_page():
     st.set_page_config(page_title='Adopters', layout='wide')
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
-    data = fetch_data()
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
         
     background.insert_logo("מאמצים")
-
-    # Load adopter data
-    adopter_file_path = "Data/Adopters.csv"
-    if not os.path.exists(adopter_file_path):
-        st.error("The adopter file does not exist.")
-        st.stop()
-
-    adopter_df = pd.read_csv(adopter_file_path, encoding='utf-8')
+    data = fetch_data()
 
     # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
@@ -105,16 +96,6 @@ def show_adopters_page():
     # Add more column name translations as needed
     }
 
-
-
-    # Use st.columns to create four equally sized columns
-    # Use st.columns to create four equally sized columns
-
-    # # Define the menu options
-    # with st.sidebar:
-    #     selected = option_menu("מאמצים", ["כל הטבלה", "מצא מאמץ", "הוסף מאמץ", "ערוך מסמך"], icons=["file", "search", "file", "upload"], menu_icon="menu", default_index=0)
-
-
     selected = option_menu(
         menu_title="",  # Required
         options=["ערוך מסמך","הוסף מאמץ", "מצא מאמץ","כל הטבלה"],  # Required
@@ -125,48 +106,13 @@ def show_adopters_page():
         styles=background.styles,
         )
 
-    # Translate column names
-    adopter_df_hebrew = adopter_df.rename(
-        columns=dict(zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
-    dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
-
-    # Merge adopter and dog data on a common key (like AdopterID or dog_chipID)
-    # Load adopter and dog data
-    dog_df_hebrew = pd.read_csv('Data/Dogs.csv')  # Replace with your actual data source
-
-    # Verify the column names
-    # st.write("Adopter columns:", adopter_df_hebrew.columns.tolist())
-    # st.write("Dog columns:", dog_df_hebrew.columns.tolist())
-
-    # Check if the necessary columns exist before merging
-    if 'שבב כלב' in adopter_df_hebrew.columns and 'DogID' in dog_df_hebrew.columns:
-        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='שבב כלב', right_on='DogID')
-
-    else:
-        st.error("The necessary columns for merging are missing.")
-        st.stop()  
     if st.button('רענן את העמוד'):
-        st.experimental_rerun()
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        merged_df = pd.merge(adopter_df_hebrew, dog_df_hebrew, how='left', left_on='שבב כלב', right_on='DogID')
-        # Select only the adopter columns and the 'Name' column from the dogs table
-        selected_columns = list(adopter_df_hebrew.columns) + ['Name']
-
-        # Check if the 'Name' column exists after merging
-        if 'Name' in merged_df.columns:
-            merged_df = merged_df[selected_columns]
-
-            # Move the 'Name' column to the second position
-            cols = merged_df.columns.tolist()
-            cols.insert(1, cols.pop(cols.index('Name')))  # Move 'Name' to the second position
-            merged_df = merged_df[cols]
-        else:
-            st.warning("'Name' column not found in the merged table.")
-
         # Allow editing of the merged DataFrame
         st.dataframe(data)
-
         # Add a save button to save the changes
         if st.button('שמור שינויים'):
             try:
