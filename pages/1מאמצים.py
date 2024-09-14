@@ -66,8 +66,6 @@ def show_adopters_page():
         st.stop()
         
     background.insert_logo("מאמצים")
-    data = fetch_data()
-
     # Define Hebrew column names for adopters
     hebrew_columns_adopters = {
     'dog_chipID': 'שבב כלב',
@@ -111,6 +109,7 @@ def show_adopters_page():
         st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
+        data = fetch_data()
         st.dataframe(data)
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
