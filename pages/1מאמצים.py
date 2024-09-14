@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import numpy as np
 from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
