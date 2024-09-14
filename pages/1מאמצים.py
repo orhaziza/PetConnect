@@ -12,7 +12,26 @@ from streamlit_gsheets import GSheetsConnection
 FILES_DIR = 'Data/Adopters/'
 url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
 
+def get_gspread_client():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
+    client = gspread.authorize(creds)
+    return client
 
+# Open the spreadsheet and worksheet
+def open_google_sheet():
+    client = get_gspread_client()
+    sheet = client.open_by_key("16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA")
+    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
+    return worksheet
+    
+def update_google_sheet(edited_df):
+    worksheet = open_google_sheet()
+
+    # Option 1: Overwrite the entire sheet (simpler approach)
+    # Convert DataFrame to list of lists and update the Google Sheet
+    worksheet.clear()  # Clear existing content
+    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+    
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
@@ -110,7 +129,16 @@ def show_adopters_page():
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         data = fetch_data()
-        st.dataframe(data)
+        edited_df = st.experimental_data_editor(data)
+
+        # Add a button to save changes
+        if st.button('שמור שינויים'):
+            try:
+                update_google_sheet(edited_df)  # Update the Google Sheet with the edited data
+                st.success('Changes saved successfully!')
+            except Exception as e:
+                st.error(f'Error saving changes: {e}')
+    
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
 
