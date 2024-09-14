@@ -33,17 +33,14 @@ def open_google_sheet():
 def update_google_sheet(edited_df):
     worksheet = open_google_sheet()
 
-    # Replace NaN and infinite values
-    edited_df.replace([np.inf, -np.inf], np.nan, inplace=True)  # Replace infinite values with NaN
-    edited_df.fillna('', inplace=True)  # Replace NaN values with empty strings
+    # Replace NaN and infinite values before saving
+    edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
+    edited_df.fillna('', inplace=True)
 
-    try:
-        # Overwrite the entire sheet
-        worksheet.clear()  # Clear existing content
-        worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
-        st.success('Changes saved successfully!')
-    except Exception as e:
-        st.error(f'Error saving changes: {e}')
+    # Option 1: Overwrite the entire sheet (simpler approach)
+    worksheet.clear()  # Clear existing content
+    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+
         
 @st.cache_data()
 def fetch_data():
@@ -141,16 +138,17 @@ def show_adopters_page():
         st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        data = fetch_data()
+        data = fetch_data()  # Fetch the data from Google Sheets
+
+        # Rename the columns using your Hebrew dictionary
+        data.rename(columns=hebrew_columns_adopters, inplace=True)
+
+        # Display the editable DataFrame
         edited_df = st.experimental_data_editor(data)
 
-        # Add a button to save changes
+        # Add a save button to save the changes
         if st.button('שמור שינויים'):
-            try:
-                update_google_sheet(edited_df)  # Update the Google Sheet with the edited data
-                st.success('Changes saved successfully!')
-            except Exception as e:
-                st.error(f'Error saving changes: {e}')
+            update_google_sheet(edited_df)
     
     elif selected == "מצא מאמץ":
         st.warning('תכניס לפחות קרטריון אחד')
