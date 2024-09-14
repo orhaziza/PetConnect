@@ -32,11 +32,18 @@ def open_google_sheet():
 def update_google_sheet(edited_df):
     worksheet = open_google_sheet()
 
-    # Option 1: Overwrite the entire sheet (simpler approach)
-    # Convert DataFrame to list of lists and update the Google Sheet
-    worksheet.clear()  # Clear existing content
-    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
-    
+    # Replace NaN and infinite values
+    edited_df.replace([np.inf, -np.inf], np.nan, inplace=True)  # Replace infinite values with NaN
+    edited_df.fillna('', inplace=True)  # Replace NaN values with empty strings
+
+    try:
+        # Overwrite the entire sheet
+        worksheet.clear()  # Clear existing content
+        worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+        st.success('Changes saved successfully!')
+    except Exception as e:
+        st.error(f'Error saving changes: {e}')
+        
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
