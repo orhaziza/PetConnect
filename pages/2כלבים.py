@@ -338,19 +338,17 @@ def fetch_data_from_google_sheet():
     return pd.DataFrame(data)
 
 # Function to update the Google Sheet with new data
-def update_google_sheet(df, sheet_name):
-    # Authenticate and open the Google Sheet
-    client = get_gspread_client()
-    sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
-    
-    # Select the worksheet
-    worksheet = sheet.worksheet(sheet_name)
-    
-    # Clear the existing data
-    worksheet.clear()
-    
-    # Update Google Sheets with new data
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+def update_google_sheet(edited_df):
+    worksheet = open_google_sheet()
+
+    # Replace NaN and infinite values before saving
+    edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
+    edited_df.fillna('', inplace=True)
+
+    # Option 1: Overwrite the entire sheet (simpler approach)
+    worksheet.clear()  # Clear existing content
+    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+
 
 # Calculate age in months
 def calculate_age_in_months(birth_date):
@@ -411,7 +409,7 @@ def show_dogs_page():
             # Rename columns back to English for saving
             edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
             # Update the Google Sheet with the edited dataframe
-            update_google_sheet(edited_df, "גיליון1")  # Pass the updated dataframe and sheet name
+            update_google_sheet(edited_df)  # Pass the updated dataframe and sheet name
             st.success("השינויים נשמרו בהצלחה!")
 
     if selected == "הוסף כלב":
