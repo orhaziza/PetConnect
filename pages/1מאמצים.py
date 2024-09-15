@@ -11,7 +11,7 @@ from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
-url = "https://docs.google.com/spreadsheets/d/1yts6OswxKx5s7-J0-9lE2I8dD9Hrp_MI/edit?usp=sharing&ouid=106217807530029796407&rtpof=true&sd=true"
+url = "https://docs.google.com/spreadsheets/d/1yts6OswxKx5s7-J0-9lE2I8dD9Hrp_MI/edit?usp=sharing"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
