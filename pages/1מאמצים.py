@@ -23,7 +23,7 @@ def get_gspread_client():
     client = gspread.authorize(creds)
     return client
 
-# Open the spreadsheet and worksheet
+# Open the spreadsheet and workshee
 def open_google_sheet():
     client = get_gspread_client()
     sheet = client.open_by_key("1yts6OswxKx5s7-J0-9lE2I8dD9Hrp_MI")
