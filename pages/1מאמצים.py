@@ -245,7 +245,7 @@ def show_adopters_page():
             # Show balloon animation
             st.balloons()
 
-     elif selected == "ערוך מסמך":
+    elif selected == "ערוך מסמך":
         st.title('מסמכים')
         
         # Load adopter data
