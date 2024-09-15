@@ -214,6 +214,7 @@ def show_foster_homes_page():
     elif selected == "מצא בית אומנה":
         st.subheader('מצא בית אומנה')
 
+
         # Fetch the foster home data from Google Sheets
         foster_home_df = fetch_data()
     
@@ -246,6 +247,7 @@ def show_foster_homes_page():
 
         # Create search filters for foster homes
         col1, col2, col3 = st.columns(3)
+        st.write(foster_home_df_hebrew.columns)
 
         with col1:
             foster_name = st.text_input('שם בית אומנה')
