@@ -86,6 +86,11 @@ def load_file(file_name):
 
 def add_adopter_to_google_sheet(new_adopter):
     worksheet = open_google_sheet()
+        # Replace NaN and infinite values before saving
+    def sanitize_value(value):
+        if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
+            return ''
+        return value
     
     # Append the new adopter data as a new row in the sheet
     worksheet.append_row([
