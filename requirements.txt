@@ -14,4 +14,4 @@ asyncio
 weasyprint==62.3
 gspread
 oauth2client
-xhtml2pdf==0.2.7
+xhtml2pdf==0.2.16
