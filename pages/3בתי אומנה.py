@@ -250,7 +250,7 @@ def show_foster_homes_page():
         with col1:
             foster_name = st.text_input('שם בית אומנה')
         with col2:
-            house_size = st.selectbox('גודל הבית', ['בינוני','גדול'] + list(foster_home_df_hebrew['גודל הבית'].unique()))
+            house_size = st.selectbox('גודל הבית', [''] + list(foster_home_df_hebrew['גודל הבית'].unique()))
         with col3:
             children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df_hebrew['ידידותי לילדים'].unique()))
 
