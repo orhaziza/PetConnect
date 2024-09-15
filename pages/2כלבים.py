@@ -62,7 +62,7 @@ def show_dogs_page():
         st.stop()
 
     # Fetch dog data from Google Sheets
-    dog_df = fetch_data_from_google_sheet()
+    dog_df =fetch_data()
 
     # Hebrew column mapping
     hebrew_columns_dogs = {
@@ -103,11 +103,9 @@ def show_dogs_page():
 
     if selected == "כל הטבלה":
         data = fetch_data()  # Fetch the data from Google Sheets
-
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_dogs, inplace=True)
-
-        # Display the editable DataFrame
+        # Display the edtable DataFrame
         edited_df = st.experimental_data_editor(data)
 
         # Add a save button to save the changes
