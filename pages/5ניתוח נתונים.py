@@ -254,7 +254,7 @@ def show_data_analysis_page():
     adopter_df = fetch_data(adopter_data_url)
     dogs_df = fetch_data(dogs_data_url)
     foster_home_df = fetch_data(foster_home_data_url)
-
+    application_url = "https://docs.google.com/spreadsheets/d/1mzpSFmH7aRoeDF0DiSrrFgHPwRJTwUkk7Vuosy3yT6A/edit?usp=sharing"
     with st.container():
         col1 , col2 = st.columns([1,1], gap="small")
         with col1:
@@ -268,13 +268,13 @@ def show_data_analysis_page():
         col1 , col2 , col3 = st.columns([1,1,1], gap="small")
         with col1:
             st.markdown("<h5 style='text-align: center;'>התפלגות בקשות אימוץ לפי פלטפורמת פרסום</h5>", unsafe_allow_html=True)
-            plot_Applications(fetch_data())
+            plot_Applications(fetch_data(application_url))
         with col2:
             st.markdown("<h5 style='text-align: center;'>בקשות אימוץ לאורך זמן</h5>", unsafe_allow_html=True)
-            plot_Applications_Flow(fetch_data())
+            plot_Applications_Flow(fetch_data(application_url))
         with col3:
             st.markdown("<h5 style='text-align: center;'>בקשות אימוץ לפי יום בשבוע</h5>", unsafe_allow_html=True)
-            plot_Applications_by_WkDay(fetch_data())
+            plot_Applications_by_WkDay(fetch_data(application_url))
 
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
