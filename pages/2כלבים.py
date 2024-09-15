@@ -104,7 +104,7 @@ def show_dogs_page():
         options=["הוסף כלב","כל הטבלה"],  # Required
         icons=["upload",  "file"],  # Optional
         menu_icon="menu",  # Optional
-        default_index=2,  # Optional
+        default_index=1,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
         styles=background.styles,
         )
