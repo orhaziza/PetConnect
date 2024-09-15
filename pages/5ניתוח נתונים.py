@@ -34,7 +34,7 @@ def show_data_analysis_page():
         with col2:
             st.image("Data/Logo.png", width=100)
 
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+    url = "https://docs.google.com/spreadsheets/d/1mzpSFmH7aRoeDF0DiSrrFgHPwRJTwUkk7Vuosy3yT6A/edit?usp=sharing"
         # Custom CSS to center-align the option menu
 
    
