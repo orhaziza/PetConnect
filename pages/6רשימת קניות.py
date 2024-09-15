@@ -10,6 +10,49 @@ import base64
 from io import BytesIO
 import weasyprint
 from xhtml2pdf import pisa
+import background
+import gspread
+from google.oauth2.service_account import Credentials
+from streamlit_gsheets import GSheetsConnection
+
+# Directory for storing adopter files
+url = "https://docs.google.com/spreadsheets/d/14e7lQDBov_c8iaRe7N5AXmMmAW5FzF2NilCTjq7LcAo/edit?usp=sharing"
+
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+def get_gspread_client():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
+    client = gspread.authorize(creds)
+    return client
+
+# Open the spreadsheet and worksheet
+def open_google_sheet():
+    client = get_gspread_client()
+    sheet = client.open_by_key("14e7lQDBov_c8iaRe7N5AXmMmAW5FzF2NilCTjq7LcAo")
+    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
+    return worksheet
+    
+def update_google_sheet(edited_df):
+    worksheet = open_google_sheet()
+
+    # Replace NaN and infinite values before saving
+    edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
+    edited_df.fillna('', inplace=True)
+
+    # Option 1: Overwrite the entire sheet (simpler approach)
+    worksheet.clear()  # Clear existing content
+    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+
+        
+@st.cache_data()
+def fetch_data():
+    conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+    return conn.read(spreadsheet=url)
+    
+
 
 
 st.set_page_config(page_title='Shopping List', layout='wide')
@@ -37,7 +80,33 @@ hebrew_columns_items = {
 items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
 items_df = items_df.iloc[:, ::-1]
 
- 
+
+def add_product_to_google_sheet(new_product):
+    worksheet = open_google_sheet()
+
+    # Replace NaN and infinite values before saving
+    def sanitize_value(value):
+        if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
+            return ''
+        return value
+
+    # Append the new product data as a new row in the sheet
+    worksheet.append_row([
+        sanitize_value(new_product['Product Category']),
+        sanitize_value(new_product['Product ID']),
+        sanitize_value(new_product['Product Name']),
+        sanitize_value(new_product['Product Size']),
+        sanitize_value(new_product['Product Size Unit']),
+        sanitize_value(new_product['Age']),
+        sanitize_value(new_product['Breed']),
+        sanitize_value(new_product['Gender']),
+        sanitize_value(new_product['Dog Size']),
+        sanitize_value(new_product['Energy Level']),
+        sanitize_value(new_product['Potty Trained']),
+        sanitize_value(new_product['Product Photo']),
+        sanitize_value(new_product['Description']),
+    ])  # Add the new product's data
+
 def show_shopping_list_page():    
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
@@ -84,8 +153,49 @@ def show_shopping_list_page():
             
     elif selected == "הוסף מוצר":
         st.session_state["step"] = 0
-        st.write("not yet")
+        st.subheader('הוסף מוצר חדש')
 
+        # Input fields for the product form
+        product_category = st.text_input('קטגוריה מוצר')
+        product_id = st.text_input('מזהה מוצר')
+        product_name = st.text_input('שם מוצר')
+        product_size = st.text_input('גודל מוצר')
+        product_size_unit = st.text_input('יחידות מידה')
+        age = st.number_input('גיל', min_value=0, step=1)
+        breed = st.text_input('גזע')
+        gender = st.selectbox('מין', ['זכר', 'נקבה'])
+        dog_size = st.selectbox('גודל כלב', ['XS', 'S', 'M', 'L', 'XL'])
+        energy_level = st.selectbox('רמת אנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
+        potty_trained = st.checkbox('מחונך לצרכים')
+        product_photo = st.file_uploader('תמונה מוצר', type=['jpg', 'jpeg', 'png'])
+        description = st.text_area('תיאור')
+
+    # Save the new product data
+        if st.button('שמור מוצר'):
+            new_product = {
+            'ProductCategory': product_category,
+            'ProductID': product_id,
+            'ProductName': product_name,
+            'ProductSize': product_size,
+            'ProductSizeUnit': product_size_unit,
+            'Age': age,
+            'Breed': breed,
+            'Gender': gender,
+            'DogSize': dog_size,
+            'EnergyLevel': energy_level,
+            'PottyTrained': potty_trained,
+            'ProductPhoto': product_photo.name if product_photo else '',
+            'Description': description,
+            }
+
+            try:
+                # Add the new product record to the Google Sheet
+                add_product_to_google_sheet(new_product)
+                st.success('מוצר חדש נשמר בהצלחה!')
+                st.balloons()  # Show the balloons animation for success
+            except Exception as e:
+                st.error(f'Error saving product: {e}')
+        
 def create_list(dog):
     df = dog_df.loc[dog_df['Name'] == dog].reset_index()
     categories = items_df['קטגוריה'].unique()
