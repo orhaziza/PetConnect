@@ -1,15 +1,13 @@
-import matplotlib.pyplot as plt
-import io
 import streamlit as st
 import pandas as pd
-import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
+import matplotlib.pyplot as plt
+import io
+import os
 import background
 import base64
 from io import BytesIO
-import pdfkit
-import subprocess
 import weasyprint
 
 
@@ -126,11 +124,7 @@ def present_list():
                 )
                 # Display HTML table
                 html_table = st.session_state["short list"].to_html(escape=False)
-                st.write(html_table, unsafe_allow_html=True)
-                path_wkhtmltoimage = '/usr/bin/wkhtmltoimage'  # Use 'which wkhtmltoimage' to get the correct path
-                path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'  # Use 'which wkhtmltopdf' to get the correct path
-                config_pdf = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-                
+                st.write(html_table, unsafe_allow_html=True)                
                 
                 html_style = """
                     <style>
@@ -144,8 +138,7 @@ def present_list():
                 
                 html_file_path = "shopping_list.html"
                 html_content = f"<html><head>{html_style}</head><body>{html_table}</body></html>"
-
-
+                
                 with open(html_file_path, "w", encoding="utf-8") as f:
                     f.write(html_content)
                     
@@ -154,7 +147,7 @@ def present_list():
                 st.download_button(
                     label="Download PDF",
                     data=pdf_stream,
-                    file_name="example_table.pdf",
+                    file_name=html_file_path,
                     mime="application/pdf"
                 )
 
