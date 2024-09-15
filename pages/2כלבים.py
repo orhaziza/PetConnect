@@ -53,7 +53,11 @@ if not os.path.exists(FILES_DIR):
 
 def add_dog_to_google_sheet(new_dog):
     worksheet = open_google_sheet()
-
+        # Replace NaN and infinite values before saving
+    def sanitize_value(value):
+        if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
+            return ''
+        return value
     # Append the new dog data as a new row in the sheet
     worksheet.append_row([
         new_dog['DogID'],
