@@ -241,8 +241,8 @@ def show_foster_homes_page():
         }
 
         # Rename the columns using the Hebrew dictionary
-        foster_home_df_hebrew = foster_home_df.rename(columns=dict(
-            zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
+        foster_home_df_hebrew = data.rename(columns=dict(
+            zip(data.columns, [hebrew_columns_foster_homes.get(col, col) for col in data.columns])))
 
         # Create search filters for foster homes
         col1, col2, col3 = st.columns(3)
