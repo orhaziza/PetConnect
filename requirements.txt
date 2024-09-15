@@ -11,6 +11,6 @@ st-gsheets-connection==0.0.4
 google-cloud-storage
 pyppeteer
 asyncio
-weasyprint==62.3
+weasyprint
 gspread
 oauth2client
