@@ -306,10 +306,11 @@ def plot_Fosters(Foster_Home_df):
     st.bar_chart(distribution)
 
 def plot_Dogs(dogs_df):
-    lst = ['Age', 'Breed', 'Weight', 'Size', 'Gender', 'RescueDate', 'Rabies_Done', 'Hexagonal_1', 'Hexagonal_2', 
-           'Hexagonal_3', 'Hexagonal_Done', 'Spayed', 'De-worm', 'ChildrenFriendly', 'AnimalFriendly', 
-           'HealthStatus', 'EnergyLevel', 'PhotographStatus', 'AdoptionStatus', 'AdopterID', 'PottyTrained']
-    
+    lst = ['מזהה כלב', 'שם', 'תאריך לידה', 'גיל', 'זן', 'משקל', 'גודל', 'מין', 'תאריך חילוץ', 'חיסון כלבת', 
+       'חיסון משושה 1', 'חיסון משושה 2', 'חיסון משושה 3', 'חיסון משושה', 'מעוקר', 'טיפול נגד תולעים', 
+       'ידידותי לילדים', 'ידידותי לכלבים', 'מצב הכלב', 'רמת האנרגיה', 'סטטוס הצילום', 'סטטוס אימוץ', 
+       'מזהה מאמץ', 'מחונך לצרכים', 'שם המאומץ']
+
     characteristic = st.selectbox(':בחר מאפיין', lst)
     distribution = dogs_df[characteristic].value_counts()
     st.bar_chart(distribution)
