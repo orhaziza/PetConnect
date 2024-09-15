@@ -198,7 +198,6 @@ def show_foster_homes_page():
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         data = fetch_data()  # Fetch the data from Google Sheets
-        st.write(data.columns)
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_foster_homes, inplace=True)
@@ -216,7 +215,6 @@ def show_foster_homes_page():
 
         # Fetch the foster home data from Google Sheets
         data = fetch_data()  # Fetch the data from Google Sheets
-        st.write(data.columns)
 
     
         # Define Hebrew column names for foster homes (same as before)
@@ -248,7 +246,6 @@ def show_foster_homes_page():
 
         # Create search filters for foster homes
         col1, col2, col3 = st.columns(3)
-        st.write(foster_home_df_hebrew.columns)
 
         with col1:
             foster_name = st.text_input('שם בית אומנה')
