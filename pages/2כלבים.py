@@ -59,10 +59,14 @@ def calculate_age_in_months(birth_date):
 
 def show_dogs_page():
     st.set_page_config(page_title='Dogs', layout='wide')
-
+    background.add_bg_from_local('./static/background3.png')
+    background.load_css('styles.css')
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         st.error("לא ניתן לגשת לעמוד ללא התחברות")
         st.stop()
+        
+    background.insert_logo("כלבים")
+
 
     # Fetch dog data from Google Sheets
     dog_df =fetch_data()
