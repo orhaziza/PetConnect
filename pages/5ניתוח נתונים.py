@@ -297,7 +297,7 @@ def plot_Applications(application_df):
     st.pyplot(fig)
 
 def plot_Fosters(Foster_Home_df):
-    lst = ["גודל הבית","זמינות בבית","קיבולת מקסימלית","PastExperience","רמת אנרגיה","","",""]
+    lst = ["גודל הבית","זמינות בבית","קיבולת מקסימלית","PastExperience","רמת אנרגיה","ידידותי לילדים","ידידותי לכלבים","חברי בית"]
     
     characteristic = st.selectbox(':בחר מאפיין', lst)
     distribution = Foster_Home_df[characteristic].value_counts()
