@@ -4,8 +4,18 @@ import os
 from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
+import gspread
+from google.oauth2.service_account import Credentials
+from streamlit_gsheets import GSheetsConnection
 
-FILES_DIR = 'Data/FosterHomes/'
+# Directory for storing adopter files
+FILES_DIR = 'Data/Adopters/'
+url = "https://docs.google.com/spreadsheets/d/1PhhFULIaHk4Oi40DzJXOVCCp0F7jJKN5DaLBUkVOP1E/edit?usp=sharing"
+
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
     # Ensure the directory exists
 if not os.path.exists(FILES_DIR):
