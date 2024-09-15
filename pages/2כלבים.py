@@ -96,8 +96,6 @@ def show_dogs_page():
     }
 
     # Translate English column names to Hebrew
-    hebrew_column_names = [hebrew_columns_dogs.get(col, col) for col in dog_df.columns]
-    dog_df_hebrew = dog_df.rename(columns=dict(zip(dog_df.columns, hebrew_column_names)))
 
     # Add your option_menu logic and other dog page features here
 
