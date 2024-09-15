@@ -10,7 +10,6 @@ from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
-FILES_DIR = 'Data/Adopters/'
 url = "https://docs.google.com/spreadsheets/d/1PhhFULIaHk4Oi40DzJXOVCCp0F7jJKN5DaLBUkVOP1E/edit?usp=sharing"
 
 SCOPES = [
