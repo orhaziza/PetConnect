@@ -167,7 +167,7 @@ def show_shopping_list_page():
         dog_size = st.selectbox('גודל כלב', ['XS', 'S', 'M', 'L', 'XL'])
         energy_level = st.selectbox('רמת אנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
         potty_trained = st.checkbox('מחונך לצרכים')
-        product_photo = st.file_uploader('תמונה מוצר', type=['jpg''])
+        product_photo = st.file_uploader('תמונה מוצר', type=['jpg'])
         description = st.text_area('תיאור')
 
     # Save the new product data
