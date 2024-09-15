@@ -11,7 +11,7 @@ st-gsheets-connection==0.0.4
 google-cloud-storage
 pyppeteer
 asyncio
-pdfkit
+pdfkit==1.0.0
 weasyprint
 gspread
 oauth2client
