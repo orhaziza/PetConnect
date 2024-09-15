@@ -147,7 +147,7 @@ def present_list():
                 st.download_button(
                     label="Download PDF",
                     data=pdf_stream,
-                    file_name=html_file_path,
+                    file_name='shopping_list.pdf',
                     mime="application/pdf"
                 )
 
