@@ -141,6 +141,9 @@ def show_dogs_page():
         )
 
     if selected == "כל הטבלה":
+        if st.button('רענן את העמוד'):
+            st.cache_data.clear()
+            st.success("המידע עודכן!")
         data = fetch_data()  # Fetch the data from Google Sheets
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_dogs, inplace=True)
