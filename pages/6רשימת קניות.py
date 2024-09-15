@@ -92,18 +92,18 @@ def add_product_to_google_sheet(new_product):
 
     # Append the new product data as a new row in the sheet
     worksheet.append_row([
-        sanitize_value(new_product['Product Category']),
-        sanitize_value(new_product['Product ID']),
-        sanitize_value(new_product['Product Name']),
-        sanitize_value(new_product['Product Size']),
-        sanitize_value(new_product['Product Size Unit']),
+        sanitize_value(new_product['ProductCategory']),
+        sanitize_value(new_product['ProductID']),
+        sanitize_value(new_product['ProductName']),
+        sanitize_value(new_product['ProductSize']),
+        sanitize_value(new_product['ProductSizeUnit']),
         sanitize_value(new_product['Age']),
         sanitize_value(new_product['Breed']),
         sanitize_value(new_product['Gender']),
-        sanitize_value(new_product['Dog Size']),
-        sanitize_value(new_product['Energy Level']),
-        sanitize_value(new_product['Potty Trained']),
-        sanitize_value(new_product['Product Photo']),
+        sanitize_value(new_product['DogSize']),
+        sanitize_value(new_product['EnergyLevel']),
+        sanitize_value(new_product['PottyTrained']),
+        sanitize_value(new_product['ProductPhoto']),
         sanitize_value(new_product['Description']),
     ])  # Add the new product's data
 
