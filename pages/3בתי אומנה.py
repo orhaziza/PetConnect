@@ -76,6 +76,39 @@ def delete_file(file_name):
     os.remove(os.path.join(FILES_DIR, file_name))
     st.success(f'קובץ {file_name} נמחק בהצלחה!')
 
+def add_foster_home_to_google_sheet(new_foster_home):
+    worksheet = open_google_sheet()
+
+    # Replace NaN and infinite values before saving
+    def sanitize_value(value):
+        if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
+            return ''
+        return value
+
+    # Append the new foster home data as a new row in the sheet
+    worksheet.append_row([
+        sanitize_value(new_foster_home['FosterHomeID']),
+        sanitize_value(new_foster_home['FosterName']),
+        sanitize_value(new_foster_home['Address']),
+        sanitize_value(new_foster_home['HouseSize']),
+        sanitize_value(new_foster_home['Contactinfomation']),
+        sanitize_value(new_foster_home['Backyard']),
+        sanitize_value(new_foster_home['nearDogPark']),
+        sanitize_value(new_foster_home['HouseMembers']),
+        sanitize_value(new_foster_home['AvailabilityAtHome']),
+        sanitize_value(new_foster_home['ChildrenFriendly']),
+        sanitize_value(new_foster_home['AnimalFriendly']),
+        sanitize_value(new_foster_home['MaximumCapacity']),
+        sanitize_value(new_foster_home['allowedAtProperty']),
+        sanitize_value(new_foster_home['allergies']),
+        sanitize_value(new_foster_home['IsMobile']),
+        sanitize_value(new_foster_home['EnergyLevel']),
+        sanitize_value(new_foster_home['pastFosters']),
+        sanitize_value(new_foster_home['pastExperience']),
+        sanitize_value(new_foster_home['documents']),
+    ])  # Add the new foster home's data
+
+
 def show_foster_homes_page():
     st.set_page_config(page_title='Foster Homes', layout='wide')
     background.add_bg_from_local('./static/background3.png')
@@ -200,89 +233,60 @@ def show_foster_homes_page():
         st.dataframe(filtered_foster_homes)
 
     elif selected == "הוסף בית אומנה":
-        st.subheader('הוסף בית אומנה')
-        # Input fields with matching data types
-        FosterHomeID = st.number_input('מזהה בית אומנה', min_value=0, format="%d")  # int64
-        FosterName = st.text_input('שם בית אומנה')  # object
-        Address = st.text_area('כתובת')  # object
-    
-        house_size_options = ['גדול', 'בינוני'] + list(foster_home_df_hebrew['גודל הבית'].unique()) if 'גודל הבית' in foster_home_df_hebrew.columns else []
-        HouseSize = st.selectbox('גודל הבית', house_size_options)  # object
-    
-        Contactinfomation = st.number_input('פרטי קשר', min_value=0, format="%d")  # int64
-    
-        Backyard = st.checkbox('חצר', value=False)  # bool
-        NearDogPark = st.checkbox('קרוב לגן כלבים', value=False)  # bool
-    
-        HouseMembers = st.number_input('חברי בית', min_value=0, format="%d")  # int64
-    
-        availability_at_home_options = ['כל היום, צהוריים'] + list(foster_home_df_hebrew['זמינות בבית'].unique()) if 'זמינות בבית' in foster_home_df_hebrew.columns else []
-        AvailabilityAtHome = st.selectbox('זמינות בבית', availability_at_home_options)  # object
-    
-        ChildrenFriendly = st.checkbox('ידידותי לילדים', value=False)  # bool
-        AnimalFriendly = st.checkbox('ידידותי לכלבים', value=False)  # bool
-    
-        MaximumCapacity = st.number_input('קיבולת מקסימלית', min_value=0, format="%d")  # int64
-    
-        AllowedAtProperty = st.checkbox('מותר בנכס', value=False)  # bool
-        
-        Allergies = st.checkbox('אלרגיות', value=False)  # bool
-    
-        IsMobile = st.checkbox('נייד', value=False)  # bool
-    
-        EnergyLevel = st.slider('רמת אנרגיה', min_value=1, max_value=5)  # object but needs conversion to int
-    
-        PastFosters = st.checkbox('אומנויות קודמות', value=False)  # bool
-        PastExperience = st.checkbox('ניסיון קודם', value=False)  # bool
-    
-        Documents = st.text_area('מסמכים')  # float64, consider changing to object
+        st.subheader('הוסף בית אומנה חדש')
 
-        # When the user clicks save, store the data in the DataFrame
+        # Input fields for the foster home form
+        foster_home_id = st.text_input('מזהה בית אומנה')
+        foster_name = st.text_input('שם בית אומנה')
+        address = st.text_input('כתובת')
+        house_size = st.number_input('גודל הבית (במ"ר)', min_value=0.0, max_value=1000.0, step=1.0)
+        contact_information = st.text_input('פרטי קשר')
+        backyard = st.checkbox('חצר')
+        near_dog_park = st.checkbox('קרוב לגן כלבים')
+        house_members = st.text_input('חברי בית')
+        availability_at_home = st.selectbox('זמינות בבית', ['נמוכה', 'בינונית', 'גבוהה'])
+        children_friendly = st.checkbox('ידידותי לילדים')
+        animal_friendly = st.checkbox('ידידותי לחיות')
+        maximum_capacity = st.number_input('קיבולת מקסימלית', min_value=0, max_value=20, step=1)
+        allowed_at_property = st.checkbox('מותר בנכס')
+        allergies = st.text_input('אלרגיות')
+        is_mobile = st.checkbox('נייד')
+        energy_level = st.selectbox('רמת אנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
+        past_fosters = st.text_input('אומנויות קודמות')
+        past_experience = st.text_area('ניסיון קודם')
+        documents = st.file_uploader('העלה מסמכים', type=['pdf', 'docx'])
+
+        # Save the new foster home data
         if st.button('שמור בית אומנה'):
             new_foster_home = {
-                'מזהה בית אומנה': FosterHomeID	,
-                'שם בית אומנה': FosterName,
-                'כתובת': Address,
-                'גודל הבית': HouseSize,
-                'פרטי קשר': Contactinfomation,
-                'חצר': Backyard,
-                'NearDogPark': NearDogPark,
-                'חברי בית': HouseMembers,
-                'זמינות בבית': AvailabilityAtHome,
-                'ידידותי לילדים': ChildrenFriendly,
-                'ידידותי לכלבים': AnimalFriendly,
-                'קיבולת מקסימלית': MaximumCapacity,
-                'AllowedAtProperty': AllowedAtProperty,
-                'Allergies': Allergies,
-                'נייד': IsMobile,
-                'רמת אנרגיה': str(EnergyLevel),  # Convert to string if kept as object
-                'PastFosters': PastFosters,
-                'PastExperience': PastExperience,
-                'Documents': Documents  # May need conversion depending on original data type
+            'FosterHomeID': foster_home_id,
+            'FosterName': foster_name,
+            'Address': address,
+            'HouseSize': house_size,
+            'Contactinfomation': contact_information,
+            'Backyard': backyard,
+            'nearDogPark': near_dog_park,
+            'HouseMembers': house_members,
+            'AvailabilityAtHome': availability_at_home,
+            'ChildrenFriendly': children_friendly,
+            'AnimalFriendly': animal_friendly,
+            'MaximumCapacity': maximum_capacity,
+            'allowedAtProperty': allowed_at_property,
+            'allergies': allergies,
+            'IsMobile': is_mobile,
+            'EnergyLevel': energy_level,
+            'pastFosters': past_fosters,
+            'pastExperience': past_experience,
+            'documents': documents.name if documents else '',
             }
 
-            # Create a new DataFrame from the input
-            new_foster_home_df = pd.DataFrame([new_foster_home])
-
-            # Define the CSV file path (modify this path as needed)
-            csv_file_path = 'Data/FosterHome.csv'
-
-            # Save the new foster home to the CSV
             try:
-                foster_home_df_hebrew = save_foster_home_to_csv(foster_home_df_hebrew, new_foster_home_df, csv_file_path)
+                # Add the new foster home record to the Google Sheet
+                add_foster_home_to_google_sheet(new_foster_home)
                 st.success('בית אומנה חדש נשמר בהצלחה!')
-                st.balloons()
-                st.print("XXXX")
-                # Ensure the file is added to Git
-                os.system(f'git add {csv_file_path}')
-                os.system('git commit -m "Update foster home data with a new entry"')
-                os.system('git push')
-                
+                st.balloons()  # Show the balloons animation for success
             except Exception as e:
-                st.error(f"Error saving data: {e}")
-
-
-
+                st.error(f'Error saving foster home: {e}')
     elif selected == "ערוך מסמך":
         st.title('מסמכים')
 
