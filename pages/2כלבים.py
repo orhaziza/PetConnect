@@ -100,7 +100,15 @@ def show_dogs_page():
 
     # Add your option_menu logic and other dog page features here
 
-    selected = st.selectbox("בחר פעולה", options=["הוסף כלב", "מצא כלב", "כל הטבלה"])
+    selected = option_menu(
+        menu_title="",  # Required
+        options=["ערוך מסמך","הוסף מאמץ","כל הטבלה"],  # Required
+        icons=["upload",  "file", "file"],  # Optional
+        menu_icon="menu",  # Optional
+        default_index=2,  # Optional
+        orientation="horizontal",  # To place the menu in the center horizontally
+        styles=background.styles,
+        )
 
     if selected == "כל הטבלה":
         data = fetch_data()  # Fetch the data from Google Sheets
