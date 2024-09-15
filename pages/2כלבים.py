@@ -66,11 +66,6 @@ def show_dogs_page():
         st.stop()
         
     background.insert_logo("כלבים")
-
-
-    # Fetch dog data from Google Sheets
-    dog_df =fetch_data()
-
     # Hebrew column mapping
     hebrew_columns_dogs = {
         'DogID': 'מזהה כלב',
