@@ -10,6 +10,8 @@ import base64
 from io import BytesIO
 import pdfkit
 import subprocess
+import weasyprint
+
 
 st.set_page_config(page_title='Shopping List', layout='wide')
 
@@ -104,6 +106,10 @@ def create_list(dog):
     st.session_state["shopping list"] = sl
     st.session_state["step"] = 2
 
+def html_to_pdf_stream(html_content):
+    # Convert HTML to PDF and return as a byte stream
+    pdf = weasyprint.HTML(string=html_content).write_pdf()
+    return io.BytesIO(pdf)
 
 def present_list():
     sl = st.data_editor(st.session_state["shopping list"])
@@ -121,8 +127,8 @@ def present_list():
                 # Display HTML table
                 html_table = st.session_state["short list"].to_html(escape=False)
                 st.write(html_table, unsafe_allow_html=True)
-                path_wkhtmltoimage = 'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf'  # Use 'which wkhtmltoimage' to get the correct path
-                path_wkhtmltopdf = 'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltoimage'  # Use 'which wkhtmltopdf' to get the correct path
+                path_wkhtmltoimage = '/usr/bin/wkhtmltoimage'  # Use 'which wkhtmltoimage' to get the correct path
+                path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'  # Use 'which wkhtmltopdf' to get the correct path
                 config_pdf = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
                 
                 
@@ -135,30 +141,20 @@ def present_list():
                     img { width: 100px; }
                 </style>
                 """
-
+                
                 html_file_path = "shopping_list.html"
                 html_content = f"<html><head>{html_style}</head><body>{html_table}</body></html>"
+
 
                 with open(html_file_path, "w", encoding="utf-8") as f:
                     f.write(html_content)
                     
-
-                # Generate PDF from HTML file using the custom CSS
-                pdf_file_path = "shopping_list.pdf"
-                options = {
-                    'no-outline': None,  # Disable outlines (table of contents)
-                    'encoding': 'UTF-8',  # Ensure UTF-8 encoding
-                }
-                pdfkit.from_file(html_file_path, pdf_file_path, configuration=config_pdf, options=options)
-                # Allow the user to download the PDF
-                with open(pdf_file_path, "rb") as pdf_file:
-                    pdf_data = pdf_file.read()
-
+                pdf_stream = html_to_pdf_stream(html_content)
 
                 st.download_button(
                     label="Download PDF",
-                    data=pdf_data,
-                    file_name="shopping_list.pdf",
+                    data=pdf_stream,
+                    file_name="example_table.pdf",
                     mime="application/pdf"
                 )
 
