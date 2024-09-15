@@ -214,24 +214,55 @@ def show_foster_homes_page():
     elif selected == "מצא בית אומנה":
         st.subheader('מצא בית אומנה')
 
+        # Fetch the foster home data from Google Sheets
+        foster_home_df = fetch_data()
+    
+        # Define Hebrew column names for foster homes (same as before)
+        hebrew_columns_foster_homes = {
+        'FosterHomeID': 'מזהה בית אומנה',
+        'FosterName': 'שם בית אומנה',
+        'Address': 'כתובת',
+        'HouseSize': 'גודל הבית',
+        'Contactinfomation': 'פרטי קשר',
+        'Backyard': 'חצר',
+        'nearDogPark': 'קרוב לגן כלבים',
+        'HouseMembers': 'חברי בית',
+        'AvailabilityAtHome': 'זמינות בבית',
+        'ChildrenFriendly': 'ידידותי לילדים',
+        'AnimalFriendly': 'ידידותי לכלבים',
+        'MaximumCapacity': 'קיבולת מקסימלית',
+        'allowedAtProperty': 'מותר בנכס',
+        'allergies': 'אלרגיות',
+        'IsMobile': 'נייד',
+        'EnergyLevel': 'רמת אנרגיה',
+        'pastFosters': 'אומנויות קודמות',
+        'pastExperience': 'ניסיון קודם',
+        'documents': 'מסמכים',
+        }
+
+        # Rename the columns using the Hebrew dictionary
+        foster_home_df_hebrew = foster_home_df.rename(columns=dict(
+            zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
+
         # Create search filters for foster homes
         col1, col2, col3 = st.columns(3)
 
         with col1:
             foster_name = st.text_input('שם בית אומנה')
         with col2:
-            house_size = st.selectbox('גודל הבית', ['בינוני','גדול','קטן'] + list(foster_home_df['HouseSize'].unique()))
+            house_size = st.selectbox('גודל הבית', ['בינוני','גדול','קטן'] + list(foster_home_df_hebrew['גודל הבית'].unique()))
         with col3:
-            children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df['ChildrenFriendly'].unique()))
+            children_friendly = st.selectbox('ידידותי לילדים', [''] + list(foster_home_df_hebrew['ידידותי לילדים'].unique()))
 
         # Apply search filters
         filtered_foster_homes = foster_home_df_hebrew[
             (foster_home_df_hebrew['שם בית אומנה'].str.contains(foster_name, na=False, case=False)) &
             (foster_home_df_hebrew['גודל הבית'].isin([house_size]) if house_size else True) &
             (foster_home_df_hebrew['ידידותי לילדים'].isin([children_friendly]) if children_friendly else True)
-            ]
+        ]
 
         st.dataframe(filtered_foster_homes)
+
 
     elif selected == "הוסף בית אומנה":
         st.subheader('הוסף בית אומנה חדש')
