@@ -245,48 +245,50 @@ def show_adopters_page():
             # Show balloon animation
             st.balloons()
 
-    elif selected == "ערוך מסמך":
+     elif selected == "ערוך מסמך":
         st.title('מסמכים')
+        
+        # Load adopter data
+        adopter_df = fetch_data()  # Fetch the data from Google Sheets
+        hebrew_columns_adopters = {
+            # Your column translation dictionary for adopters
+            'AdopterID': 'מזהה מאמץ',
+            # Add other columns as needed
+        }
+        adopter_df_hebrew = adopter_df.rename(columns=dict(
+            zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
 
-        # Load foster home data
-        foster_home_df = fetch_data()  # or however you fetch the data from Google Sheets
-        hebrew_columns_foster_homes = { ... }  # your column translation dict
-        foster_home_df_hebrew = foster_home_df.rename(columns=dict(
-            zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
+        # Select adopter
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
 
-        # Select foster home
-        foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
-
-        if foster_home_id:
-            st.subheader(f'מסמכים של בית אומנה {foster_home_id}')
+        if adopter_id:
+            st.subheader(f'מסמכים של מאמץ {adopter_id}')
 
             # List existing files
-            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{foster_home_id}_')]
+            files = [f for f in os.listdir(FILES_DIR) if f.startswith(f'{adopter_id}_')]
             if files:
                 st.write('קבצים שיש במערכת ')
                 for file_name in files:
                     st.write(file_name)
                     with open(os.path.join(FILES_DIR, file_name), "rb") as file:
                         btn = st.download_button(
-                            label=f"הורד {file_name}",
-                            data=file,
-                            file_name=file_name,
-                            mime='application/octet-stream'
+                        label=f"הורד {file_name}",
+                        data=file,
+                        file_name=file_name,
+                        mime='application/octet-stream'
                         )
                     if st.button(f'מחק {file_name}', key=f'מחק_{file_name}'):
                         delete_file(file_name)
 
-            # File upload section
+        # File upload section
             uploaded_file = st.file_uploader('העלאת קובץ', type='pdf')
-
+    
             if uploaded_file is not None:
                 if uploaded_file.name:
                     if st.button('העלה את הקובץ'):
-                        save_file(foster_home_id, uploaded_file)
+                        save_file(adopter_id, uploaded_file)
                 else:
                     st.error('אין שם לקובץ ')
- 
-
 
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
