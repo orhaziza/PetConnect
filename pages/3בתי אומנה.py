@@ -46,8 +46,7 @@ def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
     return conn.read(spreadsheet=url)
     
-if not os.path.exists(FILES_DIR):
-    os.makedirs(FILES_DIR)
+
         
 def save_file(foster_home_id, uploaded_file):
     with open(os.path.join(FILES_DIR, f'{foster_home_id}_{uploaded_file.name}'), "wb") as f:
