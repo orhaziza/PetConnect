@@ -9,7 +9,7 @@ from streamlit_gsheets import GSheetsConnection
 import altair as alt
 import background
 
-data_url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+data_url = "https://docs.google.com/spreadsheets/d/1mzpSFmH7aRoeDF0DiSrrFgHPwRJTwUkk7Vuosy3yT6A/edit?usp=sharing"
 
 def show_data_analysis_page():
     st.set_page_config(page_title='Data Analysis', layout='wide')
