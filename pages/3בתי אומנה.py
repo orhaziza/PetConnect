@@ -200,6 +200,7 @@ def show_foster_homes_page():
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         data = fetch_data()  # Fetch the data from Google Sheets
+        st.write(data.columns)
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_foster_homes, inplace=True)
