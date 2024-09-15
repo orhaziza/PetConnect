@@ -44,7 +44,7 @@ def update_google_sheet(edited_df):
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-    return conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing")
+    return conn.read(spreadsheet=url)
     
 
         
