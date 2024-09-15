@@ -311,14 +311,16 @@
 
 import streamlit as st
 import pandas as pd
-import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 import numpy as np
+import gspread
+from google.oauth2.service_account import Credentials
+from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
-url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
+url = "https://docs.google.com/spreadsheets/d/1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q/edit?usp=sharing"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -333,8 +335,8 @@ def get_gspread_client():
 # Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA")
-    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
+    sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
+    worksheet = sheet.worksheet("גיליון1")  # Name of the sheet
     return worksheet
     
 def update_google_sheet(edited_df):
