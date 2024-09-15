@@ -121,8 +121,8 @@ def present_list():
                 # Display HTML table
                 html_table = st.session_state["short list"].to_html(escape=False)
                 st.write(html_table, unsafe_allow_html=True)
-                path_wkhtmltoimage = '/usr/bin/wkhtmltoimage'  # Use 'which wkhtmltoimage' to get the correct path
-                path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'  # Use 'which wkhtmltopdf' to get the correct path
+                path_wkhtmltoimage = 'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf'  # Use 'which wkhtmltoimage' to get the correct path
+                path_wkhtmltopdf = 'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltoimage'  # Use 'which wkhtmltopdf' to get the correct path
                 config_pdf = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
                 
                 
