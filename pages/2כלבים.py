@@ -24,26 +24,47 @@ def get_gspread_client():
 # Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
-    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
-    return worksheet
+    try:
+        sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
+        worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
+        st.write("Google Sheet opened successfully")
+        return worksheet
+    except Exception as e:
+        st.error(f"Error opening Google Sheet: {e}")
+        return None
     
 def update_google_sheet(edited_df):
     worksheet = open_google_sheet()
+    if worksheet is None:
+        st.error("Unable to open Google Sheet.")
+        return
 
-    # Replace NaN and infinite values before saving
-    edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
-    edited_df.fillna('', inplace=True)
+    try:
+        # Replace NaN and infinite values before saving
+        edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
+        edited_df.fillna('', inplace=True)
+        
+        # Debugging: Print the edited dataframe before updating the sheet
+        st.write("Edited DataFrame:", edited_df)
 
-    # Option 1: Overwrite the entire sheet (simpler approach)
-    worksheet.clear()  # Clear existing content
-    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+        # Overwrite the entire sheet (simpler approach)
+        worksheet.clear()  # Clear existing content
+        worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+        st.success("Google Sheet updated successfully!")
+    except Exception as e:
+        st.error(f"Error updating Google Sheet: {e}")
 
         
 @st.cache_data()
 def fetch_data():
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-    return conn.read(spreadsheet=url)
+    try:
+        data = conn.read(spreadsheet=url)
+        st.write("Data fetched successfully from Google Sheet")
+        return data
+    except Exception as e:
+        st.error(f"Error fetching data: {e}")
+        return pd.DataFrame()  # Return an empty dataframe if there's an error
     
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
