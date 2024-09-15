@@ -217,6 +217,8 @@ def show_foster_homes_page():
 
         # Fetch the foster home data from Google Sheets
         foster_home_df = fetch_data()
+        st.write(foster_home_df.columns)
+
     
         # Define Hebrew column names for foster homes (same as before)
         hebrew_columns_foster_homes = {
