@@ -9,6 +9,7 @@ import background
 import base64
 from io import BytesIO
 import weasyprint
+from xhtml2pdf import pisa
 
 
 st.set_page_config(page_title='Shopping List', layout='wide')
@@ -109,6 +110,14 @@ def html_to_pdf_stream(html_content):
     pdf = weasyprint.HTML(string=html_content).write_pdf()
     return io.BytesIO(pdf)
 
+
+def convert_html_to_pdf(html_content):
+    pdf_buffer = io.BytesIO()
+    pisa_status = pisa.CreatePDF(io.StringIO(html_content), dest=pdf_buffer)
+    pdf_buffer.seek(0)
+    return pdf_buffer, pisa_status.err
+
+
 def present_list():
     sl = st.data_editor(st.session_state["shopping list"])
     st.session_state["download"] = False
@@ -141,15 +150,31 @@ def present_list():
                 
                 with open(html_file_path, "w", encoding="utf-8") as f:
                     f.write(html_content)
-                    
-                pdf_stream = html_to_pdf_stream(html_content)
+                
 
-                st.download_button(
-                    label="Download PDF",
-                    data=pdf_stream,
-                    file_name='shopping_list.pdf',
-                    mime="application/pdf"
-                )
+                pdf_buffer, error = convert_html_to_pdf(html_content)
+
+                if not error:
+                    # Allow the user to download the PDF
+                    st.download_button(
+                        label="Download PDF",
+                        data=pdf_buffer,
+                        file_name="shopping_list.pdf",
+                        mime="application/pdf"
+                    )
+                else:
+                    st.error("Failed to generate PDF.")
+
+
+                # pdf_stream = html_to_pdf_stream(html_content)
+
+                # st.markdown(weasyprint.__version__)
+                # st.download_button(
+                #     label="Download PDF",
+                #     data=pdf_stream,
+                #     file_name='shopping_list.pdf',
+                #     mime="application/pdf"
+                # )
 
         with col4:
             if st.button("נקה"):
