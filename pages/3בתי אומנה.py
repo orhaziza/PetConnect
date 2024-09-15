@@ -17,7 +17,35 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-    # Ensure the directory exists
+def get_gspread_client():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
+    client = gspread.authorize(creds)
+    return client
+
+# Open the spreadsheet and worksheet
+def open_google_sheet():
+    client = get_gspread_client()
+    sheet = client.open_by_key("1PhhFULIaHk4Oi40DzJXOVCCp0F7jJKN5DaLBUkVOP1E")
+    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
+    return worksheet
+    
+def update_google_sheet(edited_df):
+    worksheet = open_google_sheet()
+
+    # Replace NaN and infinite values before saving
+    edited_df.replace([float('inf'), float('-inf')], '', inplace=True)
+    edited_df.fillna('', inplace=True)
+
+    # Option 1: Overwrite the entire sheet (simpler approach)
+    worksheet.clear()  # Clear existing content
+    worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+
+        
+@st.cache_data()
+def fetch_data():
+    conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+    return conn.read(spreadsheet=url)
+    
 if not os.path.exists(FILES_DIR):
     os.makedirs(FILES_DIR)
         
@@ -137,8 +165,17 @@ def show_foster_homes_page():
 
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        st.dataframe(foster_home_df_hebrew)
+       data = fetch_data()  # Fetch the data from Google Sheets
 
+        # Rename the columns using your Hebrew dictionary
+        data.rename(columns=hebrew_columns_foster_homes, inplace=True)
+
+        # Display the editable DataFrame
+        edited_df = st.experimental_data_editor(data)
+
+        # Add a save button to save the changes
+        if st.button('שמור שינויים'):
+            update_google_sheet(edited_df)
 
     elif selected == "מצא בית אומנה":
         st.subheader('מצא בית אומנה')
