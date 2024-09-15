@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import io
-from io import BytesIO
 import streamlit as st
 import pandas as pd
 import os
@@ -8,8 +7,9 @@ from datetime import datetime
 from streamlit_option_menu import option_menu
 import background
 import base64
-import imgkit
-
+from io import BytesIO
+import pdfkit
+import subprocess
 
 st.set_page_config(page_title='Shopping List', layout='wide')
 
@@ -105,25 +105,6 @@ def create_list(dog):
     st.session_state["step"] = 2
 
 
-imgkit_config = imgkit.config(wkhtmltoimage=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe')
-
-def save_html_to_image(html_content, output_file="רשימת קניות.png"):
-    # Save HTML content as an image
-    imgkit.from_string(html_content, output_file, config=imgkit_config)
-
-    return output_file
-
-def download_image(file_path):
-    with open(file_path, "rb") as file:
-        btn = st.download_button(
-            label="Download image",
-            data=file,
-            file_name=file_path,
-            mime="image/png"
-        )
-    return btn
-
-
 def present_list():
     sl = st.data_editor(st.session_state["shopping list"])
     st.session_state["download"] = False
@@ -137,27 +118,58 @@ def present_list():
                     .loc[:, ["שם מוצר", "תיאור"]]
                     .assign(**{'Product Image': add_image_paths(sl[sl['סמן'] == True], "Data/Products")})
                 )
-                st.write(st.session_state["short list"].to_html(escape=False), unsafe_allow_html=True)
-
-
-                                # Display HTML table
+                # Display HTML table
                 html_table = st.session_state["short list"].to_html(escape=False)
                 st.write(html_table, unsafe_allow_html=True)
+                path_wkhtmltoimage = '/usr/bin/wkhtmltoimage'  # Use 'which wkhtmltoimage' to get the correct path
+                path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'  # Use 'which wkhtmltopdf' to get the correct path
+                config_pdf = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
                 
-                # Save the table as an image
-                image_file = save_html_to_image(html_table)
                 
-                # Provide download option for the image
-                download_image(image_file)
+                html_style = """
+                    <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+                    body { font-family: 'Rubik', sans-serif; direction: rtl; }
+                    table { width: 100%; border-collapse: collapse; }
+                    th, td { border: 1px solid black; padding: 10px; text-align: right; }
+                    img { width: 100px; }
+                </style>
+                """
 
-    with col4:
-        if st.button("נקה"):
-            st.session_state["step"] = 0
-            st.session_state["shopping list"] = None
-            st.session_state["short list"] = None
-            st.session_state["dog"] = None
-            placeholder3.empty()
+                html_file_path = "shopping_list.html"
+                html_content = f"<html><head>{html_style}</head><body>{html_table}</body></html>"
 
+                with open(html_file_path, "w", encoding="utf-8") as f:
+                    f.write(html_content)
+                    
+
+                # Generate PDF from HTML file using the custom CSS
+                pdf_file_path = "shopping_list.pdf"
+                options = {
+                    'no-outline': None,  # Disable outlines (table of contents)
+                    'encoding': 'UTF-8',  # Ensure UTF-8 encoding
+                }
+                pdfkit.from_file(html_file_path, pdf_file_path, configuration=config_pdf, options=options)
+                # Allow the user to download the PDF
+                with open(pdf_file_path, "rb") as pdf_file:
+                    pdf_data = pdf_file.read()
+
+
+                st.download_button(
+                    label="Download PDF",
+                    data=pdf_data,
+                    file_name="shopping_list.pdf",
+                    mime="application/pdf"
+                )
+
+        with col4:
+            if st.button("נקה"):
+                st.session_state["step"] = 0
+                st.session_state["shopping list"] = None
+                st.session_state["short list"] = None
+                st.session_state["dog"] = None
+                placeholder3.empty()
+    
 
 def add_image_paths(df, images_path):
     width=100
@@ -180,17 +192,6 @@ def add_image_paths(df, images_path):
             image_column.append('No Image')  # Handle missing images
 
     return image_column
-
-
-def html_to_image(html_content, output_file="output.png"):
-    fig, ax = plt.subplots(figsize=(2, 2))  # Adjust figsize as needed
-    ax.axis('off')
-    ax.text(0.5, 0.5, html_content, va='center', ha='center', wrap=True)
-    buf = BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight')
-    plt.close(fig)
-    buf.seek(0)
-    return buf
 
 
 ###############################################################################
