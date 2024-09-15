@@ -404,14 +404,17 @@ def show_dogs_page():
     selected = st.selectbox("בחר פעולה", options=["הוסף כלב", "מצא כלב", "כל הטבלה"])
 
     if selected == "כל הטבלה":
-        edited_df = st.data_editor(dog_df_hebrew, use_container_width=True, height=400)
-        if st.button("שמור שינויים"):
-            # Rename columns back to English for saving
-            edited_df.rename(columns={v: k for k, v in hebrew_columns_dogs.items()}, inplace=True)
-            # Update the Google Sheet with the edited dataframe
-            update_google_sheet(edited_df)  # Pass the updated dataframe and sheet name
-            st.success("השינויים נשמרו בהצלחה!")
+        data = fetch_data()  # Fetch the data from Google Sheets
 
+        # Rename the columns using your Hebrew dictionary
+        data.rename(columns=hebrew_columns_dogs, inplace=True)
+
+        # Display the editable DataFrame
+        edited_df = st.experimental_data_editor(data)
+
+        # Add a save button to save the changes
+        if st.button('שמור שינויים'):
+            update_google_sheet(edited_df)
     if selected == "הוסף כלב":
         st.subheader('הוסף כלב חדש')
         with st.form(key='insert_form'):
