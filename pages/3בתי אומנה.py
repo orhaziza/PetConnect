@@ -194,7 +194,9 @@ def show_foster_homes_page():
     # Translate column names
     foster_home_df_hebrew = foster_home_df.rename(columns=dict(
         zip(foster_home_df.columns, [hebrew_columns_foster_homes.get(col, col) for col in foster_home_df.columns])))
-
+    if st.button('רענן את העמוד'):
+        st.cache_data.clear()
+        st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
         data = fetch_data()  # Fetch the data from Google Sheets
