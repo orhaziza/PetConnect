@@ -101,7 +101,7 @@ def show_dogs_page():
 
     selected = option_menu(
         menu_title="",  # Required
-        options=["ערוך מסמך","הוסף מאמץ","כל הטבלה"],  # Required
+        options=["הוסף כלב","כל הטבלה"],  # Required
         icons=["upload",  "file", "file"],  # Optional
         menu_icon="menu",  # Optional
         default_index=2,  # Optional
