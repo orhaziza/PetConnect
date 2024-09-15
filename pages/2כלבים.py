@@ -316,28 +316,27 @@ from google.oauth2.service_account import Credentials
 from datetime import datetime
 import numpy as np
 
-# Function to get the Google Sheets client
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+# Directory for storing adopter files
+FILES_DIR = 'Data/Adopters/'
+url = "https://docs.google.com/spreadsheets/d/16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA/edit?usp=sharing"
+
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
 def get_gspread_client():
-    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=SCOPES)
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
     client = gspread.authorize(creds)
     return client
 
+# Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
-    worksheet = sheet.worksheet("גיליון1")  # Name of the sheet
+    sheet = client.open_by_key("16HGmdzrp3IZ5vz5KRwM8MVMRZuxdQS9KC3uuZVq_OCA")
+    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
-
-# Function to fetch the dog data from Google Sheets
-@st.cache_data()
-def fetch_data_from_google_sheet():
-    worksheet = open_google_sheet()
-    data = worksheet.get_all_records()  # Fetches all records from the sheet
-    return pd.DataFrame(data)
-
-# Function to update the Google Sheet with new data
+    
 def update_google_sheet(edited_df):
     worksheet = open_google_sheet()
 
@@ -349,6 +348,14 @@ def update_google_sheet(edited_df):
     worksheet.clear()  # Clear existing content
     worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
 
+        
+@st.cache_data()
+def fetch_data():
+    conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+    return conn.read(spreadsheet=url)
+    
+if not os.path.exists(FILES_DIR):
+    os.makedirs(FILES_DIR)
 
 # Calculate age in months
 def calculate_age_in_months(birth_date):
