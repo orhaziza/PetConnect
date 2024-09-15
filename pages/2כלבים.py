@@ -25,7 +25,7 @@ def get_gspread_client():
 def open_google_sheet():
     client = get_gspread_client()
     sheet = client.open_by_key("1g1WWygeD3ZE_uDGQRd2EL44NUHioLHVacsX_7Z8uu5Q")
-    worksheet = sheet.worksheet("גיליון1")  # Name of the sheet
+    worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
     
 def update_google_sheet(edited_df):
