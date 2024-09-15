@@ -102,7 +102,7 @@ def show_dogs_page():
     selected = option_menu(
         menu_title="",  # Required
         options=["הוסף כלב","כל הטבלה"],  # Required
-        icons=["upload",  "file", "file"],  # Optional
+        icons=["upload",  "file"],  # Optional
         menu_icon="menu",  # Optional
         default_index=2,  # Optional
         orientation="horizontal",  # To place the menu in the center horizontally
