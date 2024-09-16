@@ -88,7 +88,6 @@ def show_shopping_list_page():
 
     background.insert_logo("רשימת קניות")
 
-
     # Define the menu options
     selected = option_menu(
         menu_title="",  # Required
@@ -101,11 +100,11 @@ def show_shopping_list_page():
         )
     
     if selected == "צור רשימה לכלב":
-        col1, col2, col4 = st.columns([4.5, 1, 0.5])
+        col1, col2 = st.columns([5, 1])
         with col1:
-            st.session_state['dog'] = st.selectbox(label='',options=dog_df['שם'].unique(),index=None, placeholder = "בחר כלב")
+            st.session_state['dog'] = st.selectbox(label='',options=dog_df['שם'].unique(),index=None, placeholder = "בחר כלב",label_visibility="collapsed")
         with col2:
-            if st.button("צור רשימה"):
+            if st.button("צור רשימה", use_container_width=True):
                 st.session_state["shopping list"] = None
                 st.session_state["short list"] = None
                 if st.session_state['dog'] != None:
@@ -141,10 +140,10 @@ def present_list():
     sl = st.data_editor(st.session_state["shopping list"])
 
     with st.container():
-        col1, col2 ,col3, col4=  st.columns([1, 2, 8, 2])        
+        col1, col2 ,col3=  st.columns([3,1,3])        
         if not st.session_state["shopping list"].empty:
-            with col1:
-                if st.button("שמור"):
+            with col2:
+                if st.button("שמור", use_container_width=True):
                     st.session_state["short list"] = (
                         sl[sl['שמור מוצר'] == True]
                         .loc[:, ["מזהה מוצר", "שם מוצר","גודל", "תיאור"]]
@@ -189,8 +188,10 @@ def download_list():
 
     if not error:
         # Allow the user to download the PDF
-        if st.download_button(label="הורד רשימה",data=pdf_buffer,file_name="shopping_list.pdf",mime="application/pdf"):
-            st.session_state["step"] = 2
+        col1, col2, col3= st.columns([3,1,3])        
+        with col2:
+            if st.download_button(label="הורד רשימה",data=pdf_buffer,file_name="shopping_list.pdf",mime="application/pdf", use_container_width=True):
+                st.session_state["step"] = 2
     else:
         st.error("Failed to generate PDF.")
 
@@ -232,31 +233,22 @@ def reverse_text(text):
 
 ###############################################################################
 
-
-st.write(st.session_state["step"])
-
 show_shopping_list_page()    
 placeholder1 = st.container()
 placeholder2 = st.container()
 placeholder3 = st.container()
 placeholder4 = st.container()
 
-with placeholder4:
-    if st.session_state['step'] > 0:
-        if st.button("נקה הכל"):
-            st.session_state["step"] = 0
-            st.session_state["shopping list"] = None
-            st.session_state["short list"] = None
-            st.session_state["dog"] = None  
-            placeholder1.empty()
-            placeholder2.empty()
-            placeholder3.empty()
-            placeholder4.empty()
-
-# if st.session_state['step'] == 0:
-#     # placeholder1.empty()
-#     # placeholder2.empty()
-#     # placeholder3.empty()
+col1, col2, col3= st.columns([3,1,3])        
+with col2:
+    if st.button("נקה הכל 🗑", use_container_width=True):
+        st.session_state["step"] = 0
+        st.session_state["shopping list"] = None
+        st.session_state["short list"] = None
+        st.session_state["dog"] = None  
+        placeholder1.empty()
+        placeholder2.empty()
+        placeholder3.empty()
 
 if st.session_state['step'] == -1 :
     st.session_state["step"] = 0
