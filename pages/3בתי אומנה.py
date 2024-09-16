@@ -356,5 +356,5 @@ def show_foster_homes_page():
         st.session_state['logged_in'] = False
         st.experimental_rerun()
 
+st.session_state["step"] = 0
 show_foster_homes_page()
-
