@@ -187,5 +187,5 @@ def score_adopter(dog, applicant):
 
     
 
-
+st.session_state["step"] = 0
 show_application_page()
