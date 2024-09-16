@@ -73,6 +73,35 @@ hebrew_columns_items = {
 items_df = items_df.rename(columns=dict(zip(items_df.columns, [hebrew_columns_items.get(col, col) for col in items_df.columns])))
 items_df = items_df.iloc[:, ::-1]
 
+
+
+
+def add_product_to_google_sheet(new_product):
+    worksheet = open_google_sheet()
+    # Replace NaN and infinite values before saving
+    def sanitize_value(value):
+        if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
+            return ''
+        return value
+    # Append the new product data as a new row in the sheet
+    worksheet.append_row([
+        sanitize_value(new_product['ProductCategory']),
+        sanitize_value(new_product['ProductID']),
+        sanitize_value(new_product['ProductName']),
+        sanitize_value(new_product['ProductSize']),
+        sanitize_value(new_product['ProductSizeUnit']),
+        sanitize_value(new_product['Age']),
+        sanitize_value(new_product['Breed']),
+        sanitize_value(new_product['Gender']),
+        sanitize_value(new_product['DogSize']),
+        sanitize_value(new_product['EnergyLevel']),
+        sanitize_value(new_product['PottyTrained']),
+        sanitize_value(new_product['ProductPhoto']),
+        sanitize_value(new_product['Description']),
+    ])  # Add the new product's data
+
+
+
 def show_shopping_list_page():    
     background.add_bg_from_local('./static/background3.png')
     background.load_css('styles.css')
@@ -112,9 +141,53 @@ def show_shopping_list_page():
                 else:
                     st.session_state["step"] = -1
             
-    elif selected == "הוסף מוצר" or selected == "ערוך מוצר":
-        st.session_state["step"] = 0
-        st.write("not yet")
+    elif selected == "הוסף מוצר":
+        st.session_state["step"] = -2
+        st.subheader('הוסף מוצר חדש')
+        # Input fields for the product form
+        product_category = st.text_input('קטגוריה מוצר')
+        product_id = st.text_input('מזהה מוצר')
+        product_name = st.text_input('שם מוצר')
+        product_size = st.text_input('גודל מוצר')
+        product_size_unit = st.text_input('יחידות מידה')
+        age = st.number_input('גיל', min_value=0, step=1)
+        breed = st.text_input('גזע')
+        gender = st.selectbox('מין', ['זכר', 'נקבה'])
+        dog_size = st.selectbox('גודל כלב', ['XS', 'S', 'M', 'L', 'XL'])
+        energy_level = st.selectbox('רמת אנרגיה', ['נמוכה', 'בינונית', 'גבוהה'])
+        potty_trained = st.checkbox('מחונך לצרכים')
+        product_photo = st.file_uploader('תמונה מוצר', type=['jpg'])
+        description = st.text_area('תיאור')
+
+        # Save the new product data
+        if st.button('שמור מוצר'):
+            new_product = {
+            'ProductCategory': product_category,
+            'ProductID': product_id,
+            'ProductName': product_name,
+            'ProductSize': product_size,
+            'ProductSizeUnit': product_size_unit,
+            'Age': age,
+            'Breed': breed,
+            'Gender': gender,
+            'DogSize': dog_size,
+            'EnergyLevel': energy_level,
+            'PottyTrained': potty_trained,
+            'ProductPhoto': product_photo.name if product_photo else '',
+            'Description': description,
+            }
+            try:
+                # Add the new product record to the Google Sheet
+                add_product_to_google_sheet(new_product)
+                st.success('מוצר חדש נשמר בהצלחה!')
+                st.balloons()  # Show the balloons animation for success
+            except Exception as e:
+                st.error(f'Error saving product: {e}')
+
+    elif selected == "ערוך מוצר":
+        st.session_state["step"] = -2
+        edit_pcoduct()
+
 
 def create_list(dog):
     df = dog_df.loc[dog_df['שם'] == dog].reset_index()
@@ -233,6 +306,69 @@ def reverse_text(text):
 
 ###############################################################################
 
+def edit_pcoduct():
+    # Filters using st.columns instead of sidebar
+    # Widgets for finding products to edit
+    st.header("Find a Product to Edit")
+
+    # Product ID Search
+    product_id_search = st.text_input("Search by Product ID")
+
+    # Product Name Search
+    product_name_search = st.text_input("Search by Product Name")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        category_filter = st.multiselect("קטגוריה", options=items_df["קטגוריה"].unique())    
+    with col2:
+        size_order = ["XS", "S", "M", "L", "XL"]
+        size_filter = st.multiselect("גודל הכלב", options=size_order)
+
+    with col3:
+        # Convert "גיל הכלב" to numeric range
+        def parse_age_range(age_range_str):
+            if isinstance(age_range_str, str) and '-' in age_range_str:
+                age_range = age_range_str.split('-')
+                return int(age_range[0]), int(age_range[1])
+            return 0, 0
+
+        items_df['min_age'], items_df['max_age'] = zip(*items_df['גיל הכלב'].apply(parse_age_range))
+
+    # Age filter (slider)
+    age_filter = st.number_input("גיל", min_value=int(items_df["min_age"].min()), max_value=int(items_df["max_age"].max()), value=int(items_df["min_age"].max()))
+    
+    filtered_df = items_df
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("סנן"):
+            # Apply filters
+            if category_filter:
+                filtered_df = filtered_df[filtered_df["קטגוריה"].isin(category_filter)]
+            if size_filter:
+                filtered_df = filtered_df[filtered_df["גודל הכלב"].isin(size_filter)]
+            if age_filter:
+                filtered_df = filtered_df[(filtered_df["min_age"] <= age_filter) & (filtered_df["max_age"] >= age_filter)]
+        
+            edited_df = st.data_editor(filtered_df)
+    with col2:    
+        # Confirm changes and save to Google Sheets
+        if st.button("אשר שינויים"):
+            update_google_sheet(edited_df)
+            st.success("השינויים בוצעו בהצלחה!")
+            
+    # Function to delete a product
+    def delete_product(product_id):
+        global items_df
+        items_df = items_df[items_df["מזהה מוצר"] != product_id]
+        update_google_sheet(items_df)
+        st.experimental_rerun()
+
+
+
+
+
+###############################################################################
 show_shopping_list_page()    
 placeholder1 = st.container()
 placeholder2 = st.container()
@@ -241,14 +377,15 @@ placeholder4 = st.container()
 
 col1, col2, col3= st.columns([3,1,3])        
 with col2:
-    if st.button("נקה הכל 🗑", use_container_width=True):
-        st.session_state["step"] = 0
-        st.session_state["shopping list"] = None
-        st.session_state["short list"] = None
-        st.session_state["dog"] = None  
-        placeholder1.empty()
-        placeholder2.empty()
-        placeholder3.empty()
+    if st.session_state["step"] >-2:
+        if st.button("נקה הכל 🗑", use_container_width=True):
+            st.session_state["step"] = 0
+            st.session_state["shopping list"] = None
+            st.session_state["short list"] = None
+            st.session_state["dog"] = None  
+            placeholder1.empty()
+            placeholder2.empty()
+            placeholder3.empty()
 
 if st.session_state['step'] == -1 :
     st.session_state["step"] = 0
