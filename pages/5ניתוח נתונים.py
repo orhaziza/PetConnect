@@ -342,4 +342,5 @@ def plot_Applications_by_WkDay(application_df):
     chart = alt.Chart(distribution_df).mark_bar().encode(x=alt.X('Day', sort=days_of_week), y='Count')
     st.altair_chart(chart, use_container_width=True)
 
+st.session_state["step"] = 0
 show_data_analysis_page()
