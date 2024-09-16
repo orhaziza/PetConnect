@@ -221,5 +221,6 @@ def show_dogs_page():
             except Exception as e:
                 st.error(f'Error saving dog: {e}')
 
+st.session_state["step"] = 0
 # Call the function to display the dogs page
 show_dogs_page()
