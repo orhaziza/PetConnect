@@ -439,12 +439,11 @@ def edit_product():
                 new_image_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
                 with open(new_image_path, "wb") as f:
                     f.write(new_image_file.read())
-                new_prod = st.success("New product image uploaded!")
-                time.sleep(3)
-                new_prod.empty()
+                new_prod = st.success("New product image uploaded!")               
 
             
             if st.button("Confirm Changes"):
+                new_prod.empty()
                 st.session_state["Confirm Changes"]=True
                 # Save changes to Google Sheets
                 update_google_sheet(filtered_df)
