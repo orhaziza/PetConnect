@@ -404,7 +404,7 @@ def edit_product():
         col6, col7 = st.columns(2)
         with col6:            
             if not st.session_state["Delete Current Image"]:
-                images_path = "Data/Products/"
+                images_path = "Data/Products"
                 image_filename = f"{selected_product}.jpg"
                 image_filepath = os.path.join(images_path, image_filename)
                 width=250
