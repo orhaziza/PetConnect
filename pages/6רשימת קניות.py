@@ -9,6 +9,7 @@ from xhtml2pdf import pisa
 import gspread
 from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
+import time
 
 # Directory for storing adopter files
 items_url = "https://docs.google.com/spreadsheets/d/14e7lQDBov_c8iaRe7N5AXmMmAW5FzF2NilCTjq7LcAo/edit?usp=sharing"
