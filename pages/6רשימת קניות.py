@@ -391,10 +391,12 @@ def edit_product():
 
     # Display filtered products and select one to edit
     st.write("Filtered Products:")
+    new_prod = st.success("New product image uploaded!")
+    
     selected_product = st.selectbox("Select a product to edit", filtered_df[hebrew_columns_items['Product Name']])
 
     if selected_product:
-        success.empty()
+        new_prod.empty()
         st.session_state["Delete Current Image"]=False
         product_row = filtered_df[filtered_df[hebrew_columns_items['Product Name']] == selected_product].iloc[0]
 
@@ -438,19 +440,13 @@ def edit_product():
                 new_image_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
                 with open(new_image_path, "wb") as f:
                     f.write(new_image_file.read())
-                st.success("New product image uploaded!")
-
+            new_prod
             
             if st.button("Confirm Changes"):
                 st.session_state["Confirm Changes"]=True
                 # Save changes to Google Sheets
                 update_google_sheet(filtered_df)
                 st.success("The changes were made successfully!")
-
-
-
-
-
 
 ###############################################################################
 if "step" not in st.session_state:
