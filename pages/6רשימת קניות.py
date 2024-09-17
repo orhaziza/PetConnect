@@ -406,7 +406,7 @@ def edit_product():
         # Display and update product image
         col6, col7 = st.columns(2)
         with col6:            
-            if not st.session_state["Delete Current Image"] and st.session_state["Confirm Changes"]:
+            if not st.session_state["Delete Current Image"] or st.session_state["Confirm Changes"]:
                 images_path = "Data/Products"
                 image_filename = f"{selected_product}.jpg"
                 image_filepath = os.path.join(images_path, image_filename)
@@ -420,10 +420,7 @@ def edit_product():
                     if height:
                         image_html += f' height="{height}"'
                     image_html += '>'
-
-
                     st.write(image_html, unsafe_allow_html=True)
-            
             st.markdown(" ")    
             if st.button("Delete Current Image"):
                 st.session_state["Delete Current Image"]=True
