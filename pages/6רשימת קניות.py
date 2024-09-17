@@ -369,6 +369,9 @@ def edit_pcoduct():
 
 
 ###############################################################################
+if "step" not in st.session_state:
+    st.session_state["step"]=0
+    
 show_shopping_list_page()    
 placeholder1 = st.container()
 placeholder2 = st.container()
