@@ -458,6 +458,10 @@ if "step" not in st.session_state:
 if "Delete Current Image" not in st.session_state:
     st.session_state["Delete Current Image"]=False
 
+if "Confirm Changes" not in st.session_state:
+    st.session_state["Confirm Changes"]=False
+
+
 show_shopping_list_page()    
 placeholder1 = st.container()
 placeholder2 = st.container()
