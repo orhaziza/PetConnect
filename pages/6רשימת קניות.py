@@ -397,6 +397,7 @@ def edit_product():
 
     if selected_product:
         st.session_state["Delete Current Image"]=False
+        st.session_state["Confirm Changes"]=False
         product_row = filtered_df[filtered_df[hebrew_columns_items['Product Name']] == selected_product].iloc[0]
 
         st.markdown(f"### Editing product: {product_row[hebrew_columns_items['Product Name']]}")
