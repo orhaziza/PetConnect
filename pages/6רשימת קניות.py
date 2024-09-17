@@ -394,6 +394,7 @@ def edit_product():
     selected_product = st.selectbox("Select a product to edit", filtered_df[hebrew_columns_items['Product Name']])
 
     if selected_product:
+        success.empty()
         st.session_state["Delete Current Image"]=False
         product_row = filtered_df[filtered_df[hebrew_columns_items['Product Name']] == selected_product].iloc[0]
 
