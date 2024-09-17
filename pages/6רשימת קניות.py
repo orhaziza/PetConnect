@@ -403,13 +403,13 @@ def edit_product():
         # Display and update product image
         col6, col7 = st.columns(2)
         with col6:            
-            if not st.session_state["Delete Current Image"]:
+            if not st.session_state["Delete Current Image"] and st.session_state["Confirm Changes"]:
                 images_path = "Data/Products"
                 image_filename = f"{selected_product}.jpg"
                 image_filepath = os.path.join(images_path, image_filename)
                 width=250
                 height=None
-                if os.path.exists(image_filepath) and st.session_state["Confirm Changes"]:
+                if os.path.exists(image_filepath):
                     # Construct the img tag with specified width and/or height
                     image_html = f'<img src="data:image/jpg;base64,{base64.b64encode(open(image_filepath, "rb").read()).decode()}"'
                     if width:
