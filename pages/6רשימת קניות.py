@@ -435,7 +435,7 @@ def edit_product():
 
         with col7:
             new_image_file = st.file_uploader("Upload New Image (jpg)", type=["jpg"])
-            if new_image_file:
+            if new_image_file and not st.session_state["Confirm Changes"]:
                 new_image_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
                 with open(new_image_path, "wb") as f:
                     f.write(new_image_file.read())
