@@ -459,14 +459,17 @@ def edit_product():
         hebrew_columns_items['EnergyLevel']: st.text_input(hebrew_columns_items['EnergyLevel'], value=product_row[hebrew_columns_items['EnergyLevel']]),
         hebrew_columns_items['PottyTrained']: st.text_input(hebrew_columns_items['PottyTrained'], value=product_row[hebrew_columns_items['PottyTrained']]),
         hebrew_columns_items['Product Photo']: st.text_input(hebrew_columns_items['Product Photo'], value=product_row[hebrew_columns_items['Product Photo']]),
-        hebrew_columns_items['Description']: st.text_input(hebrew_columns_items['Description'], value=product_row[hebrew_columns_items['Description']]),}
+        hebrew_columns_items['Description']: st.text_input(hebrew_columns_items['Description'], value=product_row[hebrew_columns_items['Description']]),
+        }
+        if not updated_product.get(hebrew_columns_items['Age'],'').empty():
+                min_age, max_age = zip(*updated_product.get(hebrew_columns_items['Age'],'').apply(parse_age_range))
 
         if st.button("אשר שינויים"):
-            update_product_google_sheet(updated_product)
+            update_product_google_sheet(updated_product, min_age, max_age)
             st.success("The changes were made successfully!")
 
 
-def update_product_google_sheet(edited_product):
+def update_product_google_sheet(edited_product, min_age, max_age):
     worksheet = open_google_sheet()
 
     # Read existing data from the sheet
@@ -477,10 +480,6 @@ def update_product_google_sheet(edited_product):
 
     # Identify the row index to update
     row_index = df[df[hebrew_columns_items['Product ID']] == edited_product[hebrew_columns_items['Product ID']]].index[0] + 2  # +2 to account for header row and 0-based index
-
-    if edited_product.get(hebrew_columns_items['Age'],'') not Nan:
-        min_age, max_age = zip(*edited_product.get(hebrew_columns_items['Age'],'').apply(parse_age_range))
-
 
     # Prepare the updated row
     updated_row = {
