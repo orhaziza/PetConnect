@@ -419,7 +419,7 @@ def edit_product():
                     image_html += '>'
 
 
-                st.markdown(image_html, unsafe_allow_html=True)
+                    st.markdown(image_html, unsafe_allow_html=True)
             
             st.markdown(" ")    
             if st.button("Delete Current Image"):
