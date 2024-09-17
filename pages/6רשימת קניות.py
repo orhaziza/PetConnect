@@ -439,8 +439,8 @@ def edit_product():
                 with open(new_image_path, "wb") as f:
                     f.write(new_image_file.read())
             new_prod = st.success("New product image uploaded!")
-            time.sleep(3) # Wait for 3 seconds
-            new_prod.empty() # Clear the alert
+            time.sleep(3)
+            new_prod.empty()
 
             
             if st.button("Confirm Changes"):
