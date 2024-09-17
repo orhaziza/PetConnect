@@ -306,7 +306,12 @@ def reverse_text(text):
     return text
 
 ###############################################################################
-
+# Convert "dog's age" to numeric range
+def parse_age_range(age_range_str):
+    if isinstance(age_range_str, str) and '-' in age_range_str:
+        age_range = age_range_str.split('-')
+        return int(age_range[0]), int(age_range[1])
+    return 0, 0
 
 # Dictionary of Hebrew columns
 hebrew_columns_items = {
@@ -350,13 +355,6 @@ def edit_product():
         size_filter = st.multiselect(hebrew_columns_items['Dog Size'], options=size_order)
 
     with col3:
-        # Convert "dog's age" to numeric range
-        def parse_age_range(age_range_str):
-            if isinstance(age_range_str, str) and '-' in age_range_str:
-                age_range = age_range_str.split('-')
-                return int(age_range[0]), int(age_range[1])
-            return 0, 0
-
         items_df['min_age'], items_df['max_age'] = zip(*items_df[hebrew_columns_items["Age"]].apply(parse_age_range))
 
         # Age filter (number input)
@@ -446,6 +444,73 @@ def edit_product():
                 # Save changes to Google Sheets
                 update_google_sheet(filtered_df)
                 st.success("The changes were made successfully!")
+
+
+        updated_product = {
+        hebrew_columns_items['Product ID']: product_row[hebrew_columns_items['Product ID']],
+        hebrew_columns_items['Product Category']: st.text_input(hebrew_columns_items['Product Category'], value=product_row[hebrew_columns_items['Product Category']]),
+        hebrew_columns_items['Product Name']: st.text_input(hebrew_columns_items['Product Name'], value=product_row[hebrew_columns_items['Product Name']]),
+        hebrew_columns_items['Product Size']: st.text_input(hebrew_columns_items['Product Size'], value=product_row[hebrew_columns_items['Product Size']]),
+        hebrew_columns_items['Product Size Unit']: st.text_input(hebrew_columns_items['Product Size Unit'], value=product_row[hebrew_columns_items['Product Size Unit']]),
+        hebrew_columns_items['Age']: st.text_input(hebrew_columns_items['Age'], value=product_row[hebrew_columns_items['Age']]),
+        hebrew_columns_items['Breed']: st.text_input(hebrew_columns_items['Breed'], value=product_row[hebrew_columns_items['Breed']]),
+        hebrew_columns_items['Gender']: st.text_input(hebrew_columns_items['Gender'], value=product_row[hebrew_columns_items['Gender']]),
+        hebrew_columns_items['Dog Size']: st.text_input(hebrew_columns_items['Dog Size'], value=product_row[hebrew_columns_items['Dog Size']]),
+        hebrew_columns_items['EnergyLevel']: st.text_input(hebrew_columns_items['EnergyLevel'], value=product_row[hebrew_columns_items['EnergyLevel']]),
+        hebrew_columns_items['PottyTrained']: st.text_input(hebrew_columns_items['PottyTrained'], value=product_row[hebrew_columns_items['PottyTrained']]),
+        hebrew_columns_items['Product Photo']: st.text_input(hebrew_columns_items['Product Photo'], value=product_row[hebrew_columns_items['Product Photo']]),
+        hebrew_columns_items['Description']: st.text_input(hebrew_columns_items['Description'], value=product_row[hebrew_columns_items['Description']]),
+        }
+        min_age = 0
+        max_age = 0
+        if updated_product.get(hebrew_columns_items['Age'],'')!="nan":
+            min_age = updated_product[hebrew_columns_items['Age']].split("-")[0]
+            max_age = updated_product[hebrew_columns_items['Age']].split("-")[1]
+
+        if st.button("אשר שינויים"):
+            update_product_google_sheet(updated_product, min_age, max_age)
+            st.success("The changes were made successfully!")
+
+
+def update_product_google_sheet(edited_product, min_age, max_age):
+    worksheet = open_google_sheet()
+
+    # Read existing data from the sheet
+    data = worksheet.get_all_records()
+    
+    # Convert data to a DataFrame
+    df = pd.DataFrame(data)
+
+    # Identify the row index to update
+    row_index = df[df[hebrew_columns_items['Product ID']] == edited_product[hebrew_columns_items['Product ID']]].index[0] + 2  # +2 to account for header row and 0-based index
+
+    # Prepare the updated row
+    updated_row = {
+        hebrew_columns_items['Product Category']: edited_product.get(hebrew_columns_items['Product Category'], ''),
+        hebrew_columns_items['Product ID']: edited_product[hebrew_columns_items['Product ID']],
+        hebrew_columns_items['Product Name']: edited_product.get(hebrew_columns_items['Product Name'], ''),
+        hebrew_columns_items['Product Size']: edited_product.get(hebrew_columns_items['Product Size'], ''),
+        hebrew_columns_items['Product Size Unit']: edited_product.get(hebrew_columns_items['Product Size Unit'], ''),
+        hebrew_columns_items['Age']: edited_product.get(hebrew_columns_items['Age'], ''),
+        hebrew_columns_items['Breed']: edited_product.get(hebrew_columns_items['Breed'], ''),
+        hebrew_columns_items['Gender']: edited_product.get(hebrew_columns_items['Gender'], ''),
+        hebrew_columns_items['Dog Size']: edited_product.get(hebrew_columns_items['Dog Size'], ''),
+        hebrew_columns_items['EnergyLevel']: edited_product.get(hebrew_columns_items['EnergyLevel'], ''),
+        hebrew_columns_items['PottyTrained']: edited_product.get(hebrew_columns_items['PottyTrained'], ''),
+        hebrew_columns_items['Product Photo']: edited_product.get(hebrew_columns_items['Product Photo'], ''),
+        hebrew_columns_items['Description']: edited_product.get(hebrew_columns_items['Description'], ''),
+        "min_age": min_age,
+        "max_age": max_age,
+
+    }
+    
+    # Convert updated row to a list for Google Sheets
+    row_values = [updated_row[col] for col in hebrew_columns_items.values()]
+
+    # Update the row in Google Sheets
+    worksheet.update(f'A{row_index}:O{row_index}', [row_values])  # Assuming there are 12 columns
+
+
 
 ###############################################################################
 if "step" not in st.session_state:
