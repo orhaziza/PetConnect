@@ -10,7 +10,7 @@ from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
-url = "https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing"
+url = "https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -25,7 +25,7 @@ def get_gspread_client():
 # Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA")
+    sheet = client.open_by_key("1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM")
     worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
     
@@ -201,7 +201,7 @@ def show_foster_homes_page():
     if selected == "כל הטבלה":
         # data = fetch_data()  # Fetch the data from Google Sheets
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing")
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_foster_homes, inplace=True)
@@ -221,7 +221,7 @@ def show_foster_homes_page():
         # Fetch the foster home data from Google Sheets
         # data = fetch_data()  # Fetch the data from Google Sheets
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")   
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing")   
 
     
         # Define Hebrew column names for foster homes (same as before)
@@ -330,7 +330,7 @@ def show_foster_homes_page():
         st.title('מסמכים')
         # Foster_df = fetch_data()  # Fetch the data from Google Sheets
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        Foster_df = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")
+        Foster_df = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing")
 
 
         foster_home_id = st.selectbox('Select Foster Home ID', Foster_df['מזהה בית אומנה'])
