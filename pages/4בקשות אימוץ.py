@@ -81,17 +81,21 @@ def show_application_page():
     if selected == "כל הבקשות":
         # Filters
         with st.expander("סינון:"):
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
             with col1:
-                filter_date = st.date_input("תאריך:", value=None)
+                filter_dog = st.selectbox(label='שם הכלב:',options=data['בנוגע לאיזה מהכלבים שלנו פניתם 🐕'].unique(),index=None)
             with col2:
-                filter_name = st.text_input("שם:")
+                filter_date = st.date_input("תאריך:", value=None)
+            with col3:
+                filter_name = st.text_input("שם המבקש:")
 
         # Apply filters only if inputs are provided
+        if filter_dog:
+            data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
         if filter_date is not None:
             data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
         if filter_name:
-            data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
+            data = data[data['בנוגע לאיזה מהכלבים שלנו פניתם 🐕'].str.contains(filter_name, case=False, na=False)]
 
         st.dataframe(data)
 
