@@ -154,11 +154,16 @@ def show_home_page():
         col4, col1, col2 = st.columns([1, 10, 1])
         with col1:
             st.markdown("<h1 style='text-align: center;'>מסך עדכונים</h1>", unsafe_allow_html=True)
+        with col2:
+            st.image("Data/Logo.png", width=100)
+    
+    with st.container():
+        col1, col2, col3 = st.columns([1.5, 2, 1])
+        with col2:
             if st.button("רענן"):
                 st.cache_data.clear()
                 st.success("‏המידע עודכן בהצלחה")
-        with col2:
-            st.image("Data/Logo.png", width=100)
+    # Display the number of records
     
     if len(recent_df) > 0:
         st.markdown(f"<h3 style='text-align: center;'>התקבלו {len(recent_df)} בקשות ביומיים האחרונים</h3>", unsafe_allow_html=True)
