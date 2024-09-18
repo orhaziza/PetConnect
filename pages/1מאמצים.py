@@ -171,7 +171,9 @@ def show_adopters_page():
         st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        data = fetch_data()  # Fetch the data from Google Sheets
+        # data = fetch_data()  # Fetch the data from Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E/edit?usp=sharing")
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_adopters, inplace=True)
@@ -255,7 +257,9 @@ def show_adopters_page():
         st.title('מסמכים')
         
         # Load adopter data
-        adopter_df = fetch_data()  # Fetch the data from Google Sheets
+        # adopter_df = fetch_data()  # Fetch the data from Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E/edit?usp=sharing")
         hebrew_columns_adopters = {
             # Your column translation dictionary for adopters
             'AdopterID': 'מזהה מאמץ',
