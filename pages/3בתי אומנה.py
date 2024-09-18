@@ -10,7 +10,7 @@ from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
-url = "https://docs.google.com/spreadsheets/d/1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM/edit?usp=sharing"
+url = "https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -25,7 +25,7 @@ def get_gspread_client():
 # Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1lAY6gHYO-scPukLMTH8msFzwG9DoNsdq5-kNf2lKbqM")
+    sheet = client.open_by_key("1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA")
     worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
     
