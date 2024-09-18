@@ -26,7 +26,7 @@ def get_gspread_client():
 # Open the spreadsheet and workshe
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1D27-1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0")
+    sheet = client.open_by_key("1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0")
     worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
     
