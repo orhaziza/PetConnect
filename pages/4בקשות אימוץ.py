@@ -117,14 +117,14 @@ def show_application_page():
             scores.append({
                 'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
-                'Contact':  data.iloc[i,'מספר טלפון'],
-                'City':  data.iloc[i,'עיר מגורים'],
-                'House memebers':  data.iloc[i,'מספר הנפשות הגרות בבית'],
-                'Backyard':  data.iloc[i,'האם יש גינה (מגודרת) בבית?'],
-                'experience':  data.iloc[i,'ניסיון עם בעלי חיים?'],
-                'Adittional animals':  data.iloc[i,'האם יש בעלי חיים נוספים בבית?'],
-                'messageContect':  data.iloc[i,'כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺'],
-                'SourcePlatform':  data.iloc[i,'איך הגעתם אלינו?'],
+                'Contact': data.iloc[i,'מספר טלפון'],
+                'City': data.iloc[i,'עיר מגורים'],
+                'House memebers': data.iloc[i,'מספר הנפשות הגרות בבית'],
+                'Backyard': data.iloc[i,'האם יש גינה (מגודרת) בבית?'],
+                'experience': data.iloc[i,'ניסיון עם בעלי חיים?'],
+                'Adittional animals': data.iloc[i,'האם יש בעלי חיים נוספים בבית?'],
+                'messageContect': data.iloc[i,'כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺'],
+                'SourcePlatform': data.iloc[i,'איך הגעתם אלינו?'],
                 'Score': score
             })
 
