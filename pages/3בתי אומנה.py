@@ -323,8 +323,10 @@ def show_foster_homes_page():
                 st.error(f'Error saving foster home: {e}')
     elif selected == "ערוך מסמך":
         st.title('מסמכים')
+        Foster_df = fetch_data()  # Fetch the data from Google Sheets
 
-        foster_home_id = st.selectbox('Select Foster Home ID', foster_home_df_hebrew['מזהה בית אומנה'])
+
+        foster_home_id = st.selectbox('Select Foster Home ID', Foster_df['מזהה בית אומנה'])
 
         if foster_home_id:
             st.subheader(f'מסמכים של {foster_home_id}')
