@@ -86,7 +86,7 @@ def show_login_page():
     flag = False
     con1 = st.container()
     with con1:
-        col1, col2 = st.columns([8,1])
+        col1, col2 = st.columns([7,1])
         with col2:
             # Login button
             if st.button("התחבר", use_container_width=True):
