@@ -113,18 +113,17 @@ def show_application_page():
         # Calculate scores for all applicants for the selected dog
         scores = []
         for i, applicant in data.iterrows():
-            st.write(data.loc[i,['מספר טלפון']])
             score = score_adopter(selected_dog, applicant)
             scores.append({
                 'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
-                'Contact': data.loc[i,['מספר טלפון']],
-                'City': data.loc[i,['עיר מגורים']],
-                'House memebers': data.loc[i,['מספר הנפשות הגרות בבית']],
-                'Backyard': data.loc[i,['האם יש גינה (מגודרת) בבית?']],
-                'experience': data.loc[i,['ניסיון עם בעלי חיים?']],
-                'Adittional animals': data.loc[i,['האם יש בעלי חיים נוספים בבית?']],
-                'messageContect': data.loc[i,['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']],
+                # 'Contact': data.loc[i,['מספר טלפון']],
+                # 'City': data.loc[i,['עיר מגורים']],
+                # 'House memebers': data.loc[i,['מספר הנפשות הגרות בבית']],
+                # 'Backyard': data.loc[i,['האם יש גינה (מגודרת) בבית?']],
+                # 'experience': data.loc[i,['ניסיון עם בעלי חיים?']],
+                # 'Adittional animals': data.loc[i,['האם יש בעלי חיים נוספים בבית?']],
+                # 'messageContect': data.loc[i,['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']],
                 'SourcePlatform': data.loc[i,['איך הגעתם אלינו?']],
                 'Score': score
             })
