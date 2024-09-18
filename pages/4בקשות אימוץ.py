@@ -117,15 +117,15 @@ def show_application_page():
             scores.append({
                 'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
+                'status': 'סטטוס בקשה',
+                'messageContect': 'תוכן בקשה',
+                'SourcePlatform': 'מאיפה הגעת אלינו',
                 'Score': score
             })
 
         # Convert the scores into a DataFrame and display it
         scores_df = pd.DataFrame(scores)
         st.dataframe(scores_df)
-
-
-    
 
     # st.header('Select a Dog')
     # selected_dog_id = st.selectbox('Choose a Dog ID', filtered_df['DogID'])
