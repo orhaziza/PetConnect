@@ -157,6 +157,8 @@ def show_dogs_page():
         # Add a save button to save the changes
         if st.button('שמור שינויים'):
             update_google_sheet(edited_df)
+            st.success("השינויים נשמרו!")
+
     if selected == "הוסף כלב":
         st.subheader('הוסף כלב חדש')
 
