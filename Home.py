@@ -25,8 +25,8 @@ def get_gspread_client():
 # Open the spreadsheet and worksheet
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4")
-    worksheet = sheet.worksheet("תגובות לטופס 1")  # Name of the sheet
+    sheet = client.open_by_key("1mzpSFmH7aRoeDF0DiSrrFgHPwRJTwUkk7Vuosy3yT6A")
+    worksheet = sheet.worksheet("תגובות לטופס 2")  # Name of the sheet
     return worksheet
 
 # Function to update the "Seen" column
@@ -43,7 +43,6 @@ def mark_as_seen(record_id):
     except Exception as e:
         st.error(f"Error updating Google Sheet: {e}")
     return False
-
 
     
 # Function to hash the password using SHA-256
