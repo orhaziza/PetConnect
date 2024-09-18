@@ -124,7 +124,7 @@ def show_application_page():
                 # 'experience': data.loc[i,['ניסיון עם בעלי חיים?']],
                 # 'Adittional animals': data.loc[i,['האם יש בעלי חיים נוספים בבית?']],
                 # 'messageContect': data.loc[i,['כל אינפורמציה נוספת שנראית לכם רלוונטית 🌺']],
-                'SourcePlatform': data.loc[i,['איך הגעתם אלינו?']],
+                # 'SourcePlatform': data.loc[i,['איך הגעתם אלינו?']],
                 'Score': score
             })
 
