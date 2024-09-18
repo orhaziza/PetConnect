@@ -11,7 +11,7 @@ from streamlit_gsheets import GSheetsConnection
 
 # Directory for storing adopter files
 FILES_DIR = 'Data/Adopters/'
-url = "https://docs.google.com/spreadsheets/d/1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E/edit?usp=sharing"
+url = "https://docs.google.com/spreadsheets/d/1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0/edit?usp=sharing"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -26,7 +26,7 @@ def get_gspread_client():
 # Open the spreadsheet and workshe
 def open_google_sheet():
     client = get_gspread_client()
-    sheet = client.open_by_key("1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E")
+    sheet = client.open_by_key("1D27-1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0")
     worksheet = sheet.worksheet("Sheet1")  # Name of the sheet
     return worksheet
     
@@ -173,7 +173,7 @@ def show_adopters_page():
     if selected == "כל הטבלה":
         # data = fetch_data()  # Fetch the data from Google Sheets
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E/edit?usp=sharing")
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0/edit?usp=sharing")
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_adopters, inplace=True)
@@ -259,7 +259,7 @@ def show_adopters_page():
         # Load adopter data
         # adopter_df = fetch_data()  # Fetch the data from Google Sheets
         conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
-        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1D27-B8HJc4eib2G0GxCYgs1DNG4LkXF34BuNw_y0l_E/edit?usp=sharing")
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1zGvjYm0Co2tLrA4TD1hiMkq4zbeNtagNbj21kAXeWc0/edit?usp=sharing")
         hebrew_columns_adopters = {
             # Your column translation dictionary for adopters
             'AdopterID': 'מזהה מאמץ',
