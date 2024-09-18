@@ -199,7 +199,9 @@ def show_foster_homes_page():
         st.success("המידע עודכן!")
     # Display different pages based on selected option
     if selected == "כל הטבלה":
-        data = fetch_data()  # Fetch the data from Google Sheets
+        # data = fetch_data()  # Fetch the data from Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")
 
         # Rename the columns using your Hebrew dictionary
         data.rename(columns=hebrew_columns_foster_homes, inplace=True)
@@ -217,7 +219,9 @@ def show_foster_homes_page():
 
 
         # Fetch the foster home data from Google Sheets
-        data = fetch_data()  # Fetch the data from Google Sheets
+        # data = fetch_data()  # Fetch the data from Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        data = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")   
 
     
         # Define Hebrew column names for foster homes (same as before)
@@ -324,7 +328,9 @@ def show_foster_homes_page():
                 st.error(f'Error saving foster home: {e}')
     elif selected == "ערוך מסמך":
         st.title('מסמכים')
-        Foster_df = fetch_data()  # Fetch the data from Google Sheets
+        # Foster_df = fetch_data()  # Fetch the data from Google Sheets
+        conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
+        Foster_df = conn.read(spreadsheet="https://docs.google.com/spreadsheets/d/1EDkuXlDWqHhx5R3ljkaqmESeRnrs5_M2OacY0fTw4nA/edit?usp=sharing")
 
 
         foster_home_id = st.selectbox('Select Foster Home ID', Foster_df['מזהה בית אומנה'])
