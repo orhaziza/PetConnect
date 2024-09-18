@@ -49,7 +49,8 @@ def show_application_page():
             st.success("המידע עודכן!")
     
     data = fetch_data()
-
+    data
+    
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
         st.session_state['logged_in'] = False
