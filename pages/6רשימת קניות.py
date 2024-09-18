@@ -55,6 +55,9 @@ st.set_page_config(page_title='Shopping List', layout='wide')
 
 items_df = fetch_data(items_url)
 dog_df = fetch_data(dogs_url)
+items_df.fillna('', inplace=True)
+dog_df.fillna('', inplace=True)
+
 dog_df = dog_df[dog_df["סטטוס אימוץ"] == '0']
 hebrew_columns_items = {
     'Product Category': 'קטגוריה',
@@ -130,6 +133,7 @@ def show_shopping_list_page():
         )
     
     if selected == "צור רשימה לכלב":
+        st.subheader("צור רשימת קניות")
         col1, col2 = st.columns([5, 1])
         with col1:
             st.session_state['dog'] = st.selectbox(label='',options=dog_df['שם'].unique(),index=None, placeholder = "בחר כלב",label_visibility="collapsed")
@@ -337,15 +341,27 @@ def delete_product(product_id):
     items_df = items_df[items_df[hebrew_columns_items["Product ID"]] != product_id]
     update_google_sheet(items_df)
     st.experimental_rerun()
+import unicodedata
+
+def normalize_text(text):
+    # Normalize text to ensure consistency (NFKC normalization is typically used)
+    return unicodedata.normalize('NFKC', text)
 
 def edit_product():
-    st.header("Find a Product to Edit")
+    
+    st.subheader("ערוך מוצר")
+
+    def filter_off():
+        st.session_state["Filter"] = False
+    
+    def filter_on():
+        st.session_state["Filter"] = True
 
     # Product ID Search
-    product_id_search = st.text_input(f"Search by {hebrew_columns_items['Product ID']}")
+    product_id_search = st.text_input(f"{hebrew_columns_items['Product ID']}")
 
     # Product Name Search
-    product_name_search = st.text_input(f"Search by {hebrew_columns_items['Product Name']}")
+    product_name_search = st.text_input(f"{hebrew_columns_items['Product Name']}")
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -372,7 +388,18 @@ def edit_product():
     # Filtering logic
     filtered_df = items_df
 
-    if st.button("Filter"):
+
+    if st.button("חפש מוצר"):
+        st.session_state["Filter"] = True
+            
+    if st.session_state["Filter"]:
+        if product_id_search:
+            filtered_df = filtered_df[filtered_df[hebrew_columns_items["Product ID"]].isin(product_id_search)]
+        if product_name_search:
+            # Normalize and strip the product name search input
+            normalized_product_name_search = normalize_text(product_name_search.strip())
+            # Apply filter using normalized product name and normalized product names in DataFrame
+            filtered_df = filtered_df[filtered_df[hebrew_columns_items['Product Name']].str.strip().apply(normalize_text).str.contains(normalized_product_name_search, case=False, na=False)]
         if category_filter:
             filtered_df = filtered_df[filtered_df[hebrew_columns_items["Product Category"]].isin(category_filter)]
         if size_filter:
@@ -387,86 +414,92 @@ def edit_product():
             filtered_df = filtered_df[filtered_df[hebrew_columns_items["EnergyLevel"]].isin(energy_level_filter)]
         if potty_trained_filter:
             filtered_df = filtered_df[filtered_df[hebrew_columns_items["PottyTrained"]].isin(potty_trained_filter)]
+        
+        if not potty_trained_filter and not energy_level_filter and not gender_filter and not breed_filter and not age_filter and not size_filter and not category_filter and not product_name_search and not product_id_search:
+            st.write("כל המוצרים:")
+        else:
+            st.write("מוצרים לאחר סינון:")
 
-    # Display filtered products and select one to edit
-    st.write("Filtered Products:")
-    
-    selected_product = st.selectbox("Select a product to edit", filtered_df[hebrew_columns_items['Product Name']])
+        selected_product = st.selectbox("", filtered_df[hebrew_columns_items['Product Name']], label_visibility="collapsed", on_change=filter_on())
 
-    if selected_product:
-        st.session_state["Delete Current Image"]=False
-        st.session_state["Confirm Changes"]=False
-        product_row = filtered_df[filtered_df[hebrew_columns_items['Product Name']] == selected_product].iloc[0]
+        if selected_product:
+            st.session_state["Filter"] = True
+            st.session_state["Delete Current Image"]=False
+            st.session_state["Confirm Changes"]=False
+            product_row = filtered_df[filtered_df[hebrew_columns_items['Product Name']] == selected_product].iloc[0]
 
-        st.markdown(f"### Editing product: {product_row[hebrew_columns_items['Product Name']]}")
-        st.write("Current Image")
+            st.markdown(f"#### המוצר הנבחר: {product_row[hebrew_columns_items['Product Name']]}")
+            st.write("תמונה נוכחית")
 
-        # Display and update product image
-        col6, col7 = st.columns(2)
-        with col6:            
-            if not st.session_state["Delete Current Image"] or st.session_state["Confirm Changes"]:
-                images_path = "Data/Products"
-                image_filename = f"{selected_product}.jpg"
-                image_filepath = os.path.join(images_path, image_filename)
-                width=250
-                height=None
-                if os.path.exists(image_filepath):
-                    # Construct the img tag with specified width and/or height
-                    image_html = f'<img src="data:image/jpg;base64,{base64.b64encode(open(image_filepath, "rb").read()).decode()}"'
-                    if width:
-                        image_html += f' width="{width}"'
-                    if height:
-                        image_html += f' height="{height}"'
-                    image_html += '>'
-                    st.write(image_html, unsafe_allow_html=True)
-            st.markdown(" ")    
-            if st.button("Delete Current Image"):
-                st.session_state["Delete Current Image"]=True
-                product_image_full_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
-                if os.path.exists(product_image_full_path):
-                    os.remove(product_image_full_path)
-                    st.success("Product image deleted!")
-                else:
-                    st.warning("No image found to delete.")
+            # Display and update product image
+            col6, col7 = st.columns(2)
+            with col6:            
+                if not st.session_state["Delete Current Image"] or st.session_state["Confirm Changes"]:
+                    images_path = "Data/Products"
+                    image_filename = f"{selected_product}.jpg"
+                    image_filepath = os.path.join(images_path, image_filename)
+                    width=250
+                    height=None
+                    if os.path.exists(image_filepath):
+                        # Construct the img tag with specified width and/or height
+                        image_html = f'<img src="data:image/jpg;base64,{base64.b64encode(open(image_filepath, "rb").read()).decode()}"'
+                        if width:
+                            image_html += f' width="{width}"'
+                        if height:
+                            image_html += f' height="{height}"'
+                        image_html += '>'
+                        st.write(image_html, unsafe_allow_html=True)
+                st.markdown(" ")    
+                if st.button("מחק תמונה קיימת"):
+                    st.session_state["Delete Current Image"]=True
+                    product_image_full_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
+                    if os.path.exists(product_image_full_path):
+                        os.remove(product_image_full_path)
+                        st.success("התמונה נמחקה!")
+                    else:
+                        st.warning("לא נמצאה תמונה למחיקה")
 
-        with col7:
-            new_image_file = st.file_uploader("Upload New Image (jpg)", type=["jpg"])
-            if not st.session_state["Confirm Changes"] and new_image_file:
-                new_image_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
-                with open(new_image_path, "wb") as f:
-                    f.write(new_image_file.read())
-                new_prod = st.success("New product image uploaded!")               
+            with col7:
+                new_image_file = st.file_uploader("העלה תמונה חדשה (jpg)", type=["jpg"])
+                if not st.session_state["Confirm Changes"] and new_image_file:
+                    new_image_path = f"Data/Products/{product_row[hebrew_columns_items['Product Name']]}.jpg"
+                    with open(new_image_path, "wb") as f:
+                        f.write(new_image_file.read())
+                    new_prod = st.success("תמונה הועלתה בהצלחה")               
 
-            
-            if st.button("Confirm Changes"):
-                new_prod.empty()
-                st.session_state["Confirm Changes"]=True
-                # Save changes to Google Sheets
-                update_google_sheet(filtered_df)
-                st.success("The changes were made successfully!")
+                
+                if st.button("החלף תמונה"):
+                    new_prod.empty()
+                    st.session_state["Confirm Changes"]=True
+                    # Save changes to Google Sheets
+                    update_google_sheet(filtered_df)
+                    st.success("השינויים נשמרו בהצלחה!")
 
 
-        updated_product = {
-        hebrew_columns_items['Product ID']: product_row[hebrew_columns_items['Product ID']],
-        hebrew_columns_items['Product Category']: st.text_input(hebrew_columns_items['Product Category'], value=product_row[hebrew_columns_items['Product Category']]),
-        hebrew_columns_items['Product Name']: st.text_input(hebrew_columns_items['Product Name'], value=product_row[hebrew_columns_items['Product Name']]),
-        hebrew_columns_items['Product Size']: st.text_input(hebrew_columns_items['Product Size'], value=product_row[hebrew_columns_items['Product Size']]),
-        hebrew_columns_items['Product Size Unit']: st.text_input(hebrew_columns_items['Product Size Unit'], value=product_row[hebrew_columns_items['Product Size Unit']]),
-        hebrew_columns_items['Age']: st.text_input(hebrew_columns_items['Age'], value=product_row[hebrew_columns_items['Age']]),
-        hebrew_columns_items['Breed']: st.text_input(hebrew_columns_items['Breed'], value=product_row[hebrew_columns_items['Breed']]),
-        hebrew_columns_items['Gender']: st.text_input(hebrew_columns_items['Gender'], value=product_row[hebrew_columns_items['Gender']]),
-        hebrew_columns_items['Dog Size']: st.text_input(hebrew_columns_items['Dog Size'], value=product_row[hebrew_columns_items['Dog Size']]),
-        hebrew_columns_items['EnergyLevel']: st.text_input(hebrew_columns_items['EnergyLevel'], value=product_row[hebrew_columns_items['EnergyLevel']]),
-        hebrew_columns_items['PottyTrained']: st.text_input(hebrew_columns_items['PottyTrained'], value=product_row[hebrew_columns_items['PottyTrained']]),
-        hebrew_columns_items['Product Photo']: st.text_input(hebrew_columns_items['Product Photo'], value=product_row[hebrew_columns_items['Product Photo']]),
-        hebrew_columns_items['Description']: st.text_input(hebrew_columns_items['Description'], value=product_row[hebrew_columns_items['Description']]),
-        }
-        if not updated_product.get(hebrew_columns_items['Age'],'').empty():
-                min_age, max_age = zip(*updated_product.get(hebrew_columns_items['Age'],'').apply(parse_age_range))
+            updated_product = {
+            hebrew_columns_items['Product ID']: product_row[hebrew_columns_items['Product ID']],
+            hebrew_columns_items['Product Category']: st.text_input(hebrew_columns_items['Product Category'], value=product_row[hebrew_columns_items['Product Category']], on_change=filter_on()),
+            hebrew_columns_items['Product Name']: st.text_input(hebrew_columns_items['Product Name'], value=product_row[hebrew_columns_items['Product Name']], on_change=filter_on()),
+            hebrew_columns_items['Product Size']: st.text_input(hebrew_columns_items['Product Size'], value=product_row[hebrew_columns_items['Product Size']], on_change=filter_on()),
+            hebrew_columns_items['Product Size Unit']: st.text_input(hebrew_columns_items['Product Size Unit'], value=product_row[hebrew_columns_items['Product Size Unit']], on_change=filter_on()),
+            hebrew_columns_items['Age']: st.text_input(hebrew_columns_items['Age'], value=product_row[hebrew_columns_items['Age']], on_change=filter_on()),
+            hebrew_columns_items['Breed']: st.text_input(hebrew_columns_items['Breed'], value=product_row[hebrew_columns_items['Breed']], on_change=filter_on()),
+            hebrew_columns_items['Gender']: st.text_input(hebrew_columns_items['Gender'], value=product_row[hebrew_columns_items['Gender']], on_change=filter_on()),
+            hebrew_columns_items['Dog Size']: st.text_input(hebrew_columns_items['Dog Size'], value=product_row[hebrew_columns_items['Dog Size']], on_change=filter_on()),
+            hebrew_columns_items['EnergyLevel']: st.text_input(hebrew_columns_items['EnergyLevel'], value=product_row[hebrew_columns_items['EnergyLevel']], on_change=filter_on()),
+            hebrew_columns_items['PottyTrained']: st.text_input(hebrew_columns_items['PottyTrained'], value=product_row[hebrew_columns_items['PottyTrained']], on_change=filter_on()),
+            hebrew_columns_items['Product Photo']: product_row[hebrew_columns_items['Product Photo']],
+            hebrew_columns_items['Description']: st.text_input(hebrew_columns_items['Description'], value=product_row[hebrew_columns_items['Description']], on_change=filter_on()),
+            }
+            min_age = 0
+            max_age = 0
+            if updated_product.get(hebrew_columns_items['Age'],'') != "":
+                min_age = updated_product[hebrew_columns_items['Age']].split("-")[0]
+                max_age = updated_product[hebrew_columns_items['Age']].split("-")[1]
 
-        if st.button("אשר שינויים"):
-            update_product_google_sheet(updated_product, min_age, max_age)
-            st.success("The changes were made successfully!")
+            if st.button("אשר שינויים"):
+                update_product_google_sheet(updated_product, min_age, max_age)
+                st.success("The changes were made successfully!")   
 
 
 def update_product_google_sheet(edited_product, min_age, max_age):
@@ -505,7 +538,7 @@ def update_product_google_sheet(edited_product, min_age, max_age):
     row_values = [updated_row[col] for col in hebrew_columns_items.values()]
 
     # Update the row in Google Sheets
-    worksheet.update(f'A{row_index}:L{row_index}', [row_values])  # Assuming there are 12 columns
+    worksheet.update(f'A{row_index}:O{row_index}', [row_values])  # Assuming there are 12 columns
 
 
 
@@ -518,6 +551,9 @@ if "Delete Current Image" not in st.session_state:
 
 if "Confirm Changes" not in st.session_state:
     st.session_state["Confirm Changes"]=False
+
+if "Filter" not in st.session_state or st.session_state["step"]==0:
+    st.session_state["Filter"] = False
 
 
 show_shopping_list_page()    
