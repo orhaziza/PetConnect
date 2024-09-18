@@ -102,7 +102,6 @@ def show_application_page():
         
     if selected == "בקשות עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
-        data = st.dataframe(data)
 
         # Select a dog
         st.markdown("<h2>בקשות אימוץ לפי כלב</h2>", unsafe_allow_html=True)
