@@ -117,9 +117,9 @@ def show_application_page():
             scores.append({
                 'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
-                'status': data.iloc[i:'סטטוס בקשה'];
-                'messageContect':  data.iloc[i:'תוכן בקשה'],
-                'SourcePlatform':  data.iloc[i:'מאיפה הגעת אלינו',],
+                'status': data.iloc[i,'סטטוס בקשה'];
+                'messageContect':  data.iloc[i,'תוכן בקשה'],
+                'SourcePlatform':  data.iloc[i,'מאיפה הגעת אלינו'],
                 'Score': score
             })
 
