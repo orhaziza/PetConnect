@@ -101,7 +101,7 @@ def show_login_page():
 
 # Function to show the home page
 def show_home_page():
-    url = "https://docs.google.com/spreadsheets/d/1u37tuMp9TI2QT6yyT0fjpgn7wEGlXvYYKakARSGRqs4/edit?usp=sharing"
+    url = "https://docs.google.com/spreadsheets/d/1mzpSFmH7aRoeDF0DiSrrFgHPwRJTwUkk7Vuosy3yT6A/edit?usp=sharing"
         # Custom CSS to center-align the option menu
     
     @st.cache_data()
