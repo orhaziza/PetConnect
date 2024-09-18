@@ -95,7 +95,7 @@ def show_application_page():
         if filter_date is not None:
             data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
         if filter_dog:
-            data = data[data['בנוגע לאיזה מהכלבים שלנו פניתם 🐕'].str.contains(filter_name, case=False, na=False)]
+            data = data[data['בנוגע לאיזה מהכלבים שלנו פניתם 🐕'].str.contains(filter_dog, case=False, na=False)]
 
         st.dataframe(data)
 
