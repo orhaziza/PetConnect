@@ -210,6 +210,7 @@ def show_foster_homes_page():
         # Add a save button to save the changes
         if st.button('שמור שינויים'):
             update_google_sheet(edited_df)
+            st.success("השינויים נשמרו!")
 
     elif selected == "מצא בית אומנה":
         st.subheader('מצא בית אומנה')
