@@ -49,7 +49,6 @@ def show_application_page():
             st.success("המידע עודכן!")
     
     data = fetch_data()
-    data
     
     # Sidebar logout button
     if st.sidebar.button("Log Out"):
@@ -103,6 +102,7 @@ def show_application_page():
         
     if selected == "בקשות עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
+        data = st.dataframe(data)
         
         # Select a dog
         st.markdown("<h2>בקשות אימוץ לפי כלב</h2>", unsafe_allow_html=True)
