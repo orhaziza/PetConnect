@@ -90,11 +90,11 @@ def show_application_page():
                 filter_name = st.text_input("שם המבקש:")
 
         # Apply filters only if inputs are provided
-        if filter_dog:
+        if filter_name:
             data = data[data['שם פרטי ושם משפחה '].str.contains(filter_name, case=False, na=False)]
         if filter_date is not None:
             data = data[data['חותמת זמן'].str.contains(filter_date.strftime('%Y-%m-%d'))]
-        if filter_name:
+        if filter_גםע:
             data = data[data['בנוגע לאיזה מהכלבים שלנו פניתם 🐕'].str.contains(filter_name, case=False, na=False)]
 
         st.dataframe(data)
