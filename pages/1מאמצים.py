@@ -260,11 +260,10 @@ def show_adopters_page():
             'AdopterID': 'מזהה מאמץ',
             # Add other columns as needed
         }
-        adopter_df_hebrew = adopter_df.rename(columns=dict(
-            zip(adopter_df.columns, [hebrew_columns_adopters.get(col, col) for col in adopter_df.columns])))
+       
 
         # Select adopter
-        adopter_id = st.selectbox('Select Adopter ID', adopter_df_hebrew['מזהה מאמץ'])
+        adopter_id = st.selectbox('Select Adopter ID', adopter_df['מזהה מאמץ'])
 
         if adopter_id:
             st.subheader(f'מסמכים של מאמץ {adopter_id}')
