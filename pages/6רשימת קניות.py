@@ -9,16 +9,27 @@ from xhtml2pdf import pisa
 import gspread
 from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
-import time
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+
+
 
 # Directory for storing adopter files
 items_url = "https://docs.google.com/spreadsheets/d/14e7lQDBov_c8iaRe7N5AXmMmAW5FzF2NilCTjq7LcAo/edit?usp=sharing"
 dogs_url = "https://docs.google.com/spreadsheets/d/1USkylM0mrZMqs3unWUYCtabu-GgQn5HWxt1cIi2C-hw/edit?usp=sharing"
 
+
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
 ]
+
+
+def get_drive_service():
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=SCOPES)
+    service = build('drive', 'v3', credentials=creds)
+    return service
+
 
 def get_gspread_client():
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes = SCOPES)
@@ -43,7 +54,23 @@ def update_google_sheet(edited_df):
     worksheet.clear()  # Clear existing content
     worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
 
-        
+
+def list_images(folder_id):
+    service = get_drive_service()
+    query = f"'{folder_id}' in parents and mimeType contains 'Products/'"
+    results = service.files().list(q=query, fields="files(id, name)").execute()
+    files = results.get('files', [])
+    return files
+
+def display_images(folder_id):
+    files = list_images(folder_id)
+    for file in files:
+        file_id = file['id']
+        file_name = file['name']
+        file_link = f"https://drive.google.com/uc?id={file_id}"
+        st.image(file_link, caption=file_name, use_column_width=True)
+
+
 @st.cache_data()
 def fetch_data(url):
     conn = st.connection("gsheets", type=GSheetsConnection, ttl=0.5)
@@ -215,7 +242,7 @@ def create_list(dog):
 
 
 def present_list():
-    sl = st.data_editor(st.session_state["shopping list"])
+    sl = st.data_editor(st.session_state["shopping list"].loc[:, ['קטגוריה','מזהה מוצר', 'שם מוצר','גודל','יחידות מידה','גיל הכלב', 'גזע הכלב','מין הכלב', 'גודל הכלב', 'רמת האנרגיה', 'מחונך לצרכים', 'תיאור', 'שמור מוצר']])
 
     with st.container():
         col1, col2 ,col3=  st.columns([3,1,3])        
@@ -253,6 +280,7 @@ def add_image_paths(df, images_path):
 
 def download_list():
     # Display HTML table
+    st.subheader("רשימת הקניות שלך")
     html_table = st.session_state["short list"].to_html(index=False,escape=False)
     st.write(html_table, unsafe_allow_html=True) 
     
@@ -554,6 +582,7 @@ if "Confirm Changes" not in st.session_state:
 
 if "Filter" not in st.session_state or st.session_state["step"]==0:
     st.session_state["Filter"] = False
+
 
 
 show_shopping_list_page()    
