@@ -103,7 +103,7 @@ def show_application_page():
     if selected == "בקשות עם ציון":
         dogs_df = pd.read_csv('Data/Dogs.csv')
         data = st.dataframe(data)
-        
+        data
         # Select a dog
         st.markdown("<h2>בקשות אימוץ לפי כלב</h2>", unsafe_allow_html=True)
         dog_selection = st.selectbox("בחר כלב לחיפוש", dogs_df["Name"])
@@ -118,9 +118,9 @@ def show_application_page():
             scores.append({
                 'Application ID': applicant['חותמת זמן'],
                 'Applicant Name': applicant['שם פרטי ושם משפחה '],
-                'status': data.iloc[i,'סטטוס בקשה'];
-                'messageContect':  data.iloc[i,'תוכן בקשה'],
-                'SourcePlatform':  data.iloc[i,'מאיפה הגעת אלינו'],
+                # 'status': data.iloc[i,'סטטוס בקשה'];
+                # 'messageContect':  data.iloc[i,'תוכן בקשה'],
+                # 'SourcePlatform':  data.iloc[i,'מאיפה הגעת אלינו'],
                 'Score': score
             })
 
