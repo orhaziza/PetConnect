@@ -110,6 +110,7 @@ def show_application_page():
         # Filter the selected dog's data
         selected_dog = dogs_df[dogs_df["Name"] == dog_selection].iloc[0]
 
+        st.write(data.loc[i,['מספר טלפון']])
         # Calculate scores for all applicants for the selected dog
         scores = []
         for i, applicant in data.iterrows():
