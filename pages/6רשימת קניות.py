@@ -550,7 +550,6 @@ def update_product_google_sheet(edited_product, min_age, max_age):
     worksheet.update(f'A{row_index}:O{row_index}', [row_values])  # Assuming there are 12 columns
 
 ###############################################################################
-st.write(st.session_state["step"])
 
 if "step" not in st.session_state:
     st.session_state["step"]=0
