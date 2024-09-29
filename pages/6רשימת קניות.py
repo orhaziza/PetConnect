@@ -9,6 +9,10 @@ from xhtml2pdf import pisa
 import gspread
 from google.oauth2.service_account import Credentials
 from streamlit_gsheets import GSheetsConnection
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+
+
 
 # Directory for storing adopter files
 items_url = "https://docs.google.com/spreadsheets/d/14e7lQDBov_c8iaRe7N5AXmMmAW5FzF2NilCTjq7LcAo/edit?usp=sharing"
@@ -49,6 +53,23 @@ def update_google_sheet(edited_df):
     # Option 1: Overwrite the entire sheet (simpler approach)
     worksheet.clear()  # Clear existing content
     worksheet.update([edited_df.columns.values.tolist()] + edited_df.values.tolist())  # Update with new data
+
+
+def list_images(folder_id):
+    service = get_drive_service()
+    query = f"'{folder_id}' in parents and mimeType contains 'Products/'"
+    results = service.files().list(q=query, fields="files(id, name)").execute()
+    files = results.get('files', [])
+    return files
+
+def display_images(folder_id):
+    files = list_images(folder_id)
+    for file in files:
+        file_id = file['id']
+        file_name = file['name']
+        file_link = f"https://drive.google.com/uc?id={file_id}"
+        st.image(file_link, caption=file_name, use_column_width=True)
+
 
 @st.cache_data()
 def fetch_data(url):
@@ -217,11 +238,13 @@ def create_list(dog):
 
     sl['שמור מוצר'] = True
     st.session_state["shopping list"] = sl
-    st.session_state["step"] = 2
+    if st.session_state["step"] == 1:
+        st.session_state["step"] = 2
 
 
 def present_list():
     sl = st.data_editor(st.session_state["shopping list"].loc[:, ['קטגוריה','מזהה מוצר', 'שם מוצר','גודל','יחידות מידה','גיל הכלב', 'גזע הכלב','מין הכלב', 'גודל הכלב', 'רמת האנרגיה', 'מחונך לצרכים', 'תיאור', 'שמור מוצר']])
+    
 
     with st.container():
         col1, col2 ,col3=  st.columns([3,1,3])        
@@ -232,8 +255,8 @@ def present_list():
                         sl[sl['שמור מוצר'] == True]
                         .loc[:, ["מזהה מוצר", "שם מוצר","גודל", "תיאור"]]
                         .assign(**{'תמונה': add_image_paths(sl[sl['שמור מוצר'] == True], "Data/Products")})
-                    )
-                    st.session_state["step"] = 3           
+                    ) 
+                    st.session_state["step"] = 3        
 
 def add_image_paths(df, images_path):
     width=100
@@ -259,10 +282,11 @@ def add_image_paths(df, images_path):
 
 def download_list():
     # Display HTML table
+
     st.subheader("רשימת הקניות שלך")
     html_table = st.session_state["short list"].to_html(index=False,escape=False)
-    st.write(html_table, unsafe_allow_html=True) 
-    
+    st.write(html_table, unsafe_allow_html=True)
+
     html_content = create_print_df()
     html_file_path = "shopping_list.html"
 
@@ -276,7 +300,7 @@ def download_list():
         col1, col2, col3= st.columns([3,1,3])        
         with col2:
             if st.download_button(label="הורד רשימה",data=pdf_buffer,file_name="shopping_list.pdf",mime="application/pdf", use_container_width=True):
-                st.session_state["step"] = 2
+                st.session_state["step"] = 3
     else:
         st.error("Failed to generate PDF.")
 
@@ -547,9 +571,9 @@ def update_product_google_sheet(edited_product, min_age, max_age):
     # Update the row in Google Sheets
     worksheet.update(f'A{row_index}:O{row_index}', [row_values])  # Assuming there are 12 columns
 
-
-
 ###############################################################################
+st.write(st.session_state["step"])
+
 if "step" not in st.session_state:
     st.session_state["step"]=0
 
@@ -586,14 +610,14 @@ if st.session_state['step'] == -1 :
     st.session_state["step"] = 0
     st.warning("לא נבחר כלב!")
 
-if st.session_state['step'] == 1 :
+if st.session_state['step'] >= 1 :
     with placeholder1:
         create_list(st.session_state['dog'])
 
-if st.session_state['step'] == 2 :
+if st.session_state['step'] >= 2 :
     with placeholder2: 
         present_list()
 
-if st.session_state['step'] == 3 :
+if st.session_state['step'] >= 3 :
     with placeholder3: 
         download_list()
